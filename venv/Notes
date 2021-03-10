@@ -1,0 +1,31 @@
+check login system with sql and screen following login screen
+
+Seems we have to keep to keep all the classes in the same file
+
+how to display multiple frames of text pyqt5---check this for making myprofile,,,can also check QWidgets
+
+run splash screen complete
+
+animation number showing shadow for numbers &  buttons of my medicine &   shadow effect in my profile
+
+/////doctors appointment static-----next date for appointment is shown/////
+
+search for filter
+
+3/8/21==== check Qtableview and Qtablewidget also checking time for alarm
+
+3/9/21====
+ check how to use HTML code to design in pyqt5////set a label where the table will go and attach the html table on it
+same thing can be done with time picker as well
+1. when 1+1 merge the two cells if not keep the cells different
+2. make cells according to name of the medicines available
+
+
+keep back buttons at x11 y48
+
+setColor(self, Union[QColor, Qt.GlobalColor, QGradient]): argument 1 has unexpected type 'Window' \]\]\]\]check this out for button shadows
+
+Can we make a grid of lables to make the prescription
+
+
+
