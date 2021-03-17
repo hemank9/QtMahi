@@ -17,7 +17,7 @@ class Window3(QMainWindow):                           # <===
         self.label.setGeometry(0, 0, 1220, 39)
 
 
-class Window2(QWidget):                           # <===
+class MyProfile(QWidget):                           # <===
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Medical Files")

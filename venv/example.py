@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QCheckBox
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QCheckBox, QTableWidget
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
@@ -30,17 +30,36 @@ class App(QWidget):
         self.show()
 
     # Create table
+class Ui_MainWindow(object):
     def createTable(self):
+        def setupUi(self, MainWindow):
+            MainWindow.setObjectName("MainWindow")
+            MainWindow.resize(1200, 700)
+            MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
+            self.centralwidget = QtWidgets.QWidget(MainWindow)
+            self.centralwidget.setObjectName("centralwidget")
+            self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+            self.tableWidget.setGeometry(QtCore.QRect(25, 168, 461, 501))
+        # MainWindow.setObjectName("MainWindow")
+        # MainWindow.resize(1279, 677)
+        # self.centralwidget = QtWidgets.QWidget(MainWindow)
+        # self.centralwidget.setObjectName("centralwidget")
+        # self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        # self.tableWidget.setGeometry(QtCore.QRect(150, 80, 441, 331))
         self.tableWidget = QTableWidget()
-        self.tableWidget.setGeometry(25, 146, 1200, 700)
+        # self.tableWidget.setGeometry(25, 146, 1200, 700)
+        self.tableWidget.setGeometry(450, 300, 441, 331)
+        self.tableWidget.setFrameShape(450, 300, 441, 331)
         # Row count
         self.tableWidget.setRowCount(4)
 
         # Column count
         self.tableWidget.setColumnCount(7)
+        self.tableWidget.verticalHeader().setVisible(False)
+        self.tableWidget.horizontalHeader().setVisible(False)
 
         self.tableWidget.setItem(0, 0, QTableWidgetItem("Name"))
-        self.tableWidget.setGeometry(100, 146, 1200, 700)
+        # self.tableWidget.setGeometry(100, 146, 1200, 700)
         self.tableWidget.setItem(0, 1, QTableWidgetItem("City"))
         self.tableWidget.setItem(1, 0, QTableWidgetItem("Aloysius"))
         self.tableWidget.setItem(1, 1, QTableWidgetItem("Indore"))

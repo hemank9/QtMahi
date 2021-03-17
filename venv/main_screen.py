@@ -6,6 +6,7 @@ from PyQt5.QtCore import *
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 # from PyQt5 import QLa
+# from myprofile import MyProfile
 
 import sys
 # from test import *
@@ -59,7 +60,7 @@ class Window(QMainWindow):
         btn_pro.setStyleSheet("border-radius : 30; background-color : #E5E5E5; color:#FFFFFF; text-align:left")
         btn_pro.setIcon(QtGui.QIcon('Resources\myprofile.png'))
         btn_pro.setIconSize(QtCore.QSize(349, 194))
-        btn_pro.clicked.connect(self.window2)
+        # btn_pro.clicked.connect(self.mypro)
 
         # mymedcicinebutton
         btn_med = QPushButton("MY MEDICINE", self)
@@ -150,13 +151,18 @@ class Window(QMainWindow):
 
         self.setLayout(vbox)
 
-    # create pyqt5 app
+    # # create pyqt5 app
+    # def mypro(self):
+    #     self.pro = MyProfile()
+    #     self.pro.show()
 
 
-App = QApplication(sys.argv)
+if __name__ == '__main__':
 
-# create the instance of our Window
-window = Window()
+    App = QApplication(sys.argv)
 
-# start the app
-sys.exit(App.exec())
+    # create the instance of our Window
+    window = Window()
+
+    # start the app
+    sys.exit(App.exec())

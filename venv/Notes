@@ -28,4 +28,4 @@ setColor(self, Union[QColor, Qt.GlobalColor, QGradient]): argument 1 has unexpec
 Can we make a grid of lables to make the prescription
 
 
-
+******what happens after QR code is scanned in the refill screen

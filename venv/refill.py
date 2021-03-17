@@ -72,7 +72,7 @@ class Window(QMainWindow):
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
         self.label.setPixmap(QPixmap('Resources\Group 48.png'))
-        self.label.setGeometry(0, 0, 1220, 685)
+        self.label.setGeometry(0, -10, 1220, 685)
         self.UiComponents()
         self.show()
 

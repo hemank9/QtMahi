@@ -6,7 +6,7 @@ from PyQt5.QtCore import *
 import sys
 
 
-class Window(QMainWindow):
+class MyProfile(QMainWindow):
 
     def __init__(self):
         super().__init__()
@@ -228,7 +228,7 @@ class Window(QMainWindow):
 App = QApplication(sys.argv)
 
 # create the instance of our Window 
-window = Window()
+window = MyProfile()
 
 window.show()
 
