@@ -389,6 +389,7 @@ class Window(QMainWindow):
         btn_dosage.setIconSize(QtCore.QSize(280, 135))
         btn_dosage.clicked.connect(self.extraD)
 
+
         # MOrning, Afternoon, Evening Buttons
 
         btn_evening = QPushButton("", self)
