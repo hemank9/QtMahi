@@ -9,13 +9,16 @@ conn = sqlite3.connect(constants.path + r"\QtMahi\MyDatabase\\" + constants.my_d
 
 def getUserID():
     try:
-        cursor = conn.execute("SELECT ID from '" + constants.login_table + "'")
+        if(isLogggedIn()):
+            cursor = conn.execute("SELECT ID from '" + constants.login_table + "'")
 
-        for row in cursor:
-            print("ID = ", row[0])
-            return str(row[0])
+            for row in cursor:
+                print("ID = ", row[0])
+                return str(row[0])
 
-        return None
+            return None
+        else:
+            return None
 
     except Exception as e:
         print("Fetch profile details failed : ", e.__class__)

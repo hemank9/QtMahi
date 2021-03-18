@@ -5,6 +5,8 @@ from PyQt5.QtGui import QMovie
 from PyQt5 import QtGui, QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtCore import QSize
+import API.api_calls as my_api
+from myprofile import MyProfile
 
 class MovieSplashScreen(QtWidgets.QSplashScreen):
 
@@ -41,6 +43,7 @@ class LoginForm(QWidget):
 		self.username  = QLineEdit(self)
 		self.username.move(663, 222)
 		self.username.resize(312, 52)
+		self.username.setText("9131577259")
 		self.username.setStyleSheet("border-radius : 10; padding: 15px; font: 24px")
 		# self.username.setStyleSheet("")
 
@@ -48,6 +51,7 @@ class LoginForm(QWidget):
 		self.password = QLineEdit(self)
 		self.password.move(663, 311)
 		self.password.resize(312, 52)
+		self.password.setText("admin")
 		self.password.setStyleSheet("border-radius : 10; padding: 15px; font: 24px")
 		self.password.setEchoMode(QLineEdit.Password)
 
@@ -56,8 +60,30 @@ class LoginForm(QWidget):
 		btn_login.setStyleSheet("border-radius : 30; background-color : #7ACEDA")
 		btn_login.setIcon(QtGui.QIcon('Resources\loginbutton.png'))
 		btn_login.setIconSize(QtCore.QSize(117, 55))
+		btn_login.clicked.connect(self.doLogin)
 		# btn_pro.clicked.connect(self.)   click event goes here new function to be created
 		# self.show()
+	def doLogin(self):
+		user = str(self.username.text().strip())
+		passw = str(self.password.text().strip())
+
+		messagebox = QMessageBox()
+		if len(user) > 0 and len(passw) > 0:
+
+			response = my_api.loginAPI(user, passw)
+			if response is not None:
+				print("Login Successful")
+				self.myprofileObj = MyProfile(self)
+				self.myprofileObj.show()
+
+			else:
+				messagebox.setIcon(QMessageBox.Warning)
+				messagebox.setText("Invalid username or password")  # add message box
+				messagebox.exec()
+		else:
+			messagebox.setIcon(QMessageBox.Warning)
+			messagebox.setText("Invalid username or password")  # add message box
+			messagebox.exec()
 
 if __name__ == '__main__':
 	app = QApplication(sys.argv)

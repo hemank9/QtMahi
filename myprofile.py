@@ -8,7 +8,7 @@ import sys
 
 class MyProfile(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, parent=None):
         super().__init__()
 
         # setting title
@@ -224,13 +224,14 @@ class MyProfile(QMainWindow):
         # printing pressed
         print("pressed")
 
-# create pyqt5 app
-App = QApplication(sys.argv)
 
-# create the instance of our Window 
-window = MyProfile()
+if __name__ == '__main__':
+    App = QApplication(sys.argv)
 
-window.show()
+    # create the instance of our Window
+    window = MyProfile()
 
-# start the app 
-sys.exit(App.exec())
+    window.show()
+
+    # start the app
+    sys.exit(App.exec())
