@@ -4,7 +4,7 @@ import json
 import os.path
 
 print(r"" + os.pardir + "\\MyDatabase\\" + constants.my_database_name)
-conn = sqlite3.connect(constants.path + r"\Mahi\MyDatabase\\" + constants.my_database_name)
+conn = sqlite3.connect(constants.path + r"\QtMahi\MyDatabase\\" + constants.my_database_name)
 
 
 def getUserID():
