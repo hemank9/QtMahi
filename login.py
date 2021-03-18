@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIntValidator
 from PyQt5.QtGui import QMovie
 from PyQt5 import QtGui, QtWidgets
 from PyQt5 import QtCore
@@ -45,6 +45,11 @@ class LoginForm(QWidget):
 		self.username.resize(312, 52)
 		self.username.setText("9131577259")
 		self.username.setStyleSheet("border-radius : 10; padding: 15px; font: 24px")
+		self.username.setMaxLength(10)
+		self.onlyint = QIntValidator()
+		self.username.setValidator(self.onlyint)
+		self.username.setPlaceholderText("Enter Number")
+
 		# self.username.setStyleSheet("")
 
 		# password entrty
@@ -54,6 +59,7 @@ class LoginForm(QWidget):
 		self.password.setText("admin")
 		self.password.setStyleSheet("border-radius : 10; padding: 15px; font: 24px")
 		self.password.setEchoMode(QLineEdit.Password)
+		self.username.setPlaceholderText("Enter Password")
 
 		btn_login = QPushButton("", self)
 		btn_login.setGeometry(663, 402, 117, 55)
@@ -61,6 +67,7 @@ class LoginForm(QWidget):
 		btn_login.setIcon(QtGui.QIcon('Resources\loginbutton.png'))
 		btn_login.setIconSize(QtCore.QSize(117, 55))
 		btn_login.clicked.connect(self.doLogin)
+
 		# btn_pro.clicked.connect(self.)   click event goes here new function to be created
 		# self.show()
 	def doLogin(self):
