@@ -249,6 +249,8 @@ class Window(QMainWindow):
         btnAfternoon.setGeometry(41, 326, 200, 80)
         btnAfternoon.setStyleSheet("border-radius : 15; background-color: #F0F03; color : #00A0B5")
         shadow = QGraphicsDropShadowEffect()
+        shadow.setXOffset(0)
+        shadow.setYOffset(0)
         shadow.setBlurRadius(25)
         shadow.setXOffset(0)
         shadow.setYOffset(0)
