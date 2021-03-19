@@ -12,6 +12,7 @@ def validateUserNumber(number):
 
 def callLoginApi(number, passw):
     response = my_api.loginAPI(number, passw)
+    return response
 
 
 
