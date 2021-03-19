@@ -174,7 +174,7 @@ def fetchAppointments(user_id, appo_type, page):
 if __name__ == "__main__":
     print("API Calls Main Function")
 
-    response = fetchProfileDetailsAPI(myDB.getUserID())
+    # response = fetchProfileDetailsAPI(myDB.getUserID())
     # response = fetchHealthCalendarAPI("9131577259","46747","dummy")
     #
     # loginAPI("9131577259", "admin")

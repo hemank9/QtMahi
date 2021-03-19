@@ -20,5 +20,5 @@ device_id = "mahi09"
 device_token = "mahi09"
 
 #One must always be commented
-path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
-# path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
+# path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
+path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
