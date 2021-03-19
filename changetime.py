@@ -250,6 +250,8 @@ class Window(QMainWindow):
         btnAfternoon.setStyleSheet("border-radius : 15; background-color: #F0F03; color : #00A0B5")
         shadow = QGraphicsDropShadowEffect()
         shadow.setBlurRadius(25)
+        shadow.setXOffset(0)
+        shadow.setYOffset(0)
         btnAfternoon.setGraphicsEffect(shadow)
         shadow.setColor(Qt.lightGray)
         # btnAfternoon.setIcon(QtGui.QIcon('Resources\mAddTime.png'))
