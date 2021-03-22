@@ -315,6 +315,7 @@ class Window(QMainWindow):
         # btnEvening.setIconSize(QtCore.QSize(160, 90))
         btnEvening.clicked.connect(self.close)
 
+
         btnOk = QPushButton("", self)
         btnOk.setGeometry(967, 459, 158, 92)
         btnOk.setStyleSheet("border-radius : 15; background-color: #F0F0F3; color : #00A0B5")
