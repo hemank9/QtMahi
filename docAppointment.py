@@ -8,41 +8,60 @@ from PyQt5.QtCore import *
 
 
 class QCustomQWidget (QWidget):
-    def __init__ (self, parent = None):
-        super(QCustomQWidget, self).__init__(parent)
-        self.textQVBoxLayout = QVBoxLayout()
-        self.textUpQLabel    = QLabel()
-        self.textDownQLabel  = QLabel()
-        self.textQVBoxLayout.addWidget(self.textUpQLabel)
-        self.textQVBoxLayout.addWidget(self.textDownQLabel)
-        self.allQHBoxLayout  = QHBoxLayout()
-        self.iconQLabel      = QLabel()
-        self.allQHBoxLayout.addWidget(self.iconQLabel, 0)
-        self.allQHBoxLayout.addLayout(self.textQVBoxLayout, 1)
-        self.setLayout(self.allQHBoxLayout)
-        # setStyleSheet
-        self.textUpQLabel.setStyleSheet('''
-            color: rgb(0, 0, 255);
-        ''')
-        self.textDownQLabel.setStyleSheet('''
-            color: rgb(255, 0, 0);
-        ''')
 
-    imagePath = "Resources\emorning.png"
+    def __init__(self, parent=None):
+        super(QCustomQWidget, self).__init__(parent)
+
+        # setting title
+        self.setWindowTitle("Python ")
+
+        # setting geometry
+        self.setGeometry(0, 0, 1220, 700)
+        # self.setStyleSheet("background-color: #F0F0F3")
+        self.label = QLabel(self)
+        self.label.setPixmap(QPixmap('Resources\yellow.png'))
+        self.label.setGeometry(0, 0, 1220, 700)
+
+        # calling method
+        self.UiComponents()
+
+        # showing all the widgets
+        self.show()
+
+    # method for widgets
+    def UiComponents(self):
+        textQVBoxLayout = QVBoxLayout()
+        textUpQLabel = QLabel()
+        textDownQLabel = QLabel()
+        textQVBoxLayout.addWidget(textUpQLabel)
+        textQVBoxLayout.addWidget(textDownQLabel)
+        allQHBoxLayout = QHBoxLayout()
+        iconQLabel = QLabel()
+        allQHBoxLayout.addWidget(iconQLabel, 0)
+        allQHBoxLayout.addLayout(textQVBoxLayout, 1)
+        self.setLayout(allQHBoxLayout)
+
+        textUpQLabel.setStyleSheet("background-color: white")
+        textDownQLabel.setStyleSheet("background-color: white")
 
     def setTextUp (self, text):
-        self.textUpQLabel.setText(text)
+        textUpQLabel = QLabel()
+        textUpQLabel.setText(text)
 
     def setTextDown (self, text):
-        self.textDownQLabel.setText(text)
+        textDownQLabel = QLabel()
+        textDownQLabel.setText(text)
 
     def setIcon (self, imagePath):
         # imagePath = "Resources\emorning.png"
-        self.iconQLabel.setPixmap(QPixmap(imagePath))
+        iconQLabel = QLabel()
+        iconQLabel.setPixmap(QPixmap(imagePath))
 
 class exampleQMainWindow (QMainWindow):
     def __init__ (self):
         super(exampleQMainWindow, self).__init__()
+        self.setGeometry(0, 0, 1220, 700)
+
         # Create QListWidget
         self.myQListWidget = QListWidget(self)
         for index, name, icon in [
@@ -64,7 +83,17 @@ class exampleQMainWindow (QMainWindow):
             self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
         self.setCentralWidget(self.myQListWidget)
 
-app = QApplication([])
-window = exampleQMainWindow()
+
+
+
+App = QApplication(sys.argv)
+
+# create the instance of our Window
+window =exampleQMainWindow()
+
 window.show()
-sys.exit(app.exec_())
+
+# start the app
+sys.exit(App.exec())
+
+

@@ -34,3 +34,6 @@ scanning qr code to login
 
 pyuic5 -x new.ui -o new.py for converting ui to py
 
+FOR CHANGING FONTS------self.label_1.setFont(QFont('Arial', 10))
+
+
