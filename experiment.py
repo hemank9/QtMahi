@@ -17,7 +17,7 @@ class QCustomQWidget(QWidget):
         style = "background-color: #fee; border-radius : 15; margin-top : 10; margin-bottom : 30; margin-left : 10; margin-right : 10; "
         frame1 = QFrame(self)
         # frame1.setGraphicsEffect(shadow)
-        frame1.setFixedWidth(1210)
+        frame1.setFixedWidth(1190)
         frame1.setFixedHeight(120)
         # frame1.setContentsMargins(10, 10, 10, 10)
         frame1.setStyleSheet(style)
@@ -25,7 +25,7 @@ class QCustomQWidget(QWidget):
 
         frame2 = QFrame(self)
         # frame1.setGraphicsEffect(shadow)
-        frame2.setFixedWidth(1210)
+        frame2.setFixedWidth(1190)
         frame2.setFixedHeight(120)
         # frame2.setContentsMargins(10, 10, 10, 10)
         frame2.setStyleSheet(style)
@@ -65,13 +65,13 @@ class QCustomQWidget(QWidget):
         # self.allQHBoxLayout.setGeometry(QRect(589, 142, 276, 69))
 
         self.btnSelectTime = QPushButton("Select Time", self)
-        self.allQHBoxLayout.addWidget(self.btnSelectTime, 1)
+        self.allQHBoxLayout.addWidget(self.btnSelectTime, 0)
 
         self.btnNavigate = QPushButton("Navigate", self)
-        self.allQHBoxLayout.addWidget(self.btnNavigate, 1)
+        self.allQHBoxLayout.addWidget(self.btnNavigate, 0)
 
         self.btnFavorite = QPushButton("Favorite", self)
-        self.allQHBoxLayout.addWidget(self.btnFavorite, 1)
+        self.allQHBoxLayout.addWidget(self.btnFavorite, 0)
         self.allQHBoxLayout.setContentsMargins(5, 10, 30, 10)
 
 
@@ -117,7 +117,7 @@ class exampleQMainWindow(QMainWindow):
 
 
         self.myQListWidget = QListWidget(self)
-        self.myQListWidget.setGeometry(0, 41, 600, 1200)
+        # self.myQListWidget.setGeometry(0, 41, 600, 1200)
 
         for index, name, Address in [
             ('Dr. Dhaval Naik', 'Cardiovascular, Thoraic Surgeon',

@@ -14,10 +14,10 @@ class AppointmentListItem(QWidget):
         super(AppointmentListItem, self).__init__(parent)
 
 
-        style = "background-color: #fee; border-radius : 15; margin-top : 10; margin-bottom : 30; margin-left : 10; margin-right : 10; "
+        style = "background-color: #F0F0F3; border-radius : 15; margin-top : 10; margin-bottom : 10; margin-left : 10; margin-right : 10; "
         frame1 = QFrame(self)
         # frame1.setGraphicsEffect(shadow)
-        frame1.setFixedWidth(1210)
+        frame1.setFixedWidth(1151)
         frame1.setFixedHeight(120)
         # frame1.setContentsMargins(10, 10, 10, 10)
         frame1.setStyleSheet(style)
@@ -25,7 +25,7 @@ class AppointmentListItem(QWidget):
 
         frame2 = QFrame(self)
         # frame1.setGraphicsEffect(shadow)
-        frame2.setFixedWidth(1210)
+        frame2.setFixedWidth(1151)
         frame2.setFixedHeight(120)
         # frame2.setContentsMargins(10, 10, 10, 10)
         frame2.setStyleSheet(style)
@@ -50,13 +50,13 @@ class AppointmentListItem(QWidget):
         self.setLayout(self.allQHBoxLayout)
 
         # setStyleSheet
-        self.textUpQLabel.setStyleSheet("font: bold; color:" + Colors.DarkBlue+"; background-color:#fee")
-        self.textDownQLabel.setStyleSheet("color:" + Colors.Grey8+"; background-color:#fee")
+        self.textUpQLabel.setStyleSheet("font: bold; color:" + Colors.DarkBlue+"; background-color:#F0F0F3")
+        self.textDownQLabel.setStyleSheet("color:" + Colors.Grey8+"; background-color:#F0F0F3")
 
         self.lblAddress = QLabel()
-        self.lblAddress.setStyleSheet("color:" + Colors.Grey8 +";overflow: hidden; text-overflow: ellipsis; display: -webkit-box; "
+        self.lblAddress.setStyleSheet("color: #EE488D; overflow: hidden; font: bold; text-overflow: ellipsis; display: -webkit-box; "
                                                                "-webkit-line-clamp: 2; -webkit-box-orient: vertical;"
-                                                               +"; background-color:#fee")
+                                                               +"; background-color:#F0F0F3")
         # self.lblAddress.setGeometry(589, 142, 276, 69)
         self.lblAddress.setWordWrap(True)
         # self.lblAddress.setMinimumHeight(99)
@@ -64,20 +64,26 @@ class AppointmentListItem(QWidget):
         self.allQHBoxLayout.addWidget(self.lblAddress, 0)
         # self.allQHBoxLayout.setGeometry(QRect(589, 142, 276, 69))
 
-        self.btnSelectTime = QPushButton("Select Time", self)
+        self.btnSelectTime = QPushButton("", self)
+        # self.btnSelectTime.setGeometry(996, 138, 65, 65)
+        self.btnSelectTime.setStyleSheet("background-color : #F0F0F3; border-radius : 10")
+        self.btnSelectTime.setIcon(QtGui.QIcon('Resources\Group 88.png'))
+        self.btnSelectTime.setIconSize(QtCore.QSize(70, 70))
         self.allQHBoxLayout.addWidget(self.btnSelectTime, 1)
 
-        self.btnNavigate = QPushButton("Navigate", self)
-        self.allQHBoxLayout.addWidget(self.btnNavigate, 1)
 
-        self.btnFavorite = QPushButton("Favorite", self)
-        self.allQHBoxLayout.addWidget(self.btnFavorite, 1)
-        self.allQHBoxLayout.setContentsMargins(5, 10, 30, 10)
+
+        self.btnLocation = QPushButton(self)
+        self.btnLocation.setStyleSheet("background-color : #F0F0F3; border-radius : 10")
+        self.btnLocation.setIcon(QtGui.QIcon('Resources\Group 88.png'))
+        self.btnLocation.setIconSize(QtCore.QSize(70, 70))
+        self.allQHBoxLayout.addWidget(self.btnLocation, 1)
+        # self.allQHBoxLayout.setContentsMargins(5, 10, 30, 10)
 
 
         shadow1 = QGraphicsDropShadowEffect()
         shadow1.setBlurRadius(15)
-        shadow1.setColor(QColor(255,200,200,200))
+        shadow1.setColor(Qt.lightGray)
         shadow2 = QGraphicsDropShadowEffect()
         shadow2.setBlurRadius(15)
         shadow2.setColor(Qt.white)
