@@ -56,38 +56,47 @@ def createSession(user_id, userstring):
 
 def fetchProfileDetails():
     try:
-        cursor = conn.execute("SELECT * from '" + constants.profile_table + "'")
+        if(isLogggedIn()):
+            cursor = conn.execute("SELECT * from '" + constants.profile_table + "'")
 
-        for row in cursor:
-            print("ID = ", row[0])
-            print("Response = ", row[1], "\n")
-            return row[1]
+            for row in cursor:
+                print("ID = ", row[0])
+                print("Response = ", row[1], "\n")
+                return row[1]
 
-        return None
+            return None
+
+        else:
+            print("User Not logged in. Session not created")
+            return None
 
     except Exception as e:
         print("Fetch profile details failed : ", e.__class__)
         return None
 
 
+
 def updateProfile(user_id, userString):
     try:
+        if(isLogggedIn()):
+            initTables()
+            cursor = conn.execute("SELECT COUNT(ID) from '" + constants.profile_table + "'")
+            row = cursor.fetchone()
+            if (row[0] == 1):
+                conn.execute(
+                    "UPDATE " + constants.profile_table + " SET PROFILE_JSON='" + userString + "' WHERE ID='" + user_id + "'")
+                conn.commit()
+                print("Update profile in database successful")
+            else:
+                query = "INSERT INTO '" + constants.profile_table + "' (ID, PROFILE_JSON) " \
+                                                                  "VALUES ( '" + str(user_id) + "', '" + userString + "' )"
+                conn.execute(query)
 
-        initTables()
-        cursor = conn.execute("SELECT COUNT(ID) from '" + constants.profile_table + "'")
-        row = cursor.fetchone()
-        if (row[0] == 1):
-            conn.execute(
-                "UPDATE " + constants.profile_table + " SET PROFILE_JSON='" + userString + "' WHERE ID='" + user_id + "'")
-            conn.commit()
-            print("Update profile in database successful")
+                conn.commit()
+                print("Profile added successfully")
         else:
-            query = "INSERT INTO '" + constants.profile_table + "' (ID, PROFILE_JSON) " \
-                                                              "VALUES ( '" + str(user_id) + "', '" + userString + "' )"
-            conn.execute(query)
-
-            conn.commit()
-            print("Profile added successfully")
+            print("User Not logged in. Session not created")
+            return None
 
     except Exception as e:
         print("Update Profile in database failed : " + e.__class__)
@@ -123,26 +132,30 @@ def isLogggedIn():
 
 def updateCalendarDB(user_id, calendar_json):
     try:
-        initTables()
+        if(isLogggedIn()):
+            initTables()
 
-        cursor = conn.execute("SELECT COUNT(ID) from '" + constants.health_calendar_table + "'")
-        row = cursor.fetchone()
-        if (row[0] == 1):
-            print("Health calendar available")
-            conn.execute(
-                "UPDATE " + constants.health_calendar_table + " SET CALENDAR_JSON='" + calendar_json + "' WHERE ID='" + user_id + "'")
-            conn.commit()
-            print("Update Health calendar in database successful")
-            return True
+            cursor = conn.execute("SELECT COUNT(ID) from '" + constants.health_calendar_table + "'")
+            row = cursor.fetchone()
+            if (row[0] == 1):
+                print("Health calendar available")
+                conn.execute(
+                    "UPDATE " + constants.health_calendar_table + " SET CALENDAR_JSON='" + calendar_json + "' WHERE ID='" + user_id + "'")
+                conn.commit()
+                print("Update Health calendar in database successful")
+                return True
+            else:
+                print("No calendar data available")
+                query = "INSERT INTO '" + constants.health_calendar_table + "' (ID, CALENDAR_JSON) " \
+                                                                            "VALUES ( '" + str(
+                    user_id) + "', '" + str(calendar_json) + "' )"
+                conn.execute(query)
+                conn.commit()
+                print("Calendar updated successfully")
+                return True
         else:
-            print("No calendar data available")
-            query = "INSERT INTO '" + constants.health_calendar_table + "' (ID, CALENDAR_JSON) " \
-                                                                        "VALUES ( '" + str(
-                user_id) + "', '" + str(calendar_json) + "' )"
-            conn.execute(query)
-            conn.commit()
-            print("Calendar updated successfully")
-            return True
+            print("User Not logged in. Session not created")
+            return None
 
     except Exception as e:
         print("Update Health Calendar in database failed : " + e.__class__)
@@ -151,16 +164,19 @@ def updateCalendarDB(user_id, calendar_json):
 
 def getCalendarData():
     try:
-        cursor = conn.execute("SELECT COUNT(ID) from '" + constants.health_calendar_table + "'")
-        row = cursor.fetchone()
-        if (row[0] == 1):
-            cursor = conn.execute("SELECT * from '" + constants.health_calendar_table + "'")
+        if isLogggedIn():
+            cursor = conn.execute("SELECT COUNT(ID) from '" + constants.health_calendar_table + "'")
             row = cursor.fetchone()
-            return row[1]
+            if (row[0] == 1):
+                cursor = conn.execute("SELECT * from '" + constants.health_calendar_table + "'")
+                row = cursor.fetchone()
+                return row[1]
+            else:
+                print("No health calendar data available")
+                return None
         else:
-            print("No health calendar data available")
+            print("User Not logged in. Session not created")
             return None
-
 
     except Exception as e:
         print("Fetch Health Calendar from database failed : " + e.__class__)
@@ -196,25 +212,30 @@ def initTables():
 
 def updateCompletedAppointments(user_id,appointments_string):
     try:
-        initTables()
-        cursor = conn.execute("SELECT COUNT(ID) from '" + constants.appointments_table + "'")
-        row = cursor.fetchone()
-        if (row[0] == 1):
-            print("Appointments data available")
-            conn.execute(
-                "UPDATE " + constants.appointments_table + " SET APPO_JSON='" + appointments_string + "' WHERE ID='" + user_id + "'")
-            conn.commit()
-            print("Update appointments in database successful")
-            return True
+
+        if isLogggedIn():
+            initTables()
+            cursor = conn.execute("SELECT COUNT(ID) from '" + constants.appointments_table + "'")
+            row = cursor.fetchone()
+            if (row[0] == 1):
+                print("Appointments data available")
+                conn.execute(
+                    "UPDATE " + constants.appointments_table + " SET APPO_JSON='" + appointments_string + "' WHERE ID='" + user_id + "'")
+                conn.commit()
+                print("Update appointments in database successful")
+                return True
+            else:
+                print("No appointments data available")
+                query = "INSERT INTO '" + constants.appointments_table + "' (ID, APPO_JSON) " \
+                                                                            "VALUES ( '" + str(
+                    user_id) + "', '" + str(appointments_string) + "' )"
+                conn.execute(query)
+                conn.commit()
+                print("Appointments added successfully")
+                return True
         else:
-            print("No appointments data available")
-            query = "INSERT INTO '" + constants.appointments_table + "' (ID, APPO_JSON) " \
-                                                                        "VALUES ( '" + str(
-                user_id) + "', '" + str(appointments_string) + "' )"
-            conn.execute(query)
-            conn.commit()
-            print("Appointments added successfully")
-            return True
+            print("User Not logged in. Session not created")
+            return None
 
     except Exception as e:
         print("Add/Update completed appointemnts failed : "+e.__class__)

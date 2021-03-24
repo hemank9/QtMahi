@@ -1,3 +1,4 @@
+
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QCheckBox
 from PyQt5.QtCore import *
@@ -7,11 +8,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import colors as Colors
 
-
-class QCustomQWidget(QWidget):
+class AppointmentListItem(QWidget):
     def __init__(self, parent=None):
 
-        super(QCustomQWidget, self).__init__(parent)
+        super(AppointmentListItem, self).__init__(parent)
 
 
         style = "background-color: #fee; border-radius : 15; margin-top : 10; margin-bottom : 30; margin-left : 10; margin-right : 10; "
@@ -100,72 +100,3 @@ class QCustomQWidget(QWidget):
     def setAddress(self, text):
         # imagePath = "Resources\emorning.png"
         self.lblAddress.setText(text)
-
-
-class exampleQMainWindow(QMainWindow):
-    def __init__(self):
-        super(exampleQMainWindow, self).__init__()
-        # Create QListWidget
-        self.setGeometry(0, 0, 1220, 700)
-
-        self.label2 = QLabel(self)
-        self.label2.setPixmap(QPixmap('Resources\yellow.png'))
-        self.label2.setGeometry(0, 0, 1220, 39)
-
-        self.show()
-        self.setStyleSheet("background-color: #F0F0F3")
-
-
-        self.myQListWidget = QListWidget(self)
-        self.myQListWidget.setGeometry(0, 41, 600, 1200)
-
-        for index, name, Address in [
-            ('Dr. Dhaval Naik', 'Cardiovascular, Thoraic Surgeon',
-             'CIMS Hospital,Near Shukan Mall,Opp. Science CityRoad, Shukan Mall,'
-             'Science City Road'),
-            ('No.2', 'Nyaruko', 'icon.png'),
-            ('No.3', 'Louise', 'icon.png')]:
-            # Create QCustomQWidget
-            myQCustomQWidget = QCustomQWidget()
-            myQCustomQWidget.setTextUp(index)
-            myQCustomQWidget.setTextDown(name)
-            myQCustomQWidget.setAddress(Address)
-            # self.lblm.setGeometry(589, 142, 276, 69)
-            # Create QListWidgetItem
-            myQListWidgetItem = QListWidgetItem(self.myQListWidget)
-            # Set size hint
-            myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
-            # Add QListWidgetItem into QListWidget
-            self.myQListWidget.addItem(myQListWidgetItem)
-            self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
-            self.myQListWidget.clear()
-        for index, name, Address in [
-            ('Dr. Swappy', 'Cardiscular, Thoraic Surgeon',
-             'CIMS Hospital,Near Shukan Mall,Opp. Science CityRoad, Shukan Mall,'
-             'Science City Road'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.3', 'Ljosdyse', 'icon.png')]:
-            # Create QCustomQWidget
-            myQCustomQWidget = QCustomQWidget()
-            myQCustomQWidget.setTextUp(index)
-            myQCustomQWidget.setTextDown(name)
-            myQCustomQWidget.setAddress(Address)
-            # self.lblm.setGeometry(589, 142, 276, 69)
-            # Create QListWidgetItem
-            myQListWidgetItem = QListWidgetItem(self.myQListWidget)
-            # Set size hint
-            myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
-            # Add QListWidgetItem into QListWidget
-            self.myQListWidget.addItem(myQListWidgetItem)
-            self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
-        self.setCentralWidget(self.myQListWidget)
-
-
-app = QApplication([])
-window = exampleQMainWindow()
-window.show()
-sys.exit(app.exec_())
