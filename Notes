@@ -36,4 +36,8 @@ pyuic5 -x new.ui -o new.py for converting ui to py
 
 FOR CHANGING FONTS------self.label_1.setFont(QFont('Arial', 10))
 
+how to set layout for vboxlayout
+
+use gridlayout for refill layout
+
 
