@@ -79,8 +79,29 @@ class Window(QMainWindow):
         btnBack.setIconSize(QtCore.QSize(115, 41))
         btnBack.clicked.connect(self.close)
 
+        btnPageBack = QPushButton(self)
+        btnPageBack.setGeometry(364, 619, 115, 41)
+        btnPageBack.setStyleSheet("border-radius : 10; background-color: black")
+        # btnPageBack.setIcon(QtGui.QIcon('Resources\Group 87.png'))
+        # btnPageBack.setIconSize(QtCore.QSize(115, 41))
+        btnPageBack.clicked.connect(self.PageBack)
+
+        btnPageNext = QPushButton(self)
+        btnPageNext.setGeometry(685, 619, 115, 41)
+        btnPageNext.setStyleSheet("border-radius : 10; background-color: black ")
+        # btnPageNext.setIcon(QtGui.QIcon('Resources\Group 87.png'))
+        # btnPageNext.setIconSize(QtCore.QSize(115, 41))
+        btnPageNext.clicked.connect(self.PageNext)
+
+        lblPageNo = QLabel("", self)
+        lblPageNo.setGeometry(525, 619, 70, 70)
+        lblPageNo.setStyleSheet("border-radius : 10; background-color: pink")
+
+
         self.myQListWidget = QListWidget(self)
-        self.myQListWidget.setGeometry(16, 125, 1191, 555)
+        self.myQListWidget.setGeometry(16, 125, 1191, 475)
+
+        # self.myQListWidget.
 
         for index, name, Address in [
             ('Dr. Swappy', 'Cardiscular, Thoraic Surgeon',
@@ -117,6 +138,12 @@ class Window(QMainWindow):
         self.btnAppHistory2.setStyleSheet(self.btnStyleSelected)
 
         self.btnUpComnin2.setStyleSheet(self.btnStyle)
+
+    def PageNext(self):
+        print("3")
+
+    def PageBack(self):
+        print("")
 
 
 

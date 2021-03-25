@@ -14,7 +14,7 @@ class AppointmentListItem(QWidget):
         super(AppointmentListItem, self).__init__(parent)
 
 
-        style = "background-color: #F0F0F3; border-radius : 15; margin-top : 10; margin-bottom : 10; margin-left : 10; margin-right : 10; "
+        style = "background-color: #F0F0F3; border-radius : 15; margin-top : 7; margin-bottom : 15; margin-left : 10; margin-right : 10; "
         frame1 = QFrame(self)
         # frame1.setGraphicsEffect(shadow)
         frame1.setFixedWidth(1151)
