@@ -136,34 +136,42 @@ def logoutUser(userId,deviceId,deviceToken):
     except Exception as e:
         print(e.__class__)
 
-def fetchAppointments(user_id, appo_type, page):
+def fetchAppointments(appo_type, page):
     try:
 
-        data = {'user_id': str(user_id),
+        if myDB.isLogggedIn():
+            data = {'user_id': str(myDB.getUserID()),
                 'doctor_id': "0", #0 for all
                 'page': str(page),
                 'check_in_flag': str(appo_type), # 0 for upcoming, 1 for completed
                 'action': constants.ACTION_GET_MY_APPOINTMENT_LIST,
                 'stuff': constants.Stuff,
-                'app_type': constants.AppType}
+                    'app_type': constants.AppType}
 
-        print("Appointments URL: " + myUrls.HEALTH_URL)
-        utility.printParams(data)
-        r = requests.post(url=myUrls.HEALTH_URL, data=data)
+            print("Appointments URL: " + myUrls.HEALTH_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.HEALTH_URL, data=data)
 
-        print("fetch appointments response : " + r.text.strip())
-        response = json.loads(r.text)
+            print("fetch appointments response : " + r.text.strip())
+            response = json.loads(r.text)
 
-        if response['status']:
-            print("Fetch appointments Successful")
+            if response['status']:
+                print("Fetch appointments Successful")
 
-            #if completed appointments called then update them and only for page 1
-            if(str(appo_type) == "1" and str(page) == "1"):
-                myDB.updateCompletedAppointments(user_id,r.text.strip())
-            return response
+                #if completed appointments called then update them and only for page 1
+                if(str(page) == "1"):
+                    if str(appo_type) == "1" :
+                        myDB.updateCompletedAppointments(myDB.getUserID(),r.text.strip())
+                    else:
+                        myDB.updateUpcomingAppointments(myDB.getUserID(), r.text.strip())
 
+                return response
+
+            else:
+                print(response['status'])
+                return None
         else:
-            print(response['status'])
+            print("Session not created, user not logged in")
             return None
 
     except Exception as e:
@@ -189,4 +197,4 @@ if __name__ == "__main__":
     # else:
     #     print("User logged out")
 
-    # fetchAppointments("46747","1","1")
+    # fetchAppointments("0","1")
