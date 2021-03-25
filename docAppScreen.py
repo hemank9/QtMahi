@@ -7,8 +7,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import Utility.MahiUtility as MahiUtil
 import Custom.AppointmentListItem as appoi
-
-
+import API.api_calls as MyApis
+import json
 
 class Window(QMainWindow):
 
@@ -32,6 +32,10 @@ class Window(QMainWindow):
 
         # showing all the widgets
         self.show()
+
+        self.appo_type = "0"
+        self.SetAppointmentList()
+
 
     # method for widgets
     def UiComponents(self):
@@ -82,51 +86,58 @@ class Window(QMainWindow):
         self.myQListWidget = QListWidget(self)
         self.myQListWidget.setGeometry(16, 125, 1191, 555)
 
-        for index, name, Address in [
-            ('Dr. Swappy', 'Cardiscular, Thoraic Surgeon',
-             'CIMS Hospital,Near Shukan Mall,Opp. Science CityRoad, Shukan Mall,'
-             'Science City Road'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.2', 'Sansuko', 'icon.png'),
-            ('No.3', 'Ljosdyse', 'icon.png')]:
-            # Create QCustomQWidget
-            myQCustomQWidget = appoi.AppointmentListItem()
-            myQCustomQWidget.setTextUp(index)
-            myQCustomQWidget.setTextDown(name)
-            myQCustomQWidget.setAddress(Address)
-            # self.lblm.setGeometry(589, 142, 276, 69)
-            # Create QListWidgetItem
-            myQListWidgetItem = QListWidgetItem(self.myQListWidget)
-            # Set size hint
-            myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
-            # Add QListWidgetItem into QListWidget
-            self.myQListWidget.addItem(myQListWidgetItem)
-            self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
-
 
     def UpcominClick(self):
         self.btnAppHistory2.setStyleSheet(self.btnStyle)
-
         self.btnUpComnin2.setStyleSheet(self.btnStyleSelected)
+        self.appo_type = "0"
+        self.myQListWidget.clear()
+        self.SetAppointmentList()
 
 
     def HistoryClicked(self):
         self.btnAppHistory2.setStyleSheet(self.btnStyleSelected)
-
         self.btnUpComnin2.setStyleSheet(self.btnStyle)
+        self.appo_type = "1"
+        self.myQListWidget.clear()
+        self.SetAppointmentList()
 
 
+    def SetAppointmentList(self):
 
+        try:
+            self.appo_response = MyApis.fetchAppointments(self.appo_type, "1")
 
-App = QApplication(sys.argv)
+            if self.appo_response != None:
+                self.json_array = self.appo_response["data"]
+                for appo in self.json_array:
+                    # Create QCustomQWidget
+                    myQCustomQWidget = appoi.AppointmentListItem()
+                    myQCustomQWidget.setTextUp(appo["doctor_name"])
+                    myQCustomQWidget.setTextDown(appo["id"])
+                    myQCustomQWidget.setAddress(appo["appointment_date"])
+                    # self.lblm.setGeometry(589, 142, 276, 69)
+                    # Create QListWidgetItem
+                    myQListWidgetItem = QListWidgetItem(self.myQListWidget)
+                    # Set size hint
+                    myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
+                    # Add QListWidgetItem into QListWidget
+                    self.myQListWidget.addItem(myQListWidgetItem)
+                    self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
 
-# create the instance of our Window
-window = Window()
+            else:
+                print("Error, please try again")
 
-window.show()
+        except Exception as e:
+            print(e.__class__)
 
-# start the app
-sys.exit(App.exec())
+if __name__ == '__main__':
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = Window()
+
+    window.show()
+
+    # start the app
+    sys.exit(App.exec())

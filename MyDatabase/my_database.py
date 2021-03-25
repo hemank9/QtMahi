@@ -107,6 +107,8 @@ def logoutUser():
         conn.execute("DELETE FROM '" + constants.profile_table + "'")
         conn.execute("DELETE FROM '" + constants.health_calendar_table + "'")
         conn.execute("DELETE FROM '" + constants.login_table + "'")
+        conn.execute("DELETE FROM '" + constants.completed_appointments_table + "'")
+        conn.execute("DELETE FROM '" + constants.upcoming_appointments_table + "'")
         conn.commit()
         print("Session cleared, user logout successful")
 
@@ -205,7 +207,11 @@ def initTables():
                                (ID TEXT PRIMARY KEY   NOT NULL,
                            LOGIN_JSON   TEXT);''')
 
-    conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.appointments_table + ''' 
+    conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.upcoming_appointments_table + ''' 
+                               (ID TEXT PRIMARY KEY   NOT NULL,
+                           APPO_JSON   TEXT);''')
+
+    conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.completed_appointments_table + ''' 
                                (ID TEXT PRIMARY KEY   NOT NULL,
                            APPO_JSON   TEXT);''')
     conn.commit()
@@ -215,23 +221,23 @@ def updateCompletedAppointments(user_id,appointments_string):
 
         if isLogggedIn():
             initTables()
-            cursor = conn.execute("SELECT COUNT(ID) from '" + constants.appointments_table + "'")
+            cursor = conn.execute("SELECT COUNT(ID) from '" + constants.completed_appointments_table + "'")
             row = cursor.fetchone()
             if (row[0] == 1):
-                print("Appointments data available")
+                print("Completed Appointments data available")
                 conn.execute(
-                    "UPDATE " + constants.appointments_table + " SET APPO_JSON='" + appointments_string + "' WHERE ID='" + user_id + "'")
+                    "UPDATE " + constants.completed_appointments_table + " SET APPO_JSON='" + appointments_string + "' WHERE ID='" + user_id + "'")
                 conn.commit()
-                print("Update appointments in database successful")
+                print("Update Completed appointments in database successful")
                 return True
             else:
-                print("No appointments data available")
-                query = "INSERT INTO '" + constants.appointments_table + "' (ID, APPO_JSON) " \
+                print("No Completed appointments data available")
+                query = "INSERT INTO '" + constants.completed_appointments_table + "' (ID, APPO_JSON) " \
                                                                             "VALUES ( '" + str(
                     user_id) + "', '" + str(appointments_string) + "' )"
                 conn.execute(query)
                 conn.commit()
-                print("Appointments added successfully")
+                print("Completed Appointments added successfully")
                 return True
         else:
             print("User Not logged in. Session not created")
@@ -239,6 +245,37 @@ def updateCompletedAppointments(user_id,appointments_string):
 
     except Exception as e:
         print("Add/Update completed appointemnts failed : "+e.__class__)
+        return False
+
+def updateUpcomingAppointments(user_id,appointments_string):
+    try:
+
+        if isLogggedIn():
+            initTables()
+            cursor = conn.execute("SELECT COUNT(ID) from '" + constants.upcoming_appointments_table + "'")
+            row = cursor.fetchone()
+            if (row[0] == 1):
+                print("upcoming Appointments data available")
+                conn.execute(
+                    "UPDATE " + constants.upcoming_appointments_table + " SET APPO_JSON='" + appointments_string + "' WHERE ID='" + user_id + "'")
+                conn.commit()
+                print("Update upcoming appointments in database successful")
+                return True
+            else:
+                print("No upcoming appointments data available")
+                query = "INSERT INTO '" + constants.upcoming_appointments_table + "' (ID, APPO_JSON) " \
+                                                                            "VALUES ( '" + str(
+                    user_id) + "', '" + str(appointments_string) + "' )"
+                conn.execute(query)
+                conn.commit()
+                print("upcoming Appointments added successfully")
+                return True
+        else:
+            print("User Not logged in. Session not created")
+            return None
+
+    except Exception as e:
+        print("Add/Update upcoming appointemnts failed : "+e.__class__)
         return False
 
 
