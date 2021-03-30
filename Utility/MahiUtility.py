@@ -30,18 +30,18 @@ class LoadingGif(QWidget):
         self.setGeometry(510, 242, 200, 200)
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint)
 
-        self.lblAnimation = QLabel(self)
+        self.lblAnimation = QLabel("Please Wait.....",self)
         self.lblAnimation.setGeometry(0, 0, 200, 200)
-        self.movie = QMovie('Resources\loading.gif')
-        self.lblAnimation.setMovie(self.movie)
+        # self.movie = QMovie('Resources\loading.gif')
+        # self.lblAnimation.setMovie(self.movie)
 
 
     def startAnimation(self):
-        self.movie.start()
+        # self.movie.start()
         self.show()
 
     def stopAnimation(self):
-        self.movie.stop()
+        # self.movie.stop()
         self.close()
 
 

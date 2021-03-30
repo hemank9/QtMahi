@@ -161,7 +161,7 @@ class Window(QMainWindow):
 
             self.appo_response = MyApis.fetchAppointments(self.appo_type, self.page)
 
-            self.loadingDialog.stopAnimation()
+            # self.loadingDialog.stopAnimation()
 
             if self.appo_response != None:
                 self.json_array = self.appo_response["data"]

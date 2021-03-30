@@ -77,7 +77,7 @@ class AppointmentListItem(QWidget):
 
         self.btnLocation = QPushButton(self)
         self.btnLocation.setStyleSheet("background-color : #F0F0F3; border-radius : 10")
-        self.btnLocation.setIcon(QtGui.QIcon('Resources\Group 88.png'))
+        self.btnLocation.setIcon(QtGui.QIcon('Resources\location.png'))
         self.btnLocation.setIconSize(QtCore.QSize(70, 70))
         self.allQHBoxLayout.addWidget(self.btnLocation, 1)
         # self.allQHBoxLayout.setContentsMargins(5, 10, 30, 10)
