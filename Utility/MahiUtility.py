@@ -36,15 +36,10 @@ class LoadingGif(QWidget):
         self.lblAnimation.setMovie(self.movie)
 
 
-
-
-    # Start Animation
-
     def startAnimation(self):
         self.movie.start()
         self.show()
 
-    # Stop Animation(According to need)
     def stopAnimation(self):
         self.movie.stop()
         self.close()
