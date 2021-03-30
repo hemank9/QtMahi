@@ -34,6 +34,7 @@ class Window(QMainWindow):
         self.show()
 
         self.appo_type = "0"
+        self.page = 1
         self.SetAppointmentList()
 
 
@@ -84,26 +85,42 @@ class Window(QMainWindow):
         btnBack.clicked.connect(self.close)
 
         btnPageBack = QPushButton(self)
-        btnPageBack.setGeometry(364, 619, 115, 41)
-        btnPageBack.setStyleSheet("border-radius : 10; background-color: black")
-        # btnPageBack.setIcon(QtGui.QIcon('Resources\Group 87.png'))
-        # btnPageBack.setIconSize(QtCore.QSize(115, 41))
-        btnPageBack.clicked.connect(self.PageBack)
+        btnPageBack.setGeometry(500, 619, 70, 70)
+        btnPageBack.setStyleSheet("border-radius : 10; background-color: #F0F03")
+        btnPageBack.setGraphicsEffect(MahiUtil.getNeuShadow(0))
+
+
+        btnPageBack1 = QPushButton(self)
+        btnPageBack1.setGeometry(500, 619, 70, 70)
+        btnPageBack1.setStyleSheet("border-radius : 10; background-color: #F0F03")
+        btnPageBack1.setIcon(QtGui.QIcon('Resources\pageBack.png'))
+        btnPageBack1.setIconSize(QtCore.QSize(115, 41))
+        btnPageBack1.setGraphicsEffect(MahiUtil.getNeuShadow(1))
+        btnPageBack1.clicked.connect(self.PageBack)
 
         btnPageNext = QPushButton(self)
-        btnPageNext.setGeometry(685, 619, 115, 41)
-        btnPageNext.setStyleSheet("border-radius : 10; background-color: black ")
-        # btnPageNext.setIcon(QtGui.QIcon('Resources\Group 87.png'))
-        # btnPageNext.setIconSize(QtCore.QSize(115, 41))
-        btnPageNext.clicked.connect(self.PageNext)
+        btnPageNext.setGeometry(680, 619, 70, 70)
+        btnPageNext.setStyleSheet("border-radius : 10; background-color: #F0F03 ")
+        btnPageNext.setGraphicsEffect(MahiUtil.getNeuShadow(0))
+
+
+        btnPageNext1 = QPushButton(self)
+        btnPageNext1.setGeometry(680, 619, 70, 70)
+        btnPageNext1.setStyleSheet("border-radius : 10; background-color: #F0F03 ")
+        btnPageNext1.setIcon(QtGui.QIcon('Resources\pageNext.png'))
+        btnPageNext1.setIconSize(QtCore.QSize(115, 41))
+        btnPageNext1.setGraphicsEffect(MahiUtil.getNeuShadow(1))
+        btnPageNext1.clicked.connect(self.PageNext)
 
         lblPageNo = QLabel("", self)
-        lblPageNo.setGeometry(525, 619, 70, 70)
+        lblPageNo.setGeometry(602, 631, 50, 50)
         lblPageNo.setStyleSheet("border-radius : 10; background-color: pink")
 
 
         self.myQListWidget = QListWidget(self)
         self.myQListWidget.setGeometry(16, 125, 1191, 475)
+        # self.myQListWidget.setContentsMargins(0, 0, 0, 0)
+        # self.myQListWidget.setStyleSheet(("QListWidget:item{height: 40px;border-left: 4px solid red;}QListWidget::item:selected {background-color: white; color: black}"))
 
         # self.myQListWidget.
 
@@ -126,11 +143,12 @@ class Window(QMainWindow):
 
     def SetAppointmentList(self):
 
-        try:
-            self.appo_response = MyApis.fetchAppointments(self.appo_type, "1")
+        try:  #put the loading screen in the next line and close it after that
+            self.appo_response = MyApis.fetchAppointments(self.appo_type, self.page)
 
             if self.appo_response != None:
                 self.json_array = self.appo_response["data"]
+                self.myQListWidget.clear()
                 for appo in self.json_array:
                     # Create QCustomQWidget
                     myQCustomQWidget = appoi.AppointmentListItem()
@@ -152,8 +170,15 @@ class Window(QMainWindow):
         except Exception as e:
             print(e.__class__)
 
-        self.btnUpComnin2.setStyleSheet(self.btnStyle)
 
+    def PageBack(self):
+        if self.page >1:
+            self.page -=1
+            self.SetAppointmentList()
+
+    def PageNext(self):
+        self.page +=1
+        self.SetAppointmentList()
 
 
 if __name__ == '__main__':
