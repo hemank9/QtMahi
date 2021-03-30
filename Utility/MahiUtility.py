@@ -45,4 +45,3 @@ class LoadingGif(QWidget):
         self.close()
 
 
-

@@ -108,3 +108,19 @@ class AppointmentListItem(QWidget):
     def setAddress(self, text):
         # imagePath = "Resources\emorning.png"
         self.lblAddress.setText(text)
+
+    def setAppoStatus(self, type):
+        x = int(type)
+
+        # Compelted
+        if x == 2:
+            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\Group 88.png'))
+        # Upcoming
+        elif x == 0:
+            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\\redtick.png'))
+        # Pending
+        elif x == 4:
+            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\waiting.png'))
+        # others
+        else :
+            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\Group 89.png'))

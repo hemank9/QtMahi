@@ -161,7 +161,7 @@ class Window(QMainWindow):
 
             self.appo_response = MyApis.fetchAppointments(self.appo_type, self.page)
 
-            # self.loadingDialog.stopAnimation()
+            self.loadingDialog.stopAnimation()
 
             if self.appo_response != None:
                 self.json_array = self.appo_response["data"]
@@ -183,6 +183,7 @@ class Window(QMainWindow):
                     myQCustomQWidget.setTextUp(appo["doctor_name"])
                     myQCustomQWidget.setTextDown(appo["id"])
                     myQCustomQWidget.setAddress(appo["appointment_date"])
+                    myQCustomQWidget.setAppoStatus(appo["appointment_status_flag"])
                     # self.lblm.setGeometry(589, 142, 276, 69)
                     # Create QListWidgetItem
                     myQListWidgetItem = QListWidgetItem(self.myQListWidget)
