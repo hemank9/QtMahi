@@ -22,3 +22,32 @@ def getNeuShadow(type):
         shadow2.setXOffset(-5)
         shadow2.setYOffset(-5)
     return shadow2
+
+class LoadingGif(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.setGeometry(510, 242, 200, 200)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint)
+
+        self.lblAnimation = QLabel(self)
+        self.lblAnimation.setGeometry(0, 0, 200, 200)
+        self.movie = QMovie('Resources\loading.gif')
+        self.lblAnimation.setMovie(self.movie)
+
+
+
+
+    # Start Animation
+
+    def startAnimation(self):
+        self.movie.start()
+        self.show()
+
+    # Stop Animation(According to need)
+    def stopAnimation(self):
+        self.movie.stop()
+        self.close()
+
+
+

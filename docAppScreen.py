@@ -11,6 +11,8 @@ import API.api_calls as MyApis
 import json
 import math
 
+
+
 class Window(QMainWindow):
 
     def __init__(self):
@@ -127,6 +129,8 @@ class Window(QMainWindow):
 
         # self.myQListWidget.
 
+        self.loadingDialog = MahiUtil.LoadingGif()
+
 
     def UpcominClick(self):
         self.btnAppHistory2.setStyleSheet(self.btnStyle)
@@ -150,8 +154,14 @@ class Window(QMainWindow):
 
     def SetAppointmentList(self):
 
-        try:  #put the loading screen in the next line and close it after that
+
+        try:
+            #put the loading screen in the next line and close it after that
+            self.loadingDialog.startAnimation()
+
             self.appo_response = MyApis.fetchAppointments(self.appo_type, self.page)
+
+            self.loadingDialog.stopAnimation()
 
             if self.appo_response != None:
                 self.json_array = self.appo_response["data"]
