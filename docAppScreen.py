@@ -9,6 +9,7 @@ import Utility.MahiUtility as MahiUtil
 import Custom.AppointmentListItem as appoi
 import API.api_calls as MyApis
 import json
+import math
 
 class Window(QMainWindow):
 
@@ -35,6 +36,7 @@ class Window(QMainWindow):
 
         self.appo_type = "0"
         self.page = 1
+        self.total = 0;
         self.SetAppointmentList()
 
 
@@ -112,9 +114,10 @@ class Window(QMainWindow):
         btnPageNext1.setGraphicsEffect(MahiUtil.getNeuShadow(1))
         btnPageNext1.clicked.connect(self.PageNext)
 
-        lblPageNo = QLabel("", self)
-        lblPageNo.setGeometry(602, 631, 50, 50)
-        lblPageNo.setStyleSheet("border-radius : 10; background-color: pink")
+        self.lblPageNo = QLabel("", self)
+        self.lblPageNo.setGeometry(602, 631, 50, 50)
+        self.lblPageNo.setStyleSheet("border-radius : 10; background-color: pink")
+        self.lblPageNo.setAlignment(Qt.AlignCenter)
 
 
         self.myQListWidget = QListWidget(self)
@@ -129,6 +132,8 @@ class Window(QMainWindow):
         self.btnAppHistory2.setStyleSheet(self.btnStyle)
         self.btnUpComnin2.setStyleSheet(self.btnStyleSelected)
         self.appo_type = "0"
+        self.page = 1
+        self.total = 0
         self.myQListWidget.clear()
         self.SetAppointmentList()
 
@@ -137,6 +142,8 @@ class Window(QMainWindow):
         self.btnAppHistory2.setStyleSheet(self.btnStyleSelected)
         self.btnUpComnin2.setStyleSheet(self.btnStyle)
         self.appo_type = "1"
+        self.page = 1
+        self.total = 0
         self.myQListWidget.clear()
         self.SetAppointmentList()
 
@@ -148,6 +155,17 @@ class Window(QMainWindow):
 
             if self.appo_response != None:
                 self.json_array = self.appo_response["data"]
+
+                if self.page == 1:
+                    total_rec = int(self.appo_response["total_records"])
+
+                    if total_rec != 0:
+                        temp = len(self.json_array)
+                        self.total = math.ceil(total_rec/temp)
+                        self.lblPageNo.setText(str(self.page)+"/"+str(self.total))
+                    else:
+                        self.lblPageNo.setText("0")
+
                 self.myQListWidget.clear()
                 for appo in self.json_array:
                     # Create QCustomQWidget
@@ -174,11 +192,14 @@ class Window(QMainWindow):
     def PageBack(self):
         if self.page >1:
             self.page -=1
+            self.lblPageNo.setText(str(self.page) + "/" + str(self.total))
             self.SetAppointmentList()
 
     def PageNext(self):
-        self.page +=1
-        self.SetAppointmentList()
+        if self.page<self.total:
+            self.page +=1
+            self.lblPageNo.setText(str(self.page) + "/" + str(self.total))
+            self.SetAppointmentList()
 
 
 if __name__ == '__main__':
