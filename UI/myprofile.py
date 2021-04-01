@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
+from UI.MyFileList import FileList
 
 
 class Window(QMainWindow):
@@ -15,7 +16,7 @@ class Window(QMainWindow):
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\yellow.png'))
+        self.label.setPixmap(QPixmap('..\Resources\yellow.png'))
         self.label.setGeometry(0, 0, 1220, 39)
 
         self.UiComponents()
@@ -27,13 +28,13 @@ class Window(QMainWindow):
 
     def UiComponents(self):
         label1_pic = QLabel(self)
-        label1_pic.setPixmap(QPixmap('Resources\Group 41.png'))
+        label1_pic.setPixmap(QPixmap('..\Resources\Group 41.png'))
         label1_pic.setGeometry(34, 48, 1164, 469)
 
         # NAME PROFILE
 
         label1_pic = QLabel(self)
-        label1_pic.setPixmap(QPixmap('Resources\pic.png'))
+        label1_pic.setPixmap(QPixmap('..\Resources\pic.png'))
         label1_pic.setGeometry(370, 51, 184, 180)
         label1_pic.setStyleSheet(" border-radius : 15")
 
@@ -167,14 +168,14 @@ class Window(QMainWindow):
         btn_back = QPushButton("", self)
         btn_back.setGeometry(881, 50, 135, 50)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_back.setIcon(QtGui.QIcon('Resources\Group 27.png'))
+        btn_back.setIcon(QtGui.QIcon('..\Resources\Group 27.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
         btn_back.clicked.connect(self.close)
 
         btn_files = QPushButton("", self)
         btn_files.setGeometry(999, 50, 189, 50)
         btn_files.setStyleSheet("border-radius : 20; background-color: #F0F0F3; text-align:left")
-        btn_files.setIcon(QtGui.QIcon('Resources\medfiles.png'))
+        btn_files.setIcon(QtGui.QIcon('..\Resources\medfiles.png'))
         btn_files.setIconSize(QtCore.QSize(189, 71))
         btn_files.clicked.connect(self.medfiles)
 
@@ -183,7 +184,7 @@ class Window(QMainWindow):
         print("pressed")
 
     def medfiles(self):
-        self.m = Window2()
+        self.m = FileList()
         self.m.show()
         # self.hide()
 
