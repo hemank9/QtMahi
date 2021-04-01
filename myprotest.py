@@ -4,74 +4,12 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 
-
-
-class Window3(QMainWindow):                           # <===
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Medical Files")
-        self.setGeometry(0, 0, 1220, 685)
-        self.setStyleSheet("background-color: #F0F0F3")
-        self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\yellow.png'))
-        self.label.setGeometry(0, 0, 1220, 39)
-
-
-class MyProfile(QWidget):                           # <===
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Medical Files")
-        self.setGeometry(0, 0, 1220, 685)
-        self.setStyleSheet("background-color: #F0F0F3")
-        self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\yellow.png'))
-        self.label.setGeometry(0, 0, 1220, 39)
-
-        self.UiComponents()
-    #
-    #     # showing all the widgets
-        self.show()
-    #
-    def UiComponents(self):
-
-
-        btn_file1 = QPushButton("", self)
-        btn_file1.setGeometry(41, 150, 1138, 76)
-        btn_file1.setStyleSheet("border-radius : 10; color:#FFFFFF; text-align:left")
-        btn_file1.setIcon(QtGui.QIcon('Resources\mfile1.png'))
-        btn_file1.setIconSize(QtCore.QSize(1138, 76))
-        btn_file1.clicked.connect(self.file)
-
-        btn_file2 = QPushButton("", self)
-        btn_file2.setGeometry(41, 236, 1138, 76)
-        btn_file2.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; text-align:left")
-        btn_file2.setIcon(QtGui.QIcon('Resources\myfile2.png'))
-        btn_file2.setIconSize(QtCore.QSize(1138, 76))
-        btn_file2.clicked.connect(self.clickme)
-
-        btn_file3 = QPushButton("", self)
-        btn_file3.setGeometry(41, 327, 1138, 76)
-        btn_file3.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; text-align:left")
-        btn_file3.setIcon(QtGui.QIcon('Resources\myfile3.png'))
-        btn_file3.setIconSize(QtCore.QSize(1138, 76))
-        btn_file3.clicked.connect(self.file)
-
-    def file(self):
-            self.m = Window3()
-            self.m.show()
-            # self.hide()
-
-        # except Exception as e:
-        #     print(e.__class__)
-
 class Window(QMainWindow):
 
     def __init__(self):
         super().__init__()
-
         # setting title
         self.setWindowTitle("Python ")
-
         # setting geometry
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
@@ -98,8 +36,6 @@ class Window(QMainWindow):
         label1_pic.setGeometry(370, 51, 184, 180)
         label1_pic.setStyleSheet(" border-radius : 15")
 
-
-
         # Medical History
         l2 = QLabel("Medical History", self)
         l2.setGeometry(573, 40, 150, 29)
@@ -111,13 +47,11 @@ class Window(QMainWindow):
         label2.setWordWrap(True)
         # l2.setStyleSheet("color:#EE488D; font: 21px")
 
-
         # Emergency contact
         label3 = QLabel("Emergency", self)
         label3.setGeometry(881, 112, 307, 82)
         label3.setStyleSheet("border-radius : 10; background-color : #00A0B5 ")
         label3.setWordWrap(True)
-
 
         # Allergies
         label4 = QLabel("Multi label i.e With multi line", self)
@@ -128,7 +62,6 @@ class Window(QMainWindow):
         l4.setGeometry(35, 345, 87, 29)
         l4.setStyleSheet("color:#EE488D; font: 21px; background-color: #F0F0F3")
 
-
         # Family history
         label5 = QLabel("Multi label i.e With multi line", self)
         label5.setGeometry(344, 393, 213, 119)
@@ -138,7 +71,6 @@ class Window(QMainWindow):
         l5.setGeometry(325, 345, 139, 29)
         l5.setStyleSheet("color:#EE488D; font: 21px; background-color: #F0F0F3")
 
-
         # Birth History
         label6 = QLabel("Multi label i.e With multi line", self)
         label6.setGeometry(595, 393, 270, 119)
@@ -147,7 +79,6 @@ class Window(QMainWindow):
         l6 = QLabel("Birth History", self)
         l6.setGeometry(575, 345, 124, 29)
         l6.setStyleSheet("color:#EE488D; font: 21px; background-color: #F0F0F3")
-
 
         # medical procedure
         label7 = QLabel("Multi label i.e With multi line", self)
@@ -251,17 +182,14 @@ class Window(QMainWindow):
         print("pressed")
 
     def medfiles(self):
-        self.l = Window2()
-        self.l.show()
+        self.m = Window2()
+        self.m.show()
         # self.hide()
 
-    def file(self):
-        self.m = Window3()
-        self.m.show()
-        self.hide()
-
-
-
+    # def file(self):
+    #     self.m = Window3()
+    #     self.m.show()
+    #     self.hide()
 
 
 App = QApplication(sys.argv)
@@ -269,7 +197,7 @@ App = QApplication(sys.argv)
 # create the instance of our Window
 window = Window()
 
-# window.show()
+window.show()
 
 # start the app
-sys.exit(App.exec())
+sys.exit(App.exec_())

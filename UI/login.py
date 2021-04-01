@@ -9,6 +9,8 @@ from myprofile import MyProfile
 import Controllers.login_controller as my_con
 
 
+
+
 class MovieSplashScreen(QtWidgets.QSplashScreen):
 
     def __init__(self, pathToGIF):

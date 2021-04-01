@@ -8,6 +8,7 @@ from PyQt5.QtCore import QSize
 import API.api_calls as my_api
 from myprofile import MyProfile
 
+
 class MovieSplashScreen(QtWidgets.QSplashScreen):
 
 	def __init__(self, pathToGIF):
