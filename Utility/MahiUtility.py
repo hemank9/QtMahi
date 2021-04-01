@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+import socket
 
 def printParams(params):
     for i,k in params.items():
@@ -45,3 +46,17 @@ class LoadingGif(QWidget):
         self.close()
 
 
+
+def isInternetOn():
+  try:
+    # see if we can resolve the host name -- tells us if there is
+    # a DNS listening
+    host = socket.gethostbyname("www.google.com")
+    # connect to the host -- tells us if the host is actually
+    # reachable
+    s = socket.create_connection((host, 80), 2)
+    s.close()
+    return True
+  except:
+     pass
+  return False

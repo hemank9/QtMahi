@@ -156,48 +156,54 @@ class Window(QMainWindow):
 
 
         try:
-            #put the loading screen in the next line and close it after that
-            self.loadingDialog.startAnimation()
 
-            self.appo_response = MyApis.fetchAppointments(self.appo_type, self.page)
+            if MahiUtil.isInternetOn():
+                self.loadingDialog.startAnimation()
 
-            self.loadingDialog.stopAnimation()
+                self.appo_response = MyApis.fetchAppointments(self.appo_type, self.page)
 
-            if self.appo_response != None:
-                self.json_array = self.appo_response["data"]
+                self.loadingDialog.stopAnimation()
 
-                if self.page == 1:
-                    total_rec = int(self.appo_response["total_records"])
+                if self.appo_response != None:
+                    self.json_array = self.appo_response["data"]
 
-                    if total_rec != 0:
-                        temp = len(self.json_array)
-                        self.total = math.ceil(total_rec/temp)
-                        self.lblPageNo.setText(str(self.page)+"/"+str(self.total))
-                    else:
-                        self.lblPageNo.setText("0")
+                    if self.page == 1:
+                        total_rec = int(self.appo_response["total_records"])
 
-                self.myQListWidget.clear()
-                for appo in self.json_array:
-                    # Create QCustomQWidget
-                    myQCustomQWidget = appoi.AppointmentListItem()
-                    myQCustomQWidget.setTextUp(appo["doctor_name"])
-                    myQCustomQWidget.setTextDown(appo["id"])
-                    myQCustomQWidget.setAddress(appo["appointment_date"])
-                    myQCustomQWidget.setAppoStatus(appo["appointment_status_flag"])
-                    # self.lblm.setGeometry(589, 142, 276, 69)
-                    # Create QListWidgetItem
-                    myQListWidgetItem = QListWidgetItem(self.myQListWidget)
-                    # Set size hint
-                    myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
-                    # Add QListWidgetItem into QListWidget
-                    self.myQListWidget.addItem(myQListWidgetItem)
-                    self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
+                        if total_rec != 0:
+                            temp = len(self.json_array)
+                            self.total = math.ceil(total_rec/temp)
+                            self.lblPageNo.setText(str(self.page)+"/"+str(self.total))
+                        else:
+                            self.lblPageNo.setText("0")
+
+                    self.myQListWidget.clear()
+                    for appo in self.json_array:
+                        # Create QCustomQWidget
+                        myQCustomQWidget = appoi.AppointmentListItem()
+                        myQCustomQWidget.setTextUp(appo["doctor_name"])
+                        myQCustomQWidget.setTextDown(appo["id"])
+                        myQCustomQWidget.setAddress(appo["appointment_date"])
+                        myQCustomQWidget.setAppoStatus(appo["appointment_status_flag"])
+                        # self.lblm.setGeometry(589, 142, 276, 69)
+                        # Create QListWidgetItem
+                        myQListWidgetItem = QListWidgetItem(self.myQListWidget)
+                        # Set size hint
+                        myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
+                        # Add QListWidgetItem into QListWidget
+                        self.myQListWidget.addItem(myQListWidgetItem)
+                        self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
+
+                else:
+                    print("Error, please try again")
 
             else:
-                print("Error, please try again")
+                # no internet screen
+                print("internet off")
 
         except Exception as e:
             print(e.__class__)
+            self.loadingDialog.stopAnimation()
 
 
     def PageBack(self):
