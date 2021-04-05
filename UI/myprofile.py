@@ -222,18 +222,22 @@ class Window(QMainWindow):
         self.btn_bmi = QPushButton("18.5", self)
         self.btn_bmi.setGeometry(35, 544, 106, 90)
         self.btn_bmi.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_bmi.clicked.connect(self.clickme)
 
         self.lblBmiDate = QLabel("25/09/2020",self)
         self.lblBmiDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblBmiDate.setGeometry(65,549,70,16)
         self.lblBmiDate.setAlignment(Qt.AlignRight)
 
-
         self.lblBmiUnit = QLabel("kg/m2",self)
         self.lblBmiUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblBmiUnit.setGeometry(65,608,70,20)
         self.lblBmiUnit.setAlignment(Qt.AlignRight)
+
+        btn_bmiT = QPushButton(self)
+        btn_bmiT.setGeometry(35, 544, 106, 90)
+        btn_bmiT.setStyleSheet("border-radius : 10; background-color : #007ACEDA")
+        btn_bmiT.clicked.connect(self.clickme)
+
 
 
         lbp = QLabel("Blood Pressure", self)
@@ -243,19 +247,23 @@ class Window(QMainWindow):
         self.btn_bp = QPushButton(self)
         self.btn_bp.setGeometry(151, 544, 222, 90)
         self.btn_bp.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_bp.clicked.connect(self.clickme)
-
 
         self.lblBpDate = QLabel("25/09/2020",self)
         self.lblBpDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblBpDate.setGeometry(295,549,70,16)
         self.lblBpDate.setAlignment(Qt.AlignRight)
 
-
         self.lblBpUnit = QLabel("mm/hg",self)
         self.lblBpUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblBpUnit.setGeometry(295,608,70,20)
         self.lblBpUnit.setAlignment(Qt.AlignRight)
+
+        btn_bpT = QPushButton(self)
+        btn_bpT.setGeometry(151, 544, 222, 90)
+        btn_bpT.setStyleSheet("border-radius : 10; background-color : #007ACEDA")
+        btn_bpT.clicked.connect(self.clickme)
+
+
 
         lhr = QLabel("Heart Rate", self)
         lhr.setGeometry(389, 634, 110, 29)
@@ -263,39 +271,48 @@ class Window(QMainWindow):
         self.btn_hr = QPushButton("", self)
         self.btn_hr.setGeometry(383, 544, 107, 90)
         self.btn_hr.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_hr.clicked.connect(self.clickme)
 
         self.lblHrDate = QLabel("25/09/2020",self)
         self.lblHrDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblHrDate.setGeometry(412,549,70,16)
         self.lblHrDate.setAlignment(Qt.AlignRight)
 
-
         self.lblHrUnit = QLabel("bpm",self)
         self.lblHrUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblHrUnit.setGeometry(412,608,70,20)
         self.lblHrUnit.setAlignment(Qt.AlignRight)
 
+        btn_hrT = QPushButton("", self)
+        btn_hrT.setGeometry(383, 544, 107, 90)
+        btn_hrT.setStyleSheet(
+            "border-radius : 10; background-color : #007ACEDA; ")
+        btn_hrT.clicked.connect(self.clickme)
+
+
 
         lhg = QLabel("Haemoglobin", self)
         lhg.setGeometry(500, 634, 139, 29)
         lhg.setStyleSheet("color:#006CB5; font: 18px; background-color: #F0F0F3")
-
         self.btn_hg = QPushButton("", self)
         self.btn_hg.setGeometry(500, 544, 106, 90)
         self.btn_hg.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_hg.clicked.connect(self.clickme)
 
         self.lblHgDate = QLabel("25/09/2020",self)
         self.lblHgDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblHgDate.setGeometry(526,549,70,16)
         self.lblHgDate.setAlignment(Qt.AlignRight)
 
-
         self.lblHgUnit = QLabel("g/dl",self)
         self.lblHgUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblHgUnit.setGeometry(526,608,70,20)
         self.lblHgUnit.setAlignment(Qt.AlignRight)
+
+        btn_hgT = QPushButton("", self)
+        btn_hgT.setGeometry(500, 544, 106, 90)
+        btn_hgT.setStyleSheet(
+            "border-radius : 10; background-color : #007ACEDA;")
+        btn_hgT.clicked.connect(self.clickme)
+
 
 
         lhba = QLabel("HBA1C", self)
@@ -304,18 +321,23 @@ class Window(QMainWindow):
         self.btn_hba = QPushButton("", self)
         self.btn_hba.setGeometry(616, 544, 106, 90)
         self.btn_hba.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_hba.clicked.connect(self.clickme)
 
         self.lblHba1cDate = QLabel("25/09/2020",self)
         self.lblHba1cDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblHba1cDate.setGeometry(645,549,70,16)
         self.lblHba1cDate.setAlignment(Qt.AlignRight)
 
-
         self.lblHba1cUnit = QLabel("mmol/mol",self)
         self.lblHba1cUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblHba1cUnit.setGeometry(645,608,70,20)
         self.lblHba1cUnit.setAlignment(Qt.AlignRight)
+
+        btn_hba = QPushButton("", self)
+        btn_hba.setGeometry(616, 544, 106, 90)
+        btn_hba.setStyleSheet(
+            "border-radius : 10; background-color : #007ACEDA;")
+        btn_hba.clicked.connect(self.clickme)
+
 
 
         lsugar = QLabel("Sugar", self)
@@ -324,18 +346,23 @@ class Window(QMainWindow):
         self.btn_sugar = QPushButton("", self)
         self.btn_sugar.setGeometry(732, 544, 106, 90)
         self.btn_sugar.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_sugar.clicked.connect(self.clickme)
 
         self.lblSugarDate = QLabel("25/09/2020",self)
         self.lblSugarDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblSugarDate.setGeometry(762,549,70,16)
         self.lblSugarDate.setAlignment(Qt.AlignRight)
 
-
         self.lblSugarUnit = QLabel("mmol/mol",self)
         self.lblSugarUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblSugarUnit.setGeometry(762,608,70,20)
         self.lblSugarUnit.setAlignment(Qt.AlignRight)
+
+        btn_sugarT = QPushButton("", self)
+        btn_sugarT.setGeometry(732, 544, 106, 90)
+        btn_sugarT.setStyleSheet(
+            "border-radius : 10; background-color : #007ACEDA;")
+        btn_sugarT.clicked.connect(self.clickme)
+
 
 
         lcho = QLabel("Cholesterol", self)
@@ -344,18 +371,23 @@ class Window(QMainWindow):
         self.btn_choles = QPushButton("", self)
         self.btn_choles.setGeometry(849, 544, 106, 90)
         self.btn_choles.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_choles.clicked.connect(self.clickme)
 
         self.lblCholDate = QLabel("25/09/2020",self)
         self.lblCholDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblCholDate.setGeometry(879,549,70,16)
         self.lblCholDate.setAlignment(Qt.AlignRight)
 
-
         self.lblCholUnit = QLabel("mg/dl",self)
         self.lblCholUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblCholUnit.setGeometry(879,608,70,20)
         self.lblCholUnit.setAlignment(Qt.AlignRight)
+
+        btn_cholesT = QPushButton("", self)
+        btn_cholesT.setGeometry(849, 544, 106, 90)
+        btn_cholesT.setStyleSheet(
+            "border-radius : 10; background-color : #007ACEDA;")
+        btn_cholesT.clicked.connect(self.clickme)
+
 
 
         lpt = QLabel("Pt/INR", self)
@@ -364,39 +396,49 @@ class Window(QMainWindow):
         self.btn_pt = QPushButton("", self)
         self.btn_pt.setGeometry(965, 544, 106, 90)
         self.btn_pt.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_pt.clicked.connect(self.clickme)
 
         self.lblPtDate = QLabel("25/09/2020",self)
         self.lblPtDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblPtDate.setGeometry(994,549,70,16)
         self.lblPtDate.setAlignment(Qt.AlignRight)
 
-
         self.lblPtUnit = QLabel("bpm",self)
         self.lblPtUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblPtUnit.setGeometry(994,608,70,20)
         self.lblPtUnit.setAlignment(Qt.AlignRight)
 
+        btn_ptT = QPushButton("", self)
+        btn_ptT.setGeometry(965, 544, 106, 90)
+        btn_ptT.setStyleSheet(
+            "border-radius : 10; background-color : #007ACEDA;")
+        btn_ptT.clicked.connect(self.clickme)
+
+
 
         ltemp = QLabel("Temparature", self)
         ltemp.setGeometry(1084, 634, 109, 29)
         ltemp.setStyleSheet("color:#006CB5; font: 19px; background-color: #F0F0F3")
-
         self.btn_temp = QPushButton("", self)
         self.btn_temp.setGeometry(1081, 544, 106, 90)
         self.btn_temp.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
-        self.btn_temp.clicked.connect(self.clickme)
 
         self.lblTempDate = QLabel("25/09/2020",self)
         self.lblTempDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblTempDate.setGeometry(1109,549,70,16)
         self.lblTempDate.setAlignment(Qt.AlignRight)
 
-
         self.lblTempUnit = QLabel("f",self)
         self.lblTempUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblTempUnit.setGeometry(1109,608,70,20)
         self.lblTempUnit.setAlignment(Qt.AlignRight)
+
+        btn_tempT = QPushButton("", self)
+        btn_tempT.setGeometry(1081, 544, 106, 90)
+        btn_tempT.setStyleSheet(
+            "border-radius : 10; background-color : #007ACEDA;")
+        btn_tempT.clicked.connect(self.clickme)
+
+
 
         btn_back = QPushButton("", self)
         btn_back.setGeometry(881, 50, 135, 50)
