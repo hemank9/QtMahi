@@ -7,36 +7,55 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import colors as Colors
 
-
-class Example(QWidget):
+class FileList(QMainWindow):
     def __init__(self):
-        super(Example, self).__init__()
-        self.initUI()
-    def initUI(self):
-        frame = QFrame()
-        frame.setFrameStyle(QFrame.Panel |
-                QFrame.Plain)
-        label = QLabel('This is random text')
-        dockWidget = QDockWidget('Main', self)
-        # set the widget to non-movable, non-floatable and non-closable
-        dockWidget.setFeatures(dockWidget.NoDockWidgetFeatures)
-        dockWidget.setWidget(label)
-        # add the QDockWidget to the QLayout
-        hbox = QHBoxLayout()
-        hbox.addWidget(dockWidget)
-        # set the layout of the QFrame
-        frame.setLayout(hbox)
-        # create another QLayout to add QFrame
-        vbox = QVBoxLayout()
-        vbox.addStretch(1)
-        vbox.addWidget(frame)
-        self.setLayout(vbox)
-        self.setGeometry(300, 300, 500, 400)
-        self.setWindowTitle('Test')
-def main():
-    app = QApplication(sys.argv)
-    ex = Example()
-    ex.show()
-    sys.exit(app.exec_())
-if __name__ == '__main__':
-    main()
+        super().__init__()
+        self.setWindowTitle("Medical Files")
+        self.setGeometry(0, 0, 1220, 685)
+        self.setStyleSheet("background-color: #F0F0F3")
+        self.label = QLabel(self)
+        self.label.setPixmap(QPixmap('Resources\yellow.png'))
+        self.label.setGeometry(0, 0, 1220, 39)
+
+        self.UiComponents()
+        #
+        #     # showing all the widgets
+        # self.show()
+    #
+    def UiComponents(self):
+
+        self.btnAngio = QPushButton("Angiography", self)
+        self.btnAngio.setGeometry(45, 128, 170, 50)
+        self.btnAngio.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color:#006CB5; font:bold; font-size:22px; text-align: center;")
+
+        self.btnXray = QPushButton("X-Ray", self)
+        self.btnXray.setGeometry(236, 128, 170, 50)
+        self.btnXray.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color:#006CB5; font:bold; font-size:22px; text-align: center;")
+
+        self.btnEcg = QPushButton("ECG", self)
+        self.btnEcg.setGeometry(427, 128, 170, 50)
+        self.btnEcg.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color:#006CB5; font:bold; font-size:22px; text-align: center;")
+
+        self.btnEcho = QPushButton("Eecho", self)
+        self.btnEcho.setGeometry(618, 128, 170, 50)
+        self.btnEcho.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color:#006CB5; font:bold; font-size:22px; text-align: center;")
+
+        self.btnMri = QPushButton("MRI", self)
+        self.btnMri.setGeometry(809, 128, 170, 50)
+        self.btnMri.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color:#006CB5; font:bold; font-size:22px; text-align: center;")
+
+        self.btnBloodTest = QPushButton("Blood Test", self)
+        self.btnBloodTest.setGeometry(1000, 128, 170, 50)
+        self.btnBloodTest.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color:#006CB5; font:bold; font-size:22px; text-align: center;")
+
+        self.btnBloodTest = QPushButton("Ascending", self)
+        self.btnBloodTest.setGeometry(875, 58, 307, 43)
+        self.btnBloodTest.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color:#006CB5; font:bold; font-size:22px; text-align: center;")
+
+        btn_back = QPushButton("", self)
+        btn_back.setGeometry(41, 55, 135, 50)
+        btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
+        btn_back.setIcon(QtGui.QIcon('..\Resources\Group 87.png'))
+        btn_back.setIconSize(QtCore.QSize(155, 71))
+        btn_back.clicked.connect(self.close)
+
