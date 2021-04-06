@@ -5,6 +5,7 @@ from PyQt5.QtCore import *
 import sys
 import Custom.FileListItem as myFile
 import Utility.MahiUtility as Util
+import UI.fileView as fileView
 
 class FileList(QMainWindow):
     def __init__(self):
@@ -123,7 +124,13 @@ class FileList(QMainWindow):
             self.myQListWidget.addItem(myQListWidgetItem)
             self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
 
-        self.myQListWidget.set
+        # self.myQListWidget.set
+        self.myQListWidget.clicked.connect(self.fileClicked)
+
+    def fileClicked(self):
+        self.f = fileView.FileView()
+        self.f.show()
+
 
     def SortClicked(self):
         if self.SortAscending:

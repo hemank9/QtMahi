@@ -194,7 +194,7 @@ class Window(QMainWindow):
         lbl_txt.setStyleSheet("background-color : #fff9ea; color : #FEC32E; font-weight: bold")
 
         self.myQListWidget = QListWidget(self)
-        self.myQListWidget.setGeometry(40,236,800,450)
+        self.myQListWidget.setGeometry(40,236,830,450)
 
         for i in range(8):
             # Create QCustomQWidget
@@ -212,8 +212,19 @@ class Window(QMainWindow):
             myQCustomQWidget.setButtonColor(7,"#7A2548")
             myQCustomQWidget.setButtonColor(8,"#713B49")
 
+            if i == 0:
+                myQCustomQWidget.setButtonColor(1, "#00006CB5")
+                myQCustomQWidget.setButtonColor(2, "#00004D80")
+                myQCustomQWidget.setButtonColor(3, "#00274E6F")
+                myQCustomQWidget.setButtonColor(4, "#00274257")
+                myQCustomQWidget.setButtonColor(5, "#00ED478D")
+                myQCustomQWidget.setButtonColor(6, "#00B86C87")
+                myQCustomQWidget.setButtonColor(7, "#007A2548")
+                myQCustomQWidget.setButtonColor(8, "#F00")
+
             self.myQListWidget.addItem(myQListWidgetItem)
             self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
+
 
 
     def clickme(self):
