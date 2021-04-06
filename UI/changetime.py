@@ -7,9 +7,9 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 
-class Window(QMainWindow):
+class ChangeTime(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, parent = None):
         super().__init__()
 
         # setting title
@@ -19,7 +19,7 @@ class Window(QMainWindow):
         self.setGeometry(0, 0, 1220, 700)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\mtry.png'))
+        self.label.setPixmap(QPixmap('../Resources/mtry.png'))
         self.label.setGeometry(0, 0, 1220, 700)
 
         # calling method
@@ -33,7 +33,7 @@ class Window(QMainWindow):
         btn_bck = QPushButton("", self)
         btn_bck.setGeometry(43, 48, 150, 75)
         btn_bck.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_bck.setIcon(QtGui.QIcon('Resources\Group 34.png'))
+        btn_bck.setIcon(QtGui.QIcon('../Resources/Group 34.png'))
         btn_bck.setIconSize(QtCore.QSize(160, 90))
         btn_bck.clicked.connect(self.close)
 
@@ -54,35 +54,35 @@ class Window(QMainWindow):
         btnbfHourAdd = QPushButton("", self)
         btnbfHourAdd.setGeometry(354, 211, 45, 33)
         btnbfHourAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnbfHourAdd.setIcon(QtGui.QIcon('Resources\mAddTime.png'))
+        btnbfHourAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnbfHourAdd.setIconSize(QtCore.QSize(160, 90))
         btnbfHourAdd.clicked.connect(self.close)
 
         btnbfHourSub = QPushButton("", self)
         btnbfHourSub.setGeometry(354, 296, 45, 33)
         btnbfHourSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnbfHourSub.setIcon(QtGui.QIcon('Resources\mSubTime.png'))
+        btnbfHourSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnbfHourSub.setIconSize(QtCore.QSize(160, 90))
         btnbfHourSub.clicked.connect(self.close)
 
         btnbfMinAdd = QPushButton("", self)
         btnbfMinAdd.setGeometry(430, 211, 45, 33)
         btnbfMinAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnbfMinAdd.setIcon(QtGui.QIcon('Resources\mAddTime.png'))
+        btnbfMinAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnbfMinAdd.setIconSize(QtCore.QSize(160, 90))
         btnbfMinAdd.clicked.connect(self.close)
 
         btnbfMinSub = QPushButton("", self)
         btnbfMinSub.setGeometry(430, 296, 45, 33)
         btnbfMinSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnbfMinSub.setIcon(QtGui.QIcon('Resources\mSubTime.png'))
+        btnbfMinSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnbfMinSub.setIconSize(QtCore.QSize(160, 90))
         btnbfMinSub.clicked.connect(self.close)
 
         btnBfAmPm = QPushButton("", self)
         btnBfAmPm.setGeometry(506, 253, 45, 33)
         btnBfAmPm.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnBfAmPm.setIcon(QtGui.QIcon('Resources\pmbtn.png'))
+        btnBfAmPm.setIcon(QtGui.QIcon('../Resources/pmbtn.png'))
         btnBfAmPm.setIconSize(QtCore.QSize(160, 90))
         btnBfAmPm.clicked.connect(self.close)
 
@@ -90,7 +90,7 @@ class Window(QMainWindow):
         lblAmPm.setGeometry(514, 253, 25, 25)
 
         display_lbl = QLabel(self)
-        display_lbl.setPixmap(QPixmap('Resources\mBkg.png'))
+        display_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display_lbl.setGeometry(354, 253, 45, 33)
         lblBfHour = QLabel("10", self)
         lblBfHour.setGeometry(360, 260, 30, 21)
@@ -98,7 +98,7 @@ class Window(QMainWindow):
         lblBfHour.setStyleSheet("background-color : #0000")
 
         display2_lbl = QLabel(self)
-        display2_lbl.setPixmap(QPixmap('Resources\mBkg.png'))
+        display2_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display2_lbl.setGeometry(430, 253, 45, 33)
         lblBfMin = QLabel("10", self)
         lblBfMin.setGeometry(436, 260, 30, 21)
@@ -110,35 +110,35 @@ class Window(QMainWindow):
         btnAfHourAdd = QPushButton("", self)
         btnAfHourAdd.setGeometry(651, 211, 45, 33)
         btnAfHourAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnAfHourAdd.setIcon(QtGui.QIcon('Resources\mAddTime.png'))
+        btnAfHourAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnAfHourAdd.setIconSize(QtCore.QSize(160, 90))
         btnAfHourAdd.clicked.connect(self.close)
 
         btnAfHourSub = QPushButton("", self)
         btnAfHourSub.setGeometry(651, 296, 45, 33)
         btnAfHourSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnAfHourSub.setIcon(QtGui.QIcon('Resources\mSubTime.png'))
+        btnAfHourSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnAfHourSub.setIconSize(QtCore.QSize(160, 90))
         btnAfHourSub.clicked.connect(self.close)
 
         btnAfMinAdd = QPushButton("", self)
         btnAfMinAdd.setGeometry(727, 211, 45, 33)
         btnAfMinAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnAfMinAdd.setIcon(QtGui.QIcon('Resources\mAddTime.png'))
+        btnAfMinAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnAfMinAdd.setIconSize(QtCore.QSize(160, 90))
         btnAfMinAdd.clicked.connect(self.close)
 
         btnAfMinSub = QPushButton("", self)
         btnAfMinSub.setGeometry(727, 296, 45, 33)
         btnAfMinSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnAfMinSub.setIcon(QtGui.QIcon('Resources\mSubTime.png'))
+        btnAfMinSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnAfMinSub.setIconSize(QtCore.QSize(160, 90))
         btnAfMinSub.clicked.connect(self.close)
 
         btnAfAmPm = QPushButton("", self)
         btnAfAmPm.setGeometry(803, 253, 45, 33)
         btnAfAmPm.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnAfAmPm.setIcon(QtGui.QIcon('Resources\pmbtn.png'))
+        btnAfAmPm.setIcon(QtGui.QIcon('../Resources/pmbtn.png'))
         btnAfAmPm.setIconSize(QtCore.QSize(160, 90))
         btnAfAmPm.clicked.connect(self.close)
 
@@ -146,7 +146,7 @@ class Window(QMainWindow):
         lblAfAmPm.setGeometry(811, 253, 25, 25)
 
         display3_lbl = QLabel(self)
-        display3_lbl.setPixmap(QPixmap('Resources\mBkg.png'))
+        display3_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display3_lbl.setGeometry(651, 253, 45, 33)
         lblAfHour = QLabel("10", self)
         lblAfHour.setGeometry(657, 260, 30, 21)
@@ -154,7 +154,7 @@ class Window(QMainWindow):
         lblAfHour.setStyleSheet("background-color : #0000")
 
         display4_lbl = QLabel(self)
-        display4_lbl.setPixmap(QPixmap('Resources\mBkg.png'))
+        display4_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display4_lbl.setGeometry(727, 253, 45, 33)
         lblAfMin = QLabel("10", self)
         lblAfMin.setGeometry(733, 260, 30, 21)
@@ -166,35 +166,35 @@ class Window(QMainWindow):
         btnItHourAdd = QPushButton("", self)
         btnItHourAdd.setGeometry(954, 211, 45, 33)
         btnItHourAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnItHourAdd.setIcon(QtGui.QIcon('Resources\mAddTime.png'))
+        btnItHourAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnItHourAdd.setIconSize(QtCore.QSize(160, 90))
         btnItHourAdd.clicked.connect(self.close)
 
         btnItHourSub = QPushButton("", self)
         btnItHourSub.setGeometry(954, 296, 45, 33)
         btnItHourSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnItHourSub.setIcon(QtGui.QIcon('Resources\mSubTime.png'))
+        btnItHourSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnItHourSub.setIconSize(QtCore.QSize(160, 90))
         btnItHourSub.clicked.connect(self.close)
 
         btnItMinAdd = QPushButton("", self)
         btnItMinAdd.setGeometry(1030, 211, 45, 33)
         btnItMinAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnItMinAdd.setIcon(QtGui.QIcon('Resources\mAddTime.png'))
+        btnItMinAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnItMinAdd.setIconSize(QtCore.QSize(160, 90))
         btnItMinAdd.clicked.connect(self.close)
 
         btnItMinSub = QPushButton("", self)
         btnItMinSub.setGeometry(1030, 296, 45, 33)
         btnItMinSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnItMinSub.setIcon(QtGui.QIcon('Resources\mSubTime.png'))
+        btnItMinSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnItMinSub.setIconSize(QtCore.QSize(160, 90))
         btnItMinSub.clicked.connect(self.close)
 
         btnItAmPm = QPushButton("", self)
         btnItAmPm.setGeometry(1106, 253, 45, 33)
         btnItAmPm.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btnItAmPm.setIcon(QtGui.QIcon('Resources\pmbtn.png'))
+        btnItAmPm.setIcon(QtGui.QIcon('../Resources/pmbtn.png'))
         btnItAmPm.setIconSize(QtCore.QSize(160, 90))
         btnItAmPm.clicked.connect(self.close)
 
@@ -202,7 +202,7 @@ class Window(QMainWindow):
         lblItAmPm.setGeometry(1114, 253, 25, 25)
 
         display5_lbl = QLabel(self)
-        display5_lbl.setPixmap(QPixmap('Resources\mBkg.png'))
+        display5_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display5_lbl.setGeometry(954, 253, 45, 33)
         lblItHour = QLabel("10", self)
         lblItHour.setGeometry(960, 260, 30, 21)
@@ -210,7 +210,7 @@ class Window(QMainWindow):
         lblItHour.setStyleSheet("background-color : #0000")
 
         display6_lbl = QLabel(self)
-        display6_lbl.setPixmap(QPixmap('Resources\mBkg.png'))
+        display6_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display6_lbl.setGeometry(1030, 253, 45, 33)
         lblItMin = QLabel("10", self)
         lblItMin.setGeometry(1036, 260, 30, 21)
@@ -315,65 +315,10 @@ class Window(QMainWindow):
         # btnEvening.setIconSize(QtCore.QSize(160, 90))
         btnEvening.clicked.connect(self.close)
 
-        frame1 = QFrame(self)
-        # frame1.setGraphicsEffect(shadow)
-        # frame1.setFixedWidth(1190)
-        # frame1.setFixedHeight(95)
-        frame1.setGeometry(500, 400, 200, 200)
-        shadow2 = QGraphicsDropShadowEffect()
-        shadow2.setBlurRadius(15)
-        shadow2.setColor(Qt.lightGray)
-        frame1.setStyleSheet(" background-color: #eee; border-radius : 15")
-        frame1.setGraphicsEffect(shadow2)
-
-        frame2 = QFrame(self)
-        # frame1.setGraphicsEffect(shadow)
-        # frame1.setFixedWidth(1190)
-        # frame1.setFixedHeight(95)
-        frame2.setGeometry(500, 400, 200, 200)
-        frame2.setContentsMargins(-10, -10, -10, -10)
-        shadow3 = QGraphicsDropShadowEffect()
-        shadow3.setBlurRadius(15)
-        shadow3.setColor(Qt.white)
-
-        frame2.setStyleSheet(" background-color: #eee; border-radius : 15")
-        frame2.setGraphicsEffect(shadow3)
-        shadow3.setXOffset(-5)
-        shadow3.setYOffset(-5)
-
-        hbox = QHBoxLayout(self)
-
-        frame3 = QVBoxLayout(self)
-        hbox.setParent(frame2)
-        # frame3.setStyleSheet("background-color : green")
-        self.lbl1 = QLabel("LOLOLOL",self )
-        lbl2 = QLabel("KDLSLN", self)
-        # frame3.addWidget(self.lbl1,0)
-        hbox.addLayout(frame3, 0)
-        # frame3.addWidget(lbl2)
-        # frame3.setContentsMargins(10, 10, 10, 10)
-        # frame3.set
-
-        # frame4 = QFrame(self)
-        # frame4.setParent(frame2)
-        # frame4.setStyleSheet("background-color : blue")
-        # lbl2 = QLabel("LOLOLOL", frame4)
-        # frame4.setContentsMargins(10, 10, 10, 10)
 
         btnOk = QPushButton("", self)
         btnOk.setGeometry(967, 459, 158, 92)
         btnOk.setStyleSheet("border-radius : 15; background-color: #F0F0F3; color : #00A0B5")
-        btnOk.setIcon(QtGui.QIcon('Resources\mOk.png'))
+        btnOk.setIcon(QtGui.QIcon('../Resources/mOk.png'))
         btnOk.setIconSize(QtCore.QSize(180, 110))
         btnOk.clicked.connect(self.close)
-
-
-App = QApplication(sys.argv)
-
-# create the instance of our Window
-window = Window()
-
-window.show()
-
-# start the app
-sys.exit(App.exec())
