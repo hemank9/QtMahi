@@ -5,47 +5,48 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+import UI.prescriptionTable as preTable
 
-class Window3(QWidget):                           # <===
+# class Window3(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Medical Files")
+#         self.setGeometry(0, 0, 1220, 685)
+#         self.setStyleSheet("background-color: #F0F0F3")
+#         self.label = QLabel(self)
+#         self.label.setPixmap(QPixmap('../Resources/Group 47.png'))
+#         self.label.setGeometry(0, -10, 1220, 685)
+#
+#         self.UiComponents()
+#     #
+#     #     # showing all the widgets
+#         self.show()
+#     #
+#     def UiComponents(self):
+#
+#         btn_back = QPushButton("", self)
+#         btn_back.setGeometry(40, 53, 173, 41)
+#         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
+#         btn_back.setIcon(QtGui.QIcon('../Resources/Group 49.png'))
+#         btn_back.setIconSize(QtCore.QSize(155, 71))
+#         btn_back.clicked.connect(self.close)
+#
+#         tlbl = QLabel(self)
+#         tlbl.setPixmap(QPixmap('../Resources/mtable.png'))
+#         tlbl.setGeometry(25, 146, 1169, 863)
+#
+#         ilbl = QLabel("2", self)
+#         ilbl.setGeometry(459, 249, 90, 30)
+#         ilbl.setAlignment(QtCore.Qt.AlignCenter)
+
+class Window2(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Medical Files")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\Group 47.png'))
-        self.label.setGeometry(0, -10, 1220, 685)
-
-        self.UiComponents()
-    #
-    #     # showing all the widgets
-        self.show()
-    #
-    def UiComponents(self):
-
-        btn_back = QPushButton("", self)
-        btn_back.setGeometry(40, 53, 173, 41)
-        btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_back.setIcon(QtGui.QIcon('Resources\Group 49.png'))
-        btn_back.setIconSize(QtCore.QSize(155, 71))
-        btn_back.clicked.connect(self.close)
-
-        tlbl = QLabel(self)
-        tlbl.setPixmap(QPixmap('Resources\mtable.png'))
-        tlbl.setGeometry(25, 146, 1169, 863)
-
-        ilbl = QLabel("2", self)
-        ilbl.setGeometry(459, 249, 90, 30)
-        ilbl.setAlignment(QtCore.Qt.AlignCenter)
-
-class Window2(QWidget):                           # <===
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Medical Files")
-        self.setGeometry(0, 0, 1220, 685)
-        self.setStyleSheet("background-color: #F0F0F3")
-        self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\Group 47.png'))
+        self.label.setPixmap(QPixmap('../Resources/Group 47.png'))
         self.label.setGeometry(0, 0, 1220, 685)
 
         self.UiComponents()
@@ -58,7 +59,7 @@ class Window2(QWidget):                           # <===
         btn_back = QPushButton("", self)
         btn_back.setGeometry(40, 53, 173, 41)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_back.setIcon(QtGui.QIcon('Resources\Group 49.png'))
+        btn_back.setIcon(QtGui.QIcon('../Resources/Group 49.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
         btn_back.clicked.connect(self.close)
 
@@ -71,7 +72,7 @@ class Window(QMainWindow):
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\Group 48.png'))
+        self.label.setPixmap(QPixmap('../Resources/Group 48.png'))
         self.label.setGeometry(0, -10, 1220, 685)
         self.UiComponents()
         self.show()
@@ -105,7 +106,7 @@ class Window(QMainWindow):
         btn_back = QPushButton("", self)
         btn_back.setGeometry(40, 53, 173, 41)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_back.setIcon(QtGui.QIcon('Resources\Group 49.png'))
+        btn_back.setIcon(QtGui.QIcon('../Resources/Group 49.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
         btn_back.clicked.connect(self.close)
 
@@ -119,7 +120,8 @@ class Window(QMainWindow):
 
     def selectChkboxB(self, checked):
         if Qt.Checked == checked:
-            self.t = Window3()
+            self.t = preTable.PrescriptionTable()
+            self.t.show()
         else:
             print('Checkbox B is unchecked')
 
