@@ -11,7 +11,7 @@ import Utility.MahiUtility as Util
 
 class ChangeTime(QMainWindow):
 
-    def __init__(self, parent = None):
+    def __init__(self, type):
         super().__init__()
 
         # setting title
@@ -27,14 +27,16 @@ class ChangeTime(QMainWindow):
         # calling method
         self.UiComponents()
 
+        self.dayTimeSelected(type)
+
         # showing all the widgets
         self.show()
 
     # method for widgets
     def UiComponents(self):
 
-        self.btnStyle = "border-radius : 15; background-color: #F0F03; color : #00A0B5"
-        self.btnStyleSelected = "border-radius : 15; background-color: #BCE6EC; color : #00A0B5"
+        self.btnStyle = "border-radius : 15; background-color: #F0F03; color : #00A0B5;font:bold;font-size:20px"
+        self.btnStyleSelected = "border-radius : 15; background-color: #BCE6EC; color : #00A0B5;font:bold;font-size:20px"
 
         self.bfHour = 10
         self.bfMin = 10
@@ -53,17 +55,21 @@ class ChangeTime(QMainWindow):
         btn_bck.setIconSize(QtCore.QSize(160, 90))
         btn_bck.clicked.connect(self.close)
 
-        lblt = QLabel("Morning", self)
-        lblt.setGeometry(354, 70, 105, 40)
+        self.lblt = QLabel("Morning", self)
+        self.lblt.setGeometry(354, 70, 135, 40)
+        self.lblt.setStyleSheet("color:#00A0B5;font-size:27px; font:bold")
 
         lblbf = QLabel("Before Food", self)
         lblbf.setGeometry(354, 143, 115, 29)
+        lblbf.setStyleSheet("font-size:18px;")
 
         lblaf = QLabel("After Food", self)
         lblaf.setGeometry(651, 143, 105, 40)
+        lblaf.setStyleSheet("font-size:18px;")
 
         lblnt = QLabel("IOT", self)
         lblnt.setGeometry(954, 143, 105, 40)
+        lblnt.setStyleSheet("font-size:18px;")
 
         # Buttons for Morning Before Food
 
@@ -102,8 +108,8 @@ class ChangeTime(QMainWindow):
         btnBfAmPm.setIconSize(QtCore.QSize(160, 90))
         btnBfAmPm.clicked.connect(self.close)
 
-        lblAmPm = QLabel("am", self)
-        lblAmPm.setGeometry(514, 253, 25, 25)
+        self.lblBfAmPm = QLabel("am", self)
+        self.lblBfAmPm.setGeometry(514, 253, 25, 25)
 
         display_lbl = QLabel(self)
         display_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
@@ -158,8 +164,8 @@ class ChangeTime(QMainWindow):
         btnAfAmPm.setIconSize(QtCore.QSize(160, 90))
         btnAfAmPm.clicked.connect(self.close)
 
-        lblAfAmPm = QLabel("am", self)
-        lblAfAmPm.setGeometry(811, 253, 25, 25)
+        self.lblAfAmPm = QLabel("am", self)
+        self.lblAfAmPm.setGeometry(811, 253, 25, 25)
 
         display3_lbl = QLabel(self)
         display3_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
@@ -214,8 +220,8 @@ class ChangeTime(QMainWindow):
         btnItAmPm.setIconSize(QtCore.QSize(160, 90))
         btnItAmPm.clicked.connect(self.close)
 
-        lblItAmPm = QLabel("am", self)
-        lblItAmPm.setGeometry(1114, 253, 25, 25)
+        self.lblItAmPm = QLabel("am", self)
+        self.lblItAmPm.setGeometry(1114, 253, 25, 25)
 
         display5_lbl = QLabel(self)
         display5_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
@@ -365,25 +371,37 @@ class ChangeTime(QMainWindow):
             self.btnMorning1.setStyleSheet(self.btnStyleSelected)
             self.btnAfternoon1.setStyleSheet(self.btnStyle)
             self.btnEvening1.setStyleSheet(self.btnStyle)
+            self.lblt.setText("Morining")
+            self.lblAfAmPm.setText("am")
+            self.lblItAmPm.setText("am")
+            self.lblBfAmPm.setText("am")
 
         elif type == 2:
             self.btnMorning1.setStyleSheet(self.btnStyle)
             self.btnAfternoon1.setStyleSheet(self.btnStyleSelected)
             self.btnEvening1.setStyleSheet(self.btnStyle)
+            self.lblt.setText("Afternoon")
+            self.lblAfAmPm.setText("pm")
+            self.lblItAmPm.setText("pm")
+            self.lblBfAmPm.setText("pm")
 
         elif type == 3:
             self.btnMorning1.setStyleSheet(self.btnStyle)
             self.btnAfternoon1.setStyleSheet(self.btnStyle)
             self.btnEvening1.setStyleSheet(self.btnStyleSelected)
+            self.lblt.setText("Evening")
+            self.lblAfAmPm.setText("pm")
+            self.lblItAmPm.setText("pm")
+            self.lblBfAmPm.setText("pm")
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = ChangeTime()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = ChangeTime()
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())
 
