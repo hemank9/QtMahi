@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QPushButton
+
 import Utility.MahiUtility as Util
 import sys
 
@@ -27,6 +29,11 @@ class RepeatDosage(QWidget):                           # <===
         self.Min = 10
         self.FreqHour = 2
         self.FreqTimes = 5
+
+        btnRefill = QPushButton("Refill Now",self)
+        btnRefill.setGeometry(889, 56, 301, 59)
+        btnRefill.setStyleSheet("background-color : #EE498D; border-radius : 6; font:bold; fond-size: 24")
+        btnRefill.clicked.connect()
 
         btn_back = QPushButton("", self)
         btn_back.setGeometry(40, 53, 173, 41)
