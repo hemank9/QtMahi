@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+import Utility.MahiUtility as Util
 import sys
 
 
@@ -22,12 +23,30 @@ class RepeatDosage(QWidget):                           # <===
     #
     def UiComponents(self):
 
+        self.Hour = 10
+        self.Min = 10
+        self.FreqHour = 2
+        self.FreqTimes = 5
+
         btn_back = QPushButton("", self)
         btn_back.setGeometry(40, 53, 173, 41)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btn_back.setIcon(QtGui.QIcon('../Resources/Group 49.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
         btn_back.clicked.connect(self.close)
+
+        btn_ok = QPushButton("OK", self)
+        btn_ok.setGeometry(747, 220, 83, 43)
+        btn_ok.setStyleSheet("border-radius : 10; background-color: #F0F0F3; color : #00A0B5; font-size:25; font: bold")
+        btn_ok.setGraphicsEffect(Util.getNeuShadow(1))
+
+        btn_ok1 = QPushButton("OK", self)
+        btn_ok1.setGeometry(747, 220, 83, 43)
+        btn_ok1.setStyleSheet("border-radius : 10; background-color: #F0F0F3; color : #00A0B5; font-size:25; font: bold")
+        btn_ok1.setGraphicsEffect(Util.getNeuShadow(0))
+        btn_ok1.clicked.connect(self.close)
+
+
 
         lblITabInfo = QLabel("Take Dolo 650 3 times a day!",self)
         lblITabInfo.setGeometry(43, 159, 657, 30)
@@ -38,14 +57,14 @@ class RepeatDosage(QWidget):                           # <===
         btnfreqHourlyDec.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnfreqHourlyDec.setIcon(QtGui.QIcon('../Resources/cntDecrease.png'))
         btnfreqHourlyDec.setIconSize(QtCore.QSize(160, 90))
-        btnfreqHourlyDec.clicked.connect(self.close)
+        btnfreqHourlyDec.clicked.connect(self.subFreqHour)
 
         btnfreqHourlyInc = QPushButton("", self)
         btnfreqHourlyInc.setGeometry(242, 263, 33, 45)
         btnfreqHourlyInc.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnfreqHourlyInc.setIcon(QtGui.QIcon('../Resources/cntIecrease.png'))
         btnfreqHourlyInc.setIconSize(QtCore.QSize(160, 90))
-        btnfreqHourlyInc.clicked.connect(self.close)
+        btnfreqHourlyInc.clicked.connect(self.addFreqHour)
 
         btnhourly = QPushButton("", self)
         btnhourly.setGeometry(280, 263, 100, 45)
@@ -59,30 +78,30 @@ class RepeatDosage(QWidget):                           # <===
         btnfreqTimesDec.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnfreqTimesDec.setIcon(QtGui.QIcon('../Resources/cntDecrease.png'))
         btnfreqTimesDec.setIconSize(QtCore.QSize(160, 90))
-        btnfreqTimesDec.clicked.connect(self.close)
+        btnfreqTimesDec.clicked.connect(self.subFreqTimes)
 
         btnfreqTimesInc = QPushButton("", self)
         btnfreqTimesInc.setGeometry(242, 315, 33, 45)
         btnfreqTimesInc.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnfreqTimesInc.setIcon(QtGui.QIcon('../Resources/cntIecrease.png'))
         btnfreqTimesInc.setIconSize(QtCore.QSize(160, 90))
-        btnfreqTimesInc.clicked.connect(self.close)
+        btnfreqTimesInc.clicked.connect(self.addFreqTimes)
 
         displayIpHourly = QLabel(self)
         displayIpHourly.setPixmap(QPixmap('../Resources/ipHourly.png'))
         displayIpHourly.setGeometry(191, 264, 45, 45)
-        lblIpHourly = QLabel("10", self)
-        lblIpHourly.setGeometry(197, 275, 30, 21)
-        lblIpHourly.setAlignment(QtCore.Qt.AlignCenter)
-        lblIpHourly.setStyleSheet("background-color : #0000")
+        self.lblFreqHourly = QLabel(str(self.FreqHour), self)
+        self.lblFreqHourly.setGeometry(197, 275, 30, 21)
+        self.lblFreqHourly.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblFreqHourly.setStyleSheet("background-color : #0000")
 
         displayIpTimes = QLabel(self)
         displayIpTimes.setPixmap(QPixmap('../Resources/ipTimes.png'))
         displayIpTimes.setGeometry(191, 316, 45, 45)
-        lblIpTimes = QLabel("10", self)
-        lblIpTimes.setGeometry(197, 328, 30, 21)
-        lblIpTimes.setAlignment(QtCore.Qt.AlignCenter)
-        lblIpTimes.setStyleSheet("background-color : #0000")
+        self.lblFreqTimes = QLabel(str(self.FreqTimes), self)
+        self.lblFreqTimes.setGeometry(197, 328, 30, 21)
+        self.lblFreqTimes.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblFreqTimes.setStyleSheet("background-color : #0000")
 
         btnTimes = QPushButton("", self)
         btnTimes.setGeometry(280, 315, 100, 45)
@@ -98,28 +117,28 @@ class RepeatDosage(QWidget):                           # <===
         btnHourAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnHourAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnHourAdd.setIconSize(QtCore.QSize(160, 90))
-        btnHourAdd.clicked.connect(self.close)
+        btnHourAdd.clicked.connect(self.addHour)
 
         btnHourSub = QPushButton("", self)
         btnHourSub.setGeometry(477, 348, 45, 33)
         btnHourSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnHourSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnHourSub.setIconSize(QtCore.QSize(160, 90))
-        btnHourSub.clicked.connect(self.close)
+        btnHourSub.clicked.connect(self.subHour)
 
         btnMinAdd = QPushButton("", self)
         btnMinAdd.setGeometry(553, 263, 45, 33)
         btnMinAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnMinAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnMinAdd.setIconSize(QtCore.QSize(160, 90))
-        btnMinAdd.clicked.connect(self.close)
+        btnMinAdd.clicked.connect(self.addMin)
 
         btnMinSub = QPushButton("", self)
         btnMinSub.setGeometry(553, 348, 45, 33)
         btnMinSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnMinSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnMinSub.setIconSize(QtCore.QSize(160, 90))
-        btnMinSub.clicked.connect(self.close)
+        btnMinSub.clicked.connect(self.subMin)
 
         btnAmPm = QPushButton("", self)
         btnAmPm.setGeometry(629, 305, 45, 33)
@@ -134,18 +153,58 @@ class RepeatDosage(QWidget):                           # <===
         display3_lbl = QLabel(self)
         display3_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display3_lbl.setGeometry(477, 305, 45, 33)
-        lblAfHour = QLabel("10", self)
-        lblAfHour.setGeometry(483, 310, 30, 21)
-        lblAfHour.setAlignment(QtCore.Qt.AlignCenter)
-        lblAfHour.setStyleSheet("background-color : #0000")
+        self.lblHour = QLabel(str(self.Hour), self)
+        self.lblHour.setGeometry(483, 310, 30, 21)
+        self.lblHour.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblHour.setStyleSheet("background-color : #0000")
 
         display4_lbl = QLabel(self)
         display4_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
         display4_lbl.setGeometry(553, 305, 45, 33)
-        lblAfMin = QLabel("10", self)
-        lblAfMin.setGeometry(560, 310, 30, 21)
-        lblAfMin.setAlignment(QtCore.Qt.AlignCenter)
-        lblAfMin.setStyleSheet("background-color : #0000")
+        self.lblMin = QLabel(str(self.Min), self)
+        self.lblMin.setGeometry(560, 310, 30, 21)
+        self.lblMin.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblMin.setStyleSheet("background-color : #0000")
 
 
+    def addFreqHour(self):
+        if self.FreqHour < 12:
+            self.FreqHour = self.FreqHour + 1
+            self.lblFreqHourly.setText(str(self.FreqHour))
+
+    def subFreqHour(self):
+        if self.FreqHour > 0:
+            self.FreqHour = self.FreqHour - 1
+            self.lblFreqHourly.setText(str(self.FreqHour))
+
+    def addFreqTimes(self):
+        if self.FreqTimes < 60:
+            self.FreqTimes = self.FreqTimes + 1
+            self.lblFreqTimes.setText(str(self.FreqTimes))
+
+    def subFreqTimes(self):
+        if self.FreqTimes > 0:
+            self.FreqTimes = self.FreqTimes - 1
+            self.lblFreqTimes.setText(str(self.FreqTimes))
+
+
+    def addHour(self):
+        if self.Hour < 12:
+            self.Hour = self.Hour + 1
+            self.lblHour.setText(str(self.Hour))
+
+    def subHour(self):
+        if self.Hour > 0:
+            self.Hour = self.Hour - 1
+            self.lblHour.setText(str(self.Hour))
+
+    def addMin(self):
+        if self.Min < 60:
+            self.Min = self.Min + 5
+            self.lblMin.setText(str(self.Min))
+
+    def subMin(self):
+        if self.Min > 0:
+            self.Min = self.bfMin - 5
+            self.lblMin.setText(str(self.Min))
 
