@@ -71,6 +71,11 @@ class DatePicker(QWidget):                           # <===
         btnDateInc1.setIconSize(QtCore.QSize(60,40))
         btnDateInc1.setGraphicsEffect(Util.getNeuShadow(1))
 
+        self.lblDateInc = QLabel(str(self.date), self)
+        self.lblDateInc.setGeometry(60, 322, 60, 40)
+        self.lblDateInc.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblDateInc.setStyleSheet("background-color : #0000")
+
         btnDateDec = QPushButton(self)
         btnDateDec.setGeometry(60, 370, 60, 40)
         btnDateDec.setStyleSheet(self.datebtnStyle)
