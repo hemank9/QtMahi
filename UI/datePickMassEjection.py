@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 import Utility.MahiUtility as Util
+from datetime import datetime, timedelta as TimeDelta
 
 
 class DatePicker(QWidget):                           # <===
@@ -16,6 +17,13 @@ class DatePicker(QWidget):                           # <===
         self.label.setPixmap(QPixmap('../Resources/Group 97.png'))
         self.label.setGeometry(0, 0, 1220, 362)
 
+        # x = datetime.datetime.now()
+        x = datetime.today()
+
+        x = (x+ TimeDelta(days=30)).strftime('%Y-%m-%d')
+        y = x.split("-")
+
+        print(y)
         self.UiComponents()
     #
         # showing all the widgets
