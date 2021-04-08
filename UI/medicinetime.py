@@ -8,7 +8,7 @@ import UI.massEjection as massEject
 import UI.changetime as changeTime
 import sys
 
-class Window(QMainWindow):
+class MyMedicines(QMainWindow):
 
     def __init__(self):
         super().__init__()
@@ -123,16 +123,16 @@ class Window(QMainWindow):
         self.k = changeTime.ChangeTime(1)
         self.k.show()
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = Window()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = Window()
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())
 
 
 

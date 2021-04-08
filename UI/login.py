@@ -5,9 +5,10 @@ from PyQt5.QtGui import QMovie
 from PyQt5 import QtGui, QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtCore import QSize
-from myprofile import MyProfile
+import UI.myprofile as myProfile
+import UI.homeScreen as homeScreen
 import Controllers.login_controller as my_con
-
+import MyDatabase.my_database as db
 
 
 
@@ -37,6 +38,17 @@ class LoginForm(QWidget):
     def __init__(self):
         super().__init__()
 
+        if db.isLogggedIn():
+            QtCore.QTimer.singleShot(3500, self.showHomeScreen)
+        else:
+            self.defineUI()
+
+    def showHomeScreen(self):
+        self.myprofileObj = homeScreen.HomeScreen(self)
+        self.myprofileObj.show()
+        self.close()
+
+    def defineUI(self):
         self.label = QLabel(self)
         self.setWindowTitle('MAHI')
         self.resize(1220, 685)
@@ -78,8 +90,7 @@ class LoginForm(QWidget):
             response = my_con.callLoginApi(user, passw)
             if response is not None:
                 print("Login Successful")
-                self.myprofileObj = MyProfile(self)
-                self.myprofileObj.show()
+                self.showHomeScreen()
 
             else:
                 messagebox.setIcon(QMessageBox.Warning)
@@ -100,11 +111,12 @@ if __name__ == '__main__':
 
     def showWindow():
         splash.close()
-        form.show()
-
+        if db.isLogggedIn() != True:
+            form.show()
 
     QtCore.QTimer.singleShot(3500, showWindow)
     # MainWindow.show()
+
     form = LoginForm()
     # form.show()
 

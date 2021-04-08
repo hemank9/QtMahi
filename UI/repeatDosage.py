@@ -8,7 +8,7 @@ import Utility.MahiUtility as Util
 import sys
 
 
-class RepeatDosage(QWidget):                           # <===
+class RepeatDosage(QWidget):
     def __init__(self, parent = None):
         super().__init__()
         self.setWindowTitle("Medical Files")
@@ -33,7 +33,7 @@ class RepeatDosage(QWidget):                           # <===
         btnRefill = QPushButton("Refill Now",self)
         btnRefill.setGeometry(889, 56, 301, 59)
         btnRefill.setStyleSheet("background-color : #EE498D; border-radius : 6; font:bold; fond-size: 24")
-        btnRefill.clicked.connect()
+        btnRefill.clicked.connect(self.close)
 
         btn_back = QPushButton("", self)
         btn_back.setGeometry(40, 53, 173, 41)
@@ -215,3 +215,14 @@ class RepeatDosage(QWidget):                           # <===
             self.Min = self.bfMin - 5
             self.lblMin.setText(str(self.Min))
 
+
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = RepeatDosage()
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())

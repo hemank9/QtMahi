@@ -6,7 +6,7 @@ import sys
 from UI.MyFileList import FileList
 
 
-class Window(QMainWindow):
+class MyProfile(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__()
@@ -469,13 +469,13 @@ class Window(QMainWindow):
     #     self.hide()
 
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = Window()
-
-    window.show()
-
-    # start the app
-    sys.exit(App.exec_())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = Window()
+#
+#     window.show()
+#
+#     # start the app
+#     sys.exit(App.exec_())

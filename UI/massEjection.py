@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
+import Utility.MahiUtility as Util
 
 
 class MassEject(QWidget):                           # <===
@@ -32,44 +33,35 @@ class MassEject(QWidget):                           # <===
         # calender.setHorizontalHeaderFormat(QCalendarWidget.LongDayNames)
         calender.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
 
-        btnejctNxtDose = QPushButton("Eject Next Dose", self)
-        btnejctNxtDose.setGeometry(218, 54, 224, 55)
-        btnejctNxtDose.setFont(QFont('Arial', 10))
-        btnejctNxtDose.setStyleSheet("border-radius : 10; background-color: white; font : bold; color : #00A0B5")
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(25)
-        btnejctNxtDose.setGraphicsEffect(shadow)
-        shadow.setColor(Qt.lightGray)
-        btnejctNxtDose.clicked.connect(self.close)
+        self.btnStyle = "border-radius : 10; background-color: #F0F0F3; font : bold; color : #00A0B5; font-size:20px"
+        self.btnStyleSelected = "border-radius : 10; background-color: #BCE6EC; font : bold; color : #00A0B5; font-size:20px"
 
-        btnDailyEarlyEjct = QPushButton("Daily Early Ejection", self)
-        btnDailyEarlyEjct.setGeometry(477, 54, 260, 55)
-        btnDailyEarlyEjct.setFont(QFont('Arial', 10))
-        btnDailyEarlyEjct.setStyleSheet("border-radius : 10; background-color: white; font : bold; color : #00A0B5")
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(25)
-        btnDailyEarlyEjct.setGraphicsEffect(shadow)
-        shadow.setColor(Qt.lightGray)
-        btnDailyEarlyEjct.clicked.connect(self.close)
+        self.btnejctNxtDose = QPushButton("Eject Next Dose", self)
+        self.btnejctNxtDose.setGeometry(218, 54, 224, 55)
+        self.btnejctNxtDose.setFont(QFont('Arial', 10))
+        self.btnejctNxtDose.setStyleSheet(self.btnStyle)
+        self.btnejctNxtDose.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnejctNxtDose.clicked.connect(self.ejectNextDoseClicked)
 
-        btnMassEjct = QPushButton("Afternoon", self)
-        btnMassEjct.setGeometry(771, 54, 224, 55)
-        btnMassEjct.setFont(QFont('Nunito', 10))
-        btnMassEjct.setStyleSheet("border-radius : 10; background-color: white; font : bold; color : #00A0B5")
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(25)
-        btnMassEjct.setGraphicsEffect(shadow)
-        shadow.setColor(Qt.lightGray)
-        btnMassEjct.clicked.connect(self.close)
+        self.btnDailyEarlyEjct = QPushButton("Daily Early Ejection", self)
+        self.btnDailyEarlyEjct.setGeometry(477, 54, 260, 55)
+        self.btnDailyEarlyEjct.setFont(QFont('Arial', 10))
+        self.btnDailyEarlyEjct.setStyleSheet(self.btnStyle)
+        self.btnDailyEarlyEjct.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnDailyEarlyEjct.clicked.connect(self.dailyEarlyClicked)
+
+        self.btnMassEjct = QPushButton("Mass Ejection", self)
+        self.btnMassEjct.setGeometry(771, 54, 224, 55)
+        self.btnMassEjct.setFont(QFont('Nunito', 10))
+        self.btnMassEjct.setStyleSheet(self.btnStyleSelected)
+        self.btnMassEjct.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnMassEjct.clicked.connect(self.massEjectClicked)
 
         btnok = QPushButton("OK", self)
         btnok.setGeometry(981, 561, 83, 43)
         btnok.setFont(QFont('Nunito', 10))
-        btnok.setStyleSheet("border-radius : 10; background-color: white; font : bold; color : #00A0B5")
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(25)
-        btnok.setGraphicsEffect(shadow)
-        shadow.setColor(Qt.lightGray)
+        btnok.setStyleSheet(self.btnStyle)
+        btnok.setGraphicsEffect(Util.getNeuShadow(0))
         btnok.clicked.connect(self.close)
 
         # outputs of the doses shown in the mass ejection page
@@ -131,5 +123,29 @@ class MassEject(QWidget):                           # <===
         lblRepetDos2.setAlignment(QtCore.Qt.AlignCenter)
         lblRepetDos2.setFont(QFont('Arial', 10))
 
+    def massEjectClicked(self):
+        self.SetButtonClicked(1)
 
+    def dailyEarlyClicked(self):
+        self.SetButtonClicked(2)
+
+    def ejectNextDoseClicked(self):
+        self.SetButtonClicked(3)
+
+    def SetButtonClicked(self,type):
+        
+        if type == 1:
+            self.btnMassEjct.setStyleSheet(self.btnStyleSelected)
+            self.btnDailyEarlyEjct.setStyleSheet(self.btnStyle)
+            self.btnejctNxtDose.setStyleSheet(self.btnStyle)
+
+        elif type == 2:
+            self.btnMassEjct.setStyleSheet(self.btnStyle)
+            self.btnDailyEarlyEjct.setStyleSheet(self.btnStyleSelected)
+            self.btnejctNxtDose.setStyleSheet(self.btnStyle)
+
+        elif type == 3:
+            self.btnMassEjct.setStyleSheet(self.btnStyle)
+            self.btnDailyEarlyEjct.setStyleSheet(self.btnStyle)
+            self.btnejctNxtDose.setStyleSheet(self.btnStyleSelected)
 

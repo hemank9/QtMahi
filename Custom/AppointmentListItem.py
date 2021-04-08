@@ -69,7 +69,7 @@ class AppointmentListItem(QWidget):
         self.btnSelectTime = QPushButton("", self)
         # self.btnSelectTime.setGeometry(996, 138, 65, 65)
         self.btnSelectTime.setStyleSheet("background-color : #F0F0F3; border-radius : 10")
-        self.btnSelectTime.setIcon(QtGui.QIcon('Resources\Group 88.png'))
+        self.btnSelectTime.setIcon(QtGui.QIcon('..\Resources\Group 88.png'))
         self.btnSelectTime.setIconSize(QtCore.QSize(70, 70))
         self.allQHBoxLayout.addWidget(self.btnSelectTime, 1)
 
@@ -77,7 +77,7 @@ class AppointmentListItem(QWidget):
 
         self.btnLocation = QPushButton(self)
         self.btnLocation.setStyleSheet("background-color : #F0F0F3; border-radius : 10")
-        self.btnLocation.setIcon(QtGui.QIcon('Resources\location.png'))
+        self.btnLocation.setIcon(QtGui.QIcon('..\Resources\location.png'))
         self.btnLocation.setIconSize(QtCore.QSize(70, 70))
         self.allQHBoxLayout.addWidget(self.btnLocation, 1)
         # self.allQHBoxLayout.setContentsMargins(5, 10, 30, 10)
@@ -96,9 +96,6 @@ class AppointmentListItem(QWidget):
         self.allQHBoxLayout.setParent(frame2)
 
 
-
-    imagePath = "Resources\emorning.png"
-
     def setTextUp(self, text):
         self.textUpQLabel.setText(text)
 
@@ -114,13 +111,13 @@ class AppointmentListItem(QWidget):
 
         # Compelted
         if x == 2:
-            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\Group 88.png'))
+            self.btnSelectTime.setIcon(QtGui.QIcon('..\Resources\Group 88.png'))
         # Upcoming
         elif x == 0:
-            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\\redtick.png'))
+            self.btnSelectTime.setIcon(QtGui.QIcon('..\Resources\\redtick.png'))
         # Pending
         elif x == 4:
-            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\waiting.png'))
+            self.btnSelectTime.setIcon(QtGui.QIcon('..\Resources\waiting.png'))
         # others
         else :
-            self.btnSelectTime.setIcon(QtGui.QIcon('Resources\Group 89.png'))
+            self.btnSelectTime.setIcon(QtGui.QIcon('..\Resources\Group 89.png'))

@@ -13,7 +13,7 @@ import math
 
 
 
-class Window(QMainWindow):
+class DocAppScreen(QMainWindow):
 
     def __init__(self):
         super().__init__()
@@ -25,7 +25,7 @@ class Window(QMainWindow):
         self.setGeometry(0, 0, 1220, 700)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\docScreen.png'))
+        self.label.setPixmap(QPixmap('../Resources/docScreen.png'))
         self.label.setGeometry(0, 0, 1220, 165)
         self.btnStyle = "border-radius : 10; background-color : #F0F03; color : #006CB5; font : bold "
         self.btnStyleSelected = "border-radius : 10; background-color : #C4DBF0; color : #006CB5; font : bold "
@@ -84,7 +84,7 @@ class Window(QMainWindow):
         btnBack = QPushButton("", self)
         btnBack.setGeometry(23, 62, 115, 41)
         btnBack.setStyleSheet("border-radius : 10; ")
-        btnBack.setIcon(QtGui.QIcon('Resources\Group 87.png'))
+        btnBack.setIcon(QtGui.QIcon('../Resources/Group 87.png'))
         btnBack.setIconSize(QtCore.QSize(115, 41))
         btnBack.clicked.connect(self.close)
 
@@ -97,7 +97,7 @@ class Window(QMainWindow):
         btnPageBack1 = QPushButton(self)
         btnPageBack1.setGeometry(500, 619, 70, 70)
         btnPageBack1.setStyleSheet("border-radius : 10; background-color: #F0F03")
-        btnPageBack1.setIcon(QtGui.QIcon('Resources\pageBack.png'))
+        btnPageBack1.setIcon(QtGui.QIcon('../Resources/pageBack.png'))
         btnPageBack1.setIconSize(QtCore.QSize(115, 41))
         btnPageBack1.setGraphicsEffect(MahiUtil.getNeuShadow(1))
         btnPageBack1.clicked.connect(self.PageBack)
@@ -111,7 +111,7 @@ class Window(QMainWindow):
         btnPageNext1 = QPushButton(self)
         btnPageNext1.setGeometry(680, 619, 70, 70)
         btnPageNext1.setStyleSheet("border-radius : 10; background-color: #F0F03 ")
-        btnPageNext1.setIcon(QtGui.QIcon('Resources\pageNext.png'))
+        btnPageNext1.setIcon(QtGui.QIcon('../Resources/pageNext.png'))
         btnPageNext1.setIconSize(QtCore.QSize(115, 41))
         btnPageNext1.setGraphicsEffect(MahiUtil.getNeuShadow(1))
         btnPageNext1.clicked.connect(self.PageNext)
@@ -219,13 +219,13 @@ class Window(QMainWindow):
             self.SetAppointmentList()
 
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = Window()
-
-    window.show()
-
-    # start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = Window()
+#
+#     window.show()
+#
+#     # start the app
+#     sys.exit(App.exec())
