@@ -27,7 +27,7 @@ class MassEjectDateTime(QWidget):
         # max available days we have in our cylinder
         self.maxDays = 10
         self.noDays = 1
-        self.lastDate = datetime.now().date()+TimeDelta(days=self.maxDays)
+        self.lastDate = datetime.now().date()+TimeDelta(days=(self.maxDays-1))
 
         print(self.startDate.strftime('%Y-%m-%d')+" | "+self.lastDate.strftime('%Y-%m-%d'))
 
@@ -271,13 +271,13 @@ class MassEjectDateTime(QWidget):
 
 
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = MassEjectDateTime()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = MassEjectDateTime()
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())

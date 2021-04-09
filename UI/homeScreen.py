@@ -167,12 +167,12 @@ class HomeScreen(QMainWindow):
     #     self.pro.show()
 
 
-if __name__ == '__main__':
-
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = HomeScreen()
-
-    # start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = HomeScreen()
+#
+#     # start the app
+#     sys.exit(App.exec())
