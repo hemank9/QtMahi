@@ -5,25 +5,35 @@ from PyQt5.QtCore import *
 import sys
 import Utility.MahiUtility as Util
 from datetime import datetime, timedelta as TimeDelta
+import UI.massEjection as massEject
 
 
-class DatePicker(QWidget):                           # <===
-    def __init__(self, parent = None):
+# if user chooses current date and his some doses are already ejected then eject the remaining doses for that day
+# if user selected current date and no of days as 1 then show current date as start date and tomorrow's date as end date
+
+
+class MassEjectDateTime(QWidget):
+    def __init__(self, parent=None):
         super().__init__()
         self.setWindowTitle("Medical Files")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('../Resources/Group 97.png'))
-        self.label.setGeometry(0, 0, 1220, 362)
+        self.label.setPixmap(QPixmap('../Resources/yellow.png'))
+        self.label.setGeometry(0, 0, 1220, 39)
 
-        # x = datetime.datetime.now()
-        x = datetime.today()
+        self.startDate = datetime.now().date()
 
-        x = (x+ TimeDelta(days=30)).strftime('%Y-%m-%d')
-        y = x.split("-")
+        # max available days we have in our cylinder
+        self.maxDays = 10
+        self.noDays = 1
+        self.lastDate = datetime.now().date()+TimeDelta(days=self.maxDays)
 
-        print(y)
+        print(self.startDate.strftime('%Y-%m-%d')+" | "+self.lastDate.strftime('%Y-%m-%d'))
+
+        # self.startdate = (self.startdate + TimeDelta(days=1)).strftime('%Y-%m-%d')
+        # self.enddate = (self.enddate + TimeDelta(days=1)).strftime('%Y-%m-%d')
+
         self.UiComponents()
     #
         # showing all the widgets
@@ -35,9 +45,29 @@ class DatePicker(QWidget):                           # <===
         self.btnStyle = "border-radius : 10; background-color: #F0F0F3; font : bold; color : #00A0B5; font-size:20px"
         self.btnStyleSelected = "border-radius : 10; background-color: #BCE6EC; font : bold; color : #00A0B5; font-size:20px"
         self.datebtnStyle = "border-radius : 7; background-color: #F0F0F3"
-        self.date = 10
-        self.month = "April"
-        self.year = 2021
+
+
+        btn_back = QPushButton("", self)
+        btn_back.setGeometry(30, 53, 173, 41)
+        btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
+        btn_back.setIcon(QtGui.QIcon('../Resources/Group 49.png'))
+        btn_back.setIconSize(QtCore.QSize(155, 71))
+        btn_back.clicked.connect(self.close)
+
+
+        lblHeader = QLabel("Select Dates",self)
+        lblHeader.setGeometry(60,146,146,27)
+        lblHeader.setStyleSheet("background-color:#00FF0000;color:#555; font:normal; font-size:20px")
+
+
+        lblDateHeader = QLabel("Start Date",self)
+        lblDateHeader.setGeometry(60,224,303,27)
+        lblDateHeader.setAlignment(Qt.AlignCenter)
+        lblDateHeader.setStyleSheet("background-color:#00FF0000; font:normal; font-size:18px")
+
+        lblDaysHeader = QLabel("Number of Days",self)
+        lblDaysHeader.setGeometry(441,224,130,27)
+        lblDaysHeader.setStyleSheet("background-color:#00FF0000; font:normal; font-size:18px")
 
         self.btnejctNxtDose = QPushButton("Eject Next Dose", self)
         self.btnejctNxtDose.setGeometry(218, 54, 224, 55)
@@ -65,162 +95,105 @@ class DatePicker(QWidget):                           # <===
         btnok.setFont(QFont('Nunito', 10))
         btnok.setStyleSheet(self.btnStyle)
         btnok.setGraphicsEffect(Util.getNeuShadow(0))
-        btnok.clicked.connect(self.close)
+        btnok.clicked.connect(self.gotoMassEject)
 
-        btnDateInc = QPushButton(self)
-        btnDateInc.setGeometry(60, 274, 60, 40)
-        btnDateInc.setStyleSheet(self.datebtnStyle)
-        btnDateInc.setGraphicsEffect(Util.getNeuShadow(0))
+        self.lblStartDateBkg = QLabel(self)
+        self.lblStartDateBkg.setPixmap(QPixmap('../Resources/Rectangle 506.png'))
+        self.lblStartDateBkg.setGeometry(60,335,303,40)
 
-        btnDateInc1 = QPushButton(self)
-        btnDateInc1.setGeometry(60, 274, 60, 40)
-        btnDateInc1.setStyleSheet(self.datebtnStyle)
-        btnDateInc1.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
-        btnDateInc1.setIconSize(QtCore.QSize(60,40))
-        btnDateInc1.setGraphicsEffect(Util.getNeuShadow(1))
 
-        self.lblDateInc = QLabel(str(self.date), self)
-        self.lblDateInc.setGeometry(60, 322, 60, 40)
-        self.lblDateInc.setAlignment(QtCore.Qt.AlignCenter)
-        self.lblDateInc.setStyleSheet("background-color : #0000")
+        self.lblStartDate = QLabel(self)
+        self.lblStartDate.setGeometry(63,335,303,40)
+        self.lblStartDate.setAlignment(Qt.AlignCenter)
+        self.lblStartDate.setStyleSheet("color:#00A0B5; background-color:#00F0F0F3; font-size:16px; font:bold")
+        self.lblStartDate.setText(self.startDate.strftime('%A %d %B %Y'))
 
-        btnDateDec = QPushButton(self)
-        btnDateDec.setGeometry(60, 370, 60, 40)
-        btnDateDec.setStyleSheet(self.datebtnStyle)
-        btnDateDec.setGraphicsEffect(Util.getNeuShadow(0))
 
-        btnDateDec1 = QPushButton(self)
-        btnDateDec1.setGeometry(60, 370, 60, 40)
-        btnDateDec1.setStyleSheet(self.datebtnStyle)
-        btnDateDec1.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
-        btnDateDec1.setIconSize(QtCore.QSize(60, 40))
-        btnDateDec1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.lblNoDaysBkg = QLabel(self)
+        self.lblNoDaysBkg.setPixmap(QPixmap('../Resources/Rectangle 508.png'))
+        self.lblNoDaysBkg.setGeometry(466,335,68,40)
+
+
+        self.lblNoDays = QLabel(self)
+        self.lblNoDays.setGeometry(466,335,68,40)
+        self.lblNoDays.setAlignment(Qt.AlignCenter)
+        self.lblNoDays.setStyleSheet("color:#00A0B5; background-color:#00F0F0F3; font-size:16px; font:bold")
+        self.lblNoDays.setText(str(self.noDays))
+
+        self.lblSummary = QLabel(self)
+        self.lblSummary.setGeometry(666,300,250,120)
+        self.lblSummary.setAlignment(Qt.AlignCenter)
+        self.lblSummary.setWordWrap(True)
+        self.lblSummary.setStyleSheet("background-color:#00FF0000; font:normal; font-size:15px")
+
+        self.SetSummary()
+
 
         # BUTTONS FOR MONTH INC AND DEC
         btnMonthInc = QPushButton(self)
-        btnMonthInc.setGeometry(143, 274, 120, 40)
+        btnMonthInc.setGeometry(60, 274, 303, 40)
         btnMonthInc.setStyleSheet(self.datebtnStyle)
         btnMonthInc.setGraphicsEffect(Util.getNeuShadow(0))
 
         btnMonthInc1 = QPushButton(self)
-        btnMonthInc1.setGeometry(143, 274, 120, 40)
+        btnMonthInc1.setGeometry(60, 274, 303, 40)
         btnMonthInc1.setStyleSheet(self.datebtnStyle)
         btnMonthInc1.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
         btnMonthInc1.setIconSize(QtCore.QSize(60, 40))
         btnMonthInc1.setGraphicsEffect(Util.getNeuShadow(1))
+        btnMonthInc1.clicked.connect(self.addDate)
 
         btnMonthDec = QPushButton(self)
-        btnMonthDec.setGeometry(143, 370, 120, 40)
+        btnMonthDec.setGeometry(60, 395, 303, 40)
         btnMonthDec.setStyleSheet(self.datebtnStyle)
         btnMonthDec.setGraphicsEffect(Util.getNeuShadow(0))
 
         btnMonthDec1 = QPushButton(self)
-        btnMonthDec1.setGeometry(143, 370, 120, 40)
+        btnMonthDec1.setGeometry(60, 395, 303, 40)
         btnMonthDec1.setStyleSheet(self.datebtnStyle)
         btnMonthDec1.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
         btnMonthDec1.setIconSize(QtCore.QSize(60, 40))
         btnMonthDec1.setGraphicsEffect(Util.getNeuShadow(1))
+        btnMonthDec1.clicked.connect(self.subDate)
 
-        # BUTTONS FOR YEAR INC AND DEC
-        btnYearInc = QPushButton(self)
-        btnYearInc.setGeometry(286, 274, 60, 40)
-        btnYearInc.setStyleSheet(self.datebtnStyle)
-        btnYearInc.setGraphicsEffect(Util.getNeuShadow(0))
+        # Number of days
+        btnNoDaysInc = QPushButton(self)
+        btnNoDaysInc.setGeometry(466, 274, 68, 40)
+        btnNoDaysInc.setStyleSheet(self.datebtnStyle)
+        btnNoDaysInc.setGraphicsEffect(Util.getNeuShadow(0))
 
-        btnYearInc1 = QPushButton(self)
-        btnYearInc1.setGeometry(286, 274, 60, 40)
-        btnYearInc1.setStyleSheet(self.datebtnStyle)
-        btnYearInc1.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
-        btnYearInc1.setIconSize(QtCore.QSize(60, 40))
-        btnYearInc1.setGraphicsEffect(Util.getNeuShadow(1))
+        btnNoDaysInc1 = QPushButton(self)
+        btnNoDaysInc1.setGeometry(466, 274, 68, 40)
+        btnNoDaysInc1.setStyleSheet(self.datebtnStyle)
+        btnNoDaysInc1.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
+        btnNoDaysInc1.setIconSize(QtCore.QSize(60, 40))
+        btnNoDaysInc1.setGraphicsEffect(Util.getNeuShadow(1))
+        btnNoDaysInc1.clicked.connect(self.addDays)
 
-        btnYearDec = QPushButton(self)
-        btnYearDec.setGeometry(286, 370, 60, 40)
-        btnYearDec.setStyleSheet(self.datebtnStyle)
-        btnYearDec.setGraphicsEffect(Util.getNeuShadow(0))
+        btnNoDaysDec = QPushButton(self)
+        btnNoDaysDec.setGeometry(466, 395, 68, 40)
+        btnNoDaysDec.setStyleSheet(self.datebtnStyle)
+        btnNoDaysDec.setGraphicsEffect(Util.getNeuShadow(0))
 
-        btnYearDec1 = QPushButton(self)
-        btnYearDec1.setGeometry(286, 370, 60, 40)
-        btnYearDec1.setStyleSheet(self.datebtnStyle)
-        btnYearDec1.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
-        btnYearDec1.setIconSize(QtCore.QSize(60, 40))
-        btnYearDec1.setGraphicsEffect(Util.getNeuShadow(1))
+        btnNoDaysDec1 = QPushButton(self)
+        btnNoDaysDec1.setGeometry(466, 395, 68, 40)
+        btnNoDaysDec1.setStyleSheet(self.datebtnStyle)
+        btnNoDaysDec1.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
+        btnNoDaysDec1.setIconSize(QtCore.QSize(60, 40))
+        btnNoDaysDec1.setGraphicsEffect(Util.getNeuShadow(1))
+        btnNoDaysDec1.clicked.connect(self.subDays)
 
 
-        # BUTTONS FOR DAY INC AND DEC
-        btnEndDateInc = QPushButton(self)
-        btnEndDateInc.setGeometry(500, 274, 60, 40)
-        btnEndDateInc.setStyleSheet(self.datebtnStyle)
-        btnEndDateInc.setGraphicsEffect(Util.getNeuShadow(0))
+    def SetSummary(self):
+        if self.noDays == 1:
+            summary = '<font color="#333">Your medicines will be ejected for the day </font><font color="#D00">'\
+                      +self.startDate.strftime('%A %d %B %Y')+'</font>'
+        else:
+            endDate = (self.startDate + TimeDelta(days=(self.noDays-1))).strftime('%A %d %B %Y')
+            summary = '<font color="#333">Your medicines will be ejected from </font><font color="#D00" >'\
+                  +self.startDate.strftime('%A %d %B %Y')+'</font><font color="#333"> to </font> <font color="#D00">'+endDate+'</font>'
 
-        btnEndDateInc1 = QPushButton(self)
-        btnEndDateInc1.setGeometry(500, 274, 60, 40)
-        btnEndDateInc1.setStyleSheet(self.datebtnStyle)
-        btnEndDateInc1.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
-        btnEndDateInc1.setIconSize(QtCore.QSize(60, 40))
-        btnEndDateInc1.setGraphicsEffect(Util.getNeuShadow(1))
-
-        btnEndDateDec = QPushButton(self)
-        btnEndDateDec.setGeometry(500, 370, 60, 40)
-        btnEndDateDec.setStyleSheet(self.datebtnStyle)
-        btnEndDateDec.setGraphicsEffect(Util.getNeuShadow(0))
-
-        btnEndDateDec1 = QPushButton(self)
-        btnEndDateDec1.setGeometry(500, 370, 60, 40)
-        btnEndDateDec1.setStyleSheet(self.datebtnStyle)
-        btnEndDateDec1.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
-        btnEndDateDec1.setIconSize(QtCore.QSize(60, 40))
-        btnEndDateDec1.setGraphicsEffect(Util.getNeuShadow(1))
-
-        # BUTTONS FOR MONTH INC AND DEC
-        btnEndMonthInc = QPushButton(self)
-        btnEndMonthInc.setGeometry(583, 274, 120, 40)
-        btnEndMonthInc.setStyleSheet(self.datebtnStyle)
-        btnEndMonthInc.setGraphicsEffect(Util.getNeuShadow(0))
-
-        btnEndMonthInc1 = QPushButton(self)
-        btnEndMonthInc1.setGeometry(583, 274, 120, 40)
-        btnEndMonthInc1.setStyleSheet(self.datebtnStyle)
-        btnEndMonthInc1.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
-        btnEndMonthInc1.setIconSize(QtCore.QSize(60, 40))
-        btnEndMonthInc1.setGraphicsEffect(Util.getNeuShadow(1))
-
-        btnEndMonthDec = QPushButton(self)
-        btnEndMonthDec.setGeometry(583, 370, 120, 40)
-        btnEndMonthDec.setStyleSheet(self.datebtnStyle)
-        btnEndMonthDec.setGraphicsEffect(Util.getNeuShadow(0))
-
-        btnEndMonthDec1 = QPushButton(self)
-        btnEndMonthDec1.setGeometry(583, 370, 120, 40)
-        btnEndMonthDec1.setStyleSheet(self.datebtnStyle)
-        btnEndMonthDec1.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
-        btnEndMonthDec1.setIconSize(QtCore.QSize(60, 40))
-        btnEndMonthDec1.setGraphicsEffect(Util.getNeuShadow(1))
-
-        # BUTTONS FOR YEAR INC AND DEC
-        btnEndYearInc = QPushButton(self)
-        btnEndYearInc.setGeometry(726, 274, 60, 40)
-        btnEndYearInc.setStyleSheet(self.datebtnStyle)
-        btnEndYearInc.setGraphicsEffect(Util.getNeuShadow(0))
-
-        btnEndYearInc1 = QPushButton(self)
-        btnEndYearInc1.setGeometry(726, 274, 60, 40)
-        btnEndYearInc1.setStyleSheet(self.datebtnStyle)
-        btnEndYearInc1.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
-        btnEndYearInc1.setIconSize(QtCore.QSize(60, 40))
-        btnEndYearInc1.setGraphicsEffect(Util.getNeuShadow(1))
-
-        btnEndYearDec = QPushButton(self)
-        btnEndYearDec.setGeometry(726, 370, 60, 40)
-        btnEndYearDec.setStyleSheet(self.datebtnStyle)
-        btnEndYearDec.setGraphicsEffect(Util.getNeuShadow(0))
-
-        btnEndYearDec1 = QPushButton(self)
-        btnEndYearDec1.setGeometry(726, 370, 60, 40)
-        btnEndYearDec1.setStyleSheet(self.datebtnStyle)
-        btnEndYearDec1.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
-        btnEndYearDec1.setIconSize(QtCore.QSize(60, 40))
-        btnEndYearDec1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.lblSummary.setText(summary)
 
     def massEjectClicked(self):
         self.SetButtonClicked(1)
@@ -248,12 +221,61 @@ class DatePicker(QWidget):                           # <===
             self.btnDailyEarlyEjct.setStyleSheet(self.btnStyle)
             self.btnejctNxtDose.setStyleSheet(self.btnStyleSelected)
 
+    def addDays(self):
+        if self.noDays < self.maxDays:
+            self.noDays = self.noDays+1
+            self.lblNoDays.setText(str(self.noDays))
+
+        self.SetSummary()
+
+    def subDays(self):
+        if self.noDays > 1:
+            self.noDays = self.noDays-1
+            self.lblNoDays.setText(str(self.noDays))
+
+        self.SetSummary()
+
+    def subDate(self):
+        currentDate = datetime.now().date()
+        if currentDate < self.startDate:
+            self.changeDate(-1)
+
+    def addDate(self):
+
+        if self.startDate < self.lastDate:
+            self.changeDate(1)
+
+    def changeDate(self,noDays):
+        self.startDate = (self.startDate + TimeDelta(days=noDays))
+        self.maxDays = self.maxDays - noDays
+        print(str(self.maxDays))
+        temp = self.startDate.strftime('%A %d %B %Y')
+        self.lblStartDate.setText(temp)
+        print("startdate : "+temp)
+
+        if self.noDays > self.maxDays:
+            self.noDays = self.maxDays
+            self.lblNoDays.setText(str(self.noDays))
+
+        self.SetSummary()
+
+    def gotoMassEject(self):
+
+        if self.noDays>1:
+            endDate = self.startDate + TimeDelta(days=(self.noDays-1))
+        else:
+            endDate = self.startDate
+
+        self.n = massEject.MassEject(self.startDate.strftime('%Y-%m-%d'),self.noDays,endDate.strftime('%Y-%m-%d'))
+        self.n.show()
+
+
 
 if __name__ == '__main__':
     App = QApplication(sys.argv)
 
     # create the instance of our Window
-    window = DatePicker()
+    window = MassEjectDateTime()
 
     window.show()
 

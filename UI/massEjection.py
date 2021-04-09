@@ -4,10 +4,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 import Utility.MahiUtility as Util
+from datetime import date
+from datetime import datetime, timedelta as TimeDelta
 
+#create a database function to return total dosages using start and end date
 
 class MassEject(QWidget):                           # <===
-    def __init__(self, parent = None):
+    def __init__(self, startDate, noDays, endDate):
         super().__init__()
         self.setWindowTitle("Medical Files")
         self.setGeometry(0, 0, 1220, 685)
@@ -16,6 +19,15 @@ class MassEject(QWidget):                           # <===
         self.label.setPixmap(QPixmap('../Resources/massEjection.png'))
         self.label.setGeometry(0, 0, 1220, 497)
 
+        self.totalDoses = 10
+
+        self.pStartDate = str(startDate)
+        tempX = self.pStartDate.split("-")
+        tempY = str(endDate).split("-")
+
+        self.startDate = QDate(int(tempX[0]),int(tempX[1]),int(tempX[2]))
+        self.endDate = QDate(int(tempY[0]),int(tempY[1]),int(tempY[2]))
+        self.noDays = int(noDays)
         self.UiComponents()
     #
         # showing all the widgets
@@ -28,6 +40,29 @@ class MassEject(QWidget):                           # <===
         # setting geometry to the calender
         calender.setGeometry(26, 142, 430, 430)
         calender.setStyleSheet("background : pink;")
+
+        cell_format = QtGui.QTextCharFormat()
+        cell_format.setBackground(QtGui.QColor("blue"))
+        cell_format.setForeground(QtGui.QColor("white"))
+
+        # calender.setDisabled(True)
+
+        tempX = self.pStartDate.split("-")
+        tempStartDate = date(int(tempX[0]),int(tempX[1]),int(tempX[2]))
+        for i in range(self.noDays):
+            if i > 0:
+                tempStartDate = tempStartDate + TimeDelta(days=1)
+            else:
+                tempStartDate = tempStartDate + TimeDelta(days=0)
+            tempX = tempStartDate.strftime('%Y-%m-%d').split("-")
+            y = QDate(int(tempX[0]),int(tempX[1]),int(tempX[2]))
+            calender.setDateTextFormat(y, cell_format)
+
+        # y = QDate(2021, 4, 12)
+        # calender.setDateTextFormat(y, cell_format)
+
+
+        calender.setDateRange(self.startDate,self.endDate)
 
         # setting calender horizontal header format
         # calender.setHorizontalHeaderFormat(QCalendarWidget.LongDayNames)
@@ -65,8 +100,12 @@ class MassEject(QWidget):                           # <===
         btnok.clicked.connect(self.close)
 
         # outputs of the doses shown in the mass ejection page
-        lblTotalDose = QLabel('60',self)
-        lblTotalDose.setGeometry(779, 150, 50, 50)
+        lblTotalDose = QLabel(self)
+        lblTotalDose.setGeometry(779, 160, 50, 50)
+        lblTotalDose.setStyleSheet("background-color:#00FF0000")
+        lblTotalDose.setAlignment(Qt.AlignCenter)
+        lblTotalDose.setFont(QFont('Arial', 10))
+        lblTotalDose.setText(str(self.totalDoses))
 
         lblMorninBf = QLabel('60', self)
         lblMorninBf.setGeometry(789, 225, 56, 40)

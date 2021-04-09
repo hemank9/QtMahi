@@ -47,28 +47,31 @@ def loginAPI(user, passw):
         print("Login failed : "+str(e.__class__))
         return None
 
-def fetchProfileDetailsAPI(userid):
+def fetchProfileDetailsAPI():
     try:
 
-        data = {'user_id': userid,
-                'action':constants. Action_PROFILE_REQUIRED_SETUP_CHECK,
-                'stuff': constants.Stuff,
-                'app_type': constants.AppType}
+        if myDB.isLogggedIn():
+            data = {'user_id': myDB.getUserID(),
+                    'action':constants. Action_PROFILE_REQUIRED_SETUP_CHECK,
+                    'stuff': constants.Stuff,
+                    'app_type': constants.AppType}
 
-        print("URL: "+myUrls.MAHI_CONTROLLER_URL)
-        utility.printParams(data)
-        r = requests.post(url=myUrls.PROFILE_URL, data=data)
+            print("URL: "+myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.PROFILE_URL, data=data)
 
-        print("fetch profile response : "+r.text.strip())
-        response = json.loads(r.text)
+            print("fetch profile response : "+r.text.strip())
+            response = json.loads(r.text)
 
-        if response['stat']:
-            print("Fetch Profile Successful")
-            myDB.updateProfile(userid, r.text.strip())
-            return response
+            if response['stat']:
+                print("Fetch Profile Successful")
+                myDB.updateProfile(myDB.getUserID(), r.text.strip())
+                return r.text.strip()
 
+            else:
+                print(response['stat'])
+                return None
         else:
-            print(response['stat'])
             return None
 
     except Exception as e:

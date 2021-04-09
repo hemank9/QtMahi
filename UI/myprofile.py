@@ -4,12 +4,18 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 from UI.MyFileList import FileList
+import MyDatabase.my_database as db
+import API.api_calls as my_apis
+import json
 
 
 class MyProfile(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__()
+
+
+
         # setting title
         self.setWindowTitle("Python ")
         # setting geometry
@@ -24,6 +30,30 @@ class MyProfile(QMainWindow):
         # showing all the widgets
         self.show()
 
+        # try :
+        temp = db.fetchProfileDetails()
+        if temp!=None:
+            self.profileResponse = json.loads(temp)
+            self.setProfileData()
+        else :
+            print("Profile data not available in database")
+
+
+        # except Exception as E:
+        #     print(E.__class__)
+        #     print("Something went wrong in fetching profile data from database")
+
+        # try:
+        temp = my_apis.fetchProfileDetailsAPI()
+        if temp!=None:
+            self.profileResponse = json.loads(temp)
+            self.setProfileData()
+        else:
+            print("Profile data not available in database")
+
+        # except Exception as E:
+        #     print(E.__class__)
+        #     print("Something went wrong in fetching profile data from API")
         # method for widgets
 
     def UiComponents(self):
@@ -463,17 +493,32 @@ class MyProfile(QMainWindow):
         self.m.show()
         # self.hide()
 
-    # def file(self):
-    #     self.m = Window3()
-    #     self.m.show()
-    #     self.hide()
+    def setProfileData(self):
+        print("")
+        name = self.profileResponse["profile"]["firstname"] + self.profileResponse["profile"]["lastname"]
+        user_img = self.profileResponse["profile"]["user_img"]  # profile image url
+        age = str(self.profileResponse["profile"]["age"])
+        gender = self.profileResponse["profile"]["gender"]
+        contact_num = str(self.profileResponse["profile"]["contact_num"])
+        email = self.profileResponse["profile"]["email"]
+        dob = self.profileResponse["profile"]["dob"]
+        address = self.profileResponse["profile"]["address1"]
+        bgroup = self.profileResponse["profile"]["blood_group"]
+
+        self.lblName.setText(name)
+        self.lblAgeGender.setText(age+" "+gender)
+        self.lblMobile.setText(contact_num)
+        self.lblEmail.setText(email)
+        self.lblDob.setText(dob)
+        self.lblAddress.setText(address)
+        self.lblBloodGroup.setText(bgroup)
 
 
 # if __name__ == '__main__':
 #     App = QApplication(sys.argv)
 #
 #     # create the instance of our Window
-#     window = Window()
+#     window = MyProfile()
 #
 #     window.show()
 #

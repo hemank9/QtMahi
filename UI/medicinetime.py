@@ -4,7 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import UI.repeatDosage as rDosage
 import UI.extraDosage as extraDosage
-import UI.massEjection as massEject
+import UI.datePickMassEjection as massEject
 import UI.changetime as changeTime
 import sys
 
@@ -111,7 +111,7 @@ class MyMedicines(QMainWindow):
         self.l.show()
 
     def massEjection(self):
-        self.n = massEject.MassEject()
+        self.n = massEject.MassEjectDateTime()
         self.n.show()
 
 
@@ -123,16 +123,16 @@ class MyMedicines(QMainWindow):
         self.k = changeTime.ChangeTime(1)
         self.k.show()
 
-# if __name__ == '__main__':
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = Window()
-#
-#     window.show()
-#
-# # start the app
-#     sys.exit(App.exec())
+if __name__ == '__main__':
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = MyMedicines()
+
+    window.show()
+
+# start the app
+    sys.exit(App.exec())
 
 
 

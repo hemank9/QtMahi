@@ -112,8 +112,11 @@ def logoutUser():
         conn.commit()
         print("Session cleared, user logout successful")
 
+        return True
+
     except Exception as e:
         print("Logout user failed : ",e.__class__)
+        return  False
 
 
 def isLogggedIn():

@@ -13,6 +13,7 @@ import sys
 import UI.myprofile as myPro
 import UI.medicinetime as myMeds
 import UI.docAppScreen as myAppo
+import UI.settings as settings
 
 
 class HomeScreen(QMainWindow):
@@ -82,7 +83,7 @@ class HomeScreen(QMainWindow):
         btn_sett.setStyleSheet("border-radius : 30; background-color : #E5E5E5; text-align:left")
         btn_sett.setIcon(QtGui.QIcon('../Resources/set.png'))
         btn_sett.setIconSize(QtCore.QSize(194,221))
-        btn_sett.clicked.connect(self.clickme)
+        btn_sett.clicked.connect(self.settingsClicked)
 
         # medtimebutton
         btn_time = QPushButton("", self)
@@ -111,13 +112,13 @@ class HomeScreen(QMainWindow):
         btn_bar.clicked.connect(self.clickme)
 
 
-        # refillbutton
-        btn_sett = QPushButton("", self)
-        btn_sett.setGeometry(1057, 77, 134, 477)
-        btn_sett.setStyleSheet("border-radius : 20; background-color : #E5E5E5; text-align:left")
-        btn_sett.setIcon(QtGui.QIcon('../Resources/medfill.png'))
-        btn_sett.setIconSize(QtCore.QSize(134, 477))
-        btn_sett.clicked.connect(self.clickme)
+        # refill
+        btn_refill = QPushButton("", self)
+        btn_refill.setGeometry(1057, 77, 134, 477)
+        btn_refill.setStyleSheet("border-radius : 20; background-color : #E5E5E5; text-align:left")
+        btn_refill.setIcon(QtGui.QIcon('../Resources/medfill.png'))
+        btn_refill.setIconSize(QtCore.QSize(134, 477))
+        btn_refill.clicked.connect(self.clickme)
 
 
         # doc_appointment_button
@@ -147,6 +148,10 @@ class HomeScreen(QMainWindow):
         self.x = myAppo.DocAppScreen()
         self.x.show()
 
+    def settingsClicked(self):
+        self.x = settings.Settings(self)
+        self.x.show()
+
     # calendar function
     def Calendar(self):
         vbox = QVBoxLayout()
@@ -162,12 +167,12 @@ class HomeScreen(QMainWindow):
     #     self.pro.show()
 
 
-# if __name__ == '__main__':
-#
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = Window()
-#
-#     # start the app
-#     sys.exit(App.exec())
+if __name__ == '__main__':
+
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = HomeScreen()
+
+    # start the app
+    sys.exit(App.exec())
