@@ -14,7 +14,7 @@ class FileList(QMainWindow):
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F5F5F5")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\yellow.png'))
+        self.label.setPixmap(QPixmap('../Resources/yellow.png'))
         self.label.setGeometry(0, 0, 1220, 39)
 
         self.UiComponents()
