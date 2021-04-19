@@ -123,16 +123,16 @@ class MyMedicines(QMainWindow):
         self.k = changeTime.ChangeTime(1)
         self.k.show()
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = MyMedicines()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = MyMedicines()
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())
 
 
 
