@@ -8,6 +8,8 @@ import requests
 import MyDatabase.my_database as db
 import json
 import constants as myConst
+import Utility.MahiUtility as MahiUtil
+import API.api_calls as MyApis
 
 
 class Humm(QWidget):
@@ -22,16 +24,11 @@ class Humm(QWidget):
 
         self.UiComponents()
 
-        temp = json.loads(db.getHummData(), strict=False)
-        if temp !=None:
-            self.hummFeeds = list(temp["data"])
-
-        else:
-            print("Humm data not available")
-
         self.currentPage = 0
-        self.hummFeeds[0]
-        self.ParseHummFeed()
+        self.loadingDialog = MahiUtil.LoadingGif()
+        # self.fetchHummFeeds()
+        self.showFullImage(False)
+        self.showTextImage(False)
         self.show()
 
     def UiComponents(self):
@@ -123,6 +120,26 @@ class Humm(QWidget):
         self.lblFullImage.setGeometry(428,40,363,645)
 
         self.showFullImage(False)
+
+    def fetchHummFeeds(self):
+
+    # try:
+        if MahiUtil.isInternetOn():
+            self.loadingDialog.startAnimation()
+            temp1 = MyApis.fetchHummFeeds(self.currentPage,"","1")
+            self.loadingDialog.stopAnimation()
+
+            if temp1 != None:
+                # temp = json.loads(temp1, strict=False)
+                self.hummFeeds = list(temp1["data"])
+                self.ParseHummFeed()
+
+            else:
+                print("Humm data not available")
+
+
+        # except Exception as e:
+        #     print(e.__class__)
 
     def ParseHummFeed(self):
         hummFeed = self.hummFeeds[self.currentPage]

@@ -181,6 +181,43 @@ def fetchAppointments(appo_type, page):
         print("Fail " + str(e.__class__))
         return None
 
+def fetchHummFeeds(page, feed_read_json,fetch_updated_feeds):
+    try:
+
+        if myDB.isLogggedIn():
+            data = {'user_id': str(myDB.getUserID()),
+                'feed_read_json': feed_read_json, #0 for all
+                'page': str(page),
+                'fetch_updated_feeds': fetch_updated_feeds, # 1 for fetching more feeds; 0 for just sending read json
+                'device_token': "mahi_token",
+                'device_id': "mahi_id",
+                'action': constants.ACTION_get_my_feeds,
+                'stuff': constants.Stuff,
+                'app_type': constants.AppType}
+
+            print("HUMM Feeds URL: " + myUrls.HUMM_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.HUMM_URL, data=data)
+
+            print("fetch HUMM Feeds response : " + r.text.strip())
+            response = json.loads(r.text)
+
+            if response['status']:
+
+                print("Fetch HUMM Feeds Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+        else:
+            print("Session not created, user not logged in")
+            return None
+
+    except Exception as e:
+        print("Fail " + str(e.__class__))
+        return None
+
 
 if __name__ == "__main__":
     print("API Calls Main Function")
