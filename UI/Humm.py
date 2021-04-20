@@ -114,10 +114,54 @@ class Humm(QWidget):
         self.lblDesc.setWordWrap(True)
         self.lblDesc.setStyleSheet("font:normal; color:#555; font-size:22px;")
 
+        self.lblQuestion = QLabel(self)
+        self.lblQuestion.setGeometry(642,72,447,70)
+        self.lblQuestion.setAlignment(Qt.AlignTop)
+        self.lblQuestion.setWordWrap(True)
+        self.lblQuestion.setStyleSheet("font:normal; color:#555; font-size:22px;")
 
+        btnOption1 = QPushButton(self)
+        btnOption1.setGeometry(642, 151, 334, 62)
+        btnOption1.setStyleSheet("border-radius: 8")
+        btnOption1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnOption1 = QPushButton(self)
+        self.btnOption1.setGeometry(642, 151, 334, 62)
+        self.btnOption1.setStyleSheet("border-radius: 8")
+        self.btnOption1.setGraphicsEffect(Util.getNeuShadow(1))
+        # self.btnOption1.clicked.connect()
+
+        btnOption2 = QPushButton(self)
+        btnOption2.setGeometry(642, 230, 334, 62)
+        btnOption2.setStyleSheet("border-radius: 8")
+        btnOption2.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnOption2 = QPushButton(self)
+        self.btnOption2.setGeometry(642, 230, 334, 62)
+        self.btnOption2.setStyleSheet("border-radius: 8")
+        self.btnOption2.setGraphicsEffect(Util.getNeuShadow(1))
+        # self.btnOption2.clicked.connect()
+
+        btnOption3 = QPushButton(self)
+        btnOption3.setGeometry(642, 309, 334, 62)
+        btnOption3.setStyleSheet("border-radius: 8")
+        btnOption3.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnOption3 = QPushButton(self)
+        self.btnOption3.setGeometry(642, 309, 334, 62)
+        self.btnOption3.setStyleSheet("border-radius: 8")
+        self.btnOption3.setGraphicsEffect(Util.getNeuShadow(1))
+        # self.btnOption3.clicked.connect()
+
+        btnOption4 = QPushButton(self)
+        btnOption4.setGeometry(642, 388, 334, 62)
+        btnOption4.setStyleSheet("border-radius: 8")
+        btnOption4.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnOption4 = QPushButton(self)
+        self.btnOption4.setGeometry(642, 388, 334, 62)
+        self.btnOption4.setStyleSheet("border-radius: 8")
+        self.btnOption4.setGraphicsEffect(Util.getNeuShadow(1))
+        # self.btnOption4.clicked.connect()
 
         self.lblFullImage = QLabel(self)
-        self.lblFullImage.setGeometry(428,40,363,645)
+        self.lblFullImage.setGeometry(428, 40, 363, 645)
 
         self.showFullImage(False)
 
@@ -198,6 +242,28 @@ class Humm(QWidget):
 
         else:
             self.lblFullImage.hide()
+
+    def showQuestion(self, show):
+        if show:
+
+            hummFeed = self.hummFeeds[self.currentPage]
+            self.lblImage.show()
+            self.lblQuestion.show()
+            self.btnOption1.show()
+            self.btnOption2.show()
+            self.btnOption3.show()
+            self.btnOption4.show()
+
+            url_image = hummFeed["ImageName"]
+            image = QImage()
+            image.loadFromData(requests.get(url_image).content)
+
+            pixmap = QtGui.QPixmap(image)
+            scaledImage = pixmap.scaled(607, 607)
+            self.lblImage.setPixmap(scaledImage)
+            self.lblQuestion.setText(hummFeed["Title"])
+
+
 
     def nextClicked(self):
         if self.currentPage < len(self.hummFeeds)-1:
