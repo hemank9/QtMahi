@@ -45,6 +45,19 @@ class LoadingGif(QWidget):
         # self.movie.stop()
         self.close()
 
+class HummOptions():
+    def __init__(self, value, AveragePercentage, SelectedOption):
+        self.value = value
+        self.AveragePercentage = AveragePercentage
+        self.SelectedOption = SelectedOption
+
+# class HummFeedModel():
+#     def __init__(self, value, AveragePercentage, SelectedOption,):
+#         self.value = value
+#         self.AveragePercentage = AveragePercentage
+#         self.SelectedOption = SelectedOption
+
+
 
 
 def isInternetOn():

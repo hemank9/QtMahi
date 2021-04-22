@@ -9,6 +9,7 @@ ACTION_GET_MY_APPOINTMENT_LIST = "GET_MY_APPOINTMENT_LIST"
 ACTION_DEVICE_SIGN_IN = "device_sign_in"
 ACTION_my_health_calendar = "my_health_calendar"
 ACTION_get_my_feeds = "get_my-feeds"
+ACTION_USER_OPTION_SAVE = "USEROPTIONSAVE"
 
 # Database Connection Settings
 my_database_name = "mahi.db"
@@ -28,3 +29,4 @@ path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
 #Humm Pagetypes
 HUMM_IMAGE_TEXT = 0
 HUMM_FULL_IMAGE = 2
+HUMM_IMAGE_QUIZ_SURVEY = 5

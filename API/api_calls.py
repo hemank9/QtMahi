@@ -189,8 +189,8 @@ def fetchHummFeeds(page, feed_read_json,fetch_updated_feeds):
                 'feed_read_json': feed_read_json, #0 for all
                 'page': str(page),
                 'fetch_updated_feeds': fetch_updated_feeds, # 1 for fetching more feeds; 0 for just sending read json
-                'device_token': "mahi_token",
-                'device_id': "mahi_id",
+                'device_token': constants.device_token,
+                'device_id': constants.device_id,
                 'action': constants.ACTION_get_my_feeds,
                 'stuff': constants.Stuff,
                 'app_type': constants.AppType}
@@ -200,7 +200,7 @@ def fetchHummFeeds(page, feed_read_json,fetch_updated_feeds):
             r = requests.post(url=myUrls.HUMM_URL, data=data)
 
             print("fetch HUMM Feeds response : " + r.text.strip())
-            response = json.loads(r.text)
+            response = json.loads(r.text, strict=False)
 
             if response['status']:
 
@@ -218,6 +218,323 @@ def fetchHummFeeds(page, feed_read_json,fetch_updated_feeds):
         print("Fail " + str(e.__class__))
         return None
 
+def saveHummSurveyQuizAns(option, feedId):
+    try:
+
+        if myDB.isLogggedIn():
+            data = {'user_id': str(myDB.getUserID()),
+                    'device_token': constants.device_token,
+                    'device_id': constants.device_id,
+                    'survey_id': str(feedId),
+                    'selected_option': str(option),
+                    'action': constants.ACTION_USER_OPTION_SAVE,
+                    'stuff': constants.Stuff,
+                    'app_type': constants.AppType}
+
+            print("HUMM Survey/Quiz option save URL: " + myUrls.HUMM_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.SAVE_HUMM_FEED_ANSWER_URL, data=data)
+
+            print("fetch Survey/Quiz option save response : " + r.text.strip())
+            response = json.loads(r.text,strict=False)
+
+            if response['status']:
+
+                print("Survey/Quiz option save Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+        else:
+            print("User not logged in.")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+
+def fetchHummFeedsDummy():
+    responseStr = r'''{
+    "status": true,
+    "message": "Data loaded successfully",
+    "total_records": 1323,
+    "data": [{
+            "Id": 127,
+            "IsSurvey": 2,
+            "Question": "High-density lipoprotein is ",
+            "Options": [
+                {
+                    "option": 1,
+                    "value": "A. A muscle-building nutrient  ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 2,
+                    "value": "B. Good cholesterol that reduces the risk of heart disease",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 1
+                },
+                {
+                    "option": 3,
+                    "value": "C. A resilient cancer cell ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 4,
+                    "value": "D. A molecule that makes hair shiny and healthy",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                }
+            ],
+            "QuestionType": "2",
+            "VideoType": 0,
+            "VideoUrl": "",
+            "IsVideoUrl": "0",
+            "VideoEmbededCode": "",
+            "ImageName": "https://mobihealth.in//upload/health_feed_survey/607eeb1ece89b1618930462846.png",
+            "ThumbName": "https://mobihealth.in//upload/health_feed_survey/thumb/607eeb1ece89b1618930462846.png",
+            "ImageType": 1,
+            "CorrectOption": "2",
+            "PageType": 5,
+            "isUserSelectedOption": 1,
+            "IsMedicineConfirmationSurvey": 0,
+            "BackgroundColor": "",
+            "MediaType": "",
+            "Created_on": "2021-04-20 20:24:22",
+            "FeedCategoryType": 2,
+            "FontTextColor": ""
+        },{
+            "Id": 126,
+            "IsSurvey": 1,
+            "Question": "a zoonotic disease is an illness that…",
+            "Options": [
+                {
+                    "option": 1,
+                    "value": "A. Can be treated by a trained veterinarian",
+                    "AveragePercentage": 10,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 2,
+                    "value": "B. Requires animal products to eradicate",
+                    "AveragePercentage": 20,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 3,
+                    "value": "C. Can be transmitted from animals to humans ",
+                    "AveragePercentage": 30,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 4,
+                    "value": "D. Threatens to wipe out a species",
+                    "AveragePercentage": 40,
+                    "SelectedOption": 0
+                }
+            ],
+            "QuestionType": "2",
+            "VideoType": 0,
+            "VideoUrl": "",
+            "IsVideoUrl": "0",
+            "VideoEmbededCode": "",
+            "ImageName": "https://mobihealth.in//upload/health_feed_survey/607da0b890d811618845880593.png",
+            "ThumbName": "https://mobihealth.in//upload/health_feed_survey/thumb/607da0b890d811618845880593.png",
+            "ImageType": 1,
+            "CorrectOption": "3",
+            "PageType": 5,
+            "isUserSelectedOption": 0,
+            "IsMedicineConfirmationSurvey": 0,
+            "BackgroundColor": "",
+            "MediaType": "",
+            "Created_on": "2021-04-19 20:54:40",
+            "FeedCategoryType": 2,
+            "FontTextColor": ""
+        },{
+            "Id": 125,
+            "IsSurvey": 2,
+            "Question": "What does AIDS stand for?",
+            "Options": [
+                {
+                    "option": 1,
+                    "value": "1 . Acquired Immune Deficiency Syndrome ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 2,
+                    "value": "2. Antiviral Immune disorder System",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 3,
+                    "value": " 3. Auto Immune Disorder ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                }
+            ],
+            "QuestionType": "2",
+            "VideoType": 0,
+            "VideoUrl": "",
+            "IsVideoUrl": "0",
+            "VideoEmbededCode": "",
+            "ImageName": "https://mobihealth.in//upload/health_feed_survey/607c0d46105cc1618742598067.png",
+            "ThumbName": "https://mobihealth.in//upload/health_feed_survey/thumb/607c0d46105cc1618742598067.png",
+            "ImageType": 1,
+            "CorrectOption": "1",
+            "PageType": 5,
+            "isUserSelectedOption": 0,
+            "IsMedicineConfirmationSurvey": 0,
+            "BackgroundColor": "",
+            "MediaType": "",
+            "Created_on": "2021-04-18 16:13:18",
+            "FeedCategoryType": 2,
+            "FontTextColor": ""
+        },{
+            "Id": 127,
+            "IsSurvey": 2,
+            "Question": "High-density lipoprotein is ",
+            "Options": [
+                {
+                    "option": 1,
+                    "value": "A. A muscle-building nutrient  ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 2,
+                    "value": "B. Good cholesterol that reduces the risk of heart disease",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 3,
+                    "value": "C. A resilient cancer cell ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 4,
+                    "value": "D. A molecule that makes hair shiny and healthy",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                }
+            ],
+            "QuestionType": "2",
+            "VideoType": 0,
+            "VideoUrl": "",
+            "IsVideoUrl": "0",
+            "VideoEmbededCode": "",
+            "ImageName": "https://mobihealth.in//upload/health_feed_survey/607eeb1ece89b1618930462846.png",
+            "ThumbName": "https://mobihealth.in//upload/health_feed_survey/thumb/607eeb1ece89b1618930462846.png",
+            "ImageType": 1,
+            "CorrectOption": "2",
+            "PageType": 5,
+            "isUserSelectedOption": 0,
+            "IsMedicineConfirmationSurvey": 0,
+            "BackgroundColor": "",
+            "MediaType": "",
+            "Created_on": "2021-04-20 20:24:22",
+            "FeedCategoryType": 2,
+            "FontTextColor": ""
+        },{
+            "Id": 126,
+            "IsSurvey": 2,
+            "Question": "a zoonotic disease is an illness that…",
+            "Options": [
+                {
+                    "option": 1,
+                    "value": "A. Can be treated by a trained veterinarian",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 2,
+                    "value": "B. Requires animal products to eradicate",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 3,
+                    "value": "C. Can be transmitted from animals to humans ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 4,
+                    "value": "D. Threatens to wipe out a species",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                }
+            ],
+            "QuestionType": "2",
+            "VideoType": 0,
+            "VideoUrl": "",
+            "IsVideoUrl": "0",
+            "VideoEmbededCode": "",
+            "ImageName": "https://mobihealth.in//upload/health_feed_survey/607da0b890d811618845880593.png",
+            "ThumbName": "https://mobihealth.in//upload/health_feed_survey/thumb/607da0b890d811618845880593.png",
+            "ImageType": 1,
+            "CorrectOption": "3",
+            "PageType": 5,
+            "isUserSelectedOption": 0,
+            "IsMedicineConfirmationSurvey": 0,
+            "BackgroundColor": "",
+            "MediaType": "",
+            "Created_on": "2021-04-19 20:54:40",
+            "FeedCategoryType": 2,
+            "FontTextColor": ""
+        },{
+            "Id": 125,
+            "IsSurvey": 2,
+            "Question": "What does AIDS stand for?",
+            "Options": [
+                {
+                    "option": 1,
+                    "value": "1 . Acquired Immune Deficiency Syndrome ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 2,
+                    "value": "2. Antiviral Immune disorder System",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                },
+                {
+                    "option": 3,
+                    "value": " 3. Auto Immune Disorder ",
+                    "AveragePercentage": 0,
+                    "SelectedOption": 0
+                }
+            ],
+            "QuestionType": "2",
+            "VideoType": 0,
+            "VideoUrl": "",
+            "IsVideoUrl": "0",
+            "VideoEmbededCode": "",
+            "ImageName": "https://mobihealth.in//upload/health_feed_survey/607c0d46105cc1618742598067.png",
+            "ThumbName": "https://mobihealth.in//upload/health_feed_survey/thumb/607c0d46105cc1618742598067.png",
+            "ImageType": 1,
+            "CorrectOption": "1",
+            "PageType": 5,
+            "isUserSelectedOption": 0,
+            "IsMedicineConfirmationSurvey": 0,
+            "BackgroundColor": "",
+            "MediaType": "",
+            "Created_on": "2021-04-18 16:13:18",
+            "FeedCategoryType": 2,
+            "FontTextColor": ""
+        }
+    ]
+    }'''
+
+    return json.loads(responseStr, strict=False)
 
 if __name__ == "__main__":
     print("API Calls Main Function")
