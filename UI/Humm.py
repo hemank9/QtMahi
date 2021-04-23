@@ -14,6 +14,7 @@ import UI.WebPage as webPage
 
 
 class Humm(QWidget):
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Humm")
@@ -26,6 +27,8 @@ class Humm(QWidget):
         self.UiComponents()
 
         self.currentPage = 0
+        self.page = 1
+        self.totalRecords = 0
         self.loadingDialog = MahiUtil.LoadingGif()
         self.fetchHummFeeds()
         # self.showFullImage(False)
@@ -73,7 +76,7 @@ class Humm(QWidget):
         btnHome1.setStyleSheet("border-radius:10")
         btnHome1.setIcon(QtGui.QIcon('../Resources/Home.png'))
         btnHome1.setIconSize(QtCore.QSize(60, 40))
-        btnHome1.clicked.connect(self.finish)
+        btnHome1.clicked.connect(self.close)
 
         btnPrevious = QPushButton(self)
         btnPrevious.setGeometry(1136, 512, 61, 61)
@@ -236,14 +239,21 @@ class Humm(QWidget):
 
         try:
             if MahiUtil.isInternetOn():
-                self.loadingDialog.startAnimation()
-                temp1 = MyApis.fetchHummFeeds(self.currentPage,"","1")
+
+                if self.page == 1:
+                    self.loadingDialog.startAnimation()
+                temp1 = MyApis.fetchHummFeeds(self.page,"","1")
                 # temp1 = MyApis.fetchHummFeedsDummy()
                 self.loadingDialog.stopAnimation()
 
                 if temp1 != None:
-                    self.hummFeeds = list(temp1["data"])
-                    self.ParseHummFeed()
+
+                    if self.page == 1:
+                        self.hummFeeds = list(temp1["data"])
+                        self.ParseHummFeed()
+                        self.totalRecords = int(temp1["total_records"])
+                    elif self.page > 1:
+                        self.hummFeeds = self.hummFeeds + list(temp1["data"])
 
             else:
                 print("Humm data not available")
@@ -262,7 +272,6 @@ class Humm(QWidget):
     def goToLinkClicked(self):
         self.x = webPage.WebPage(self.link)
         self.x.show()
-
 
     def toggleLinkButton(self,show):
 
@@ -284,6 +293,11 @@ class Humm(QWidget):
         self.ParseHummFeed()
 
     def ParseHummFeed(self):
+
+        if ((len(self.hummFeeds) - self.currentPage) == 10) and (len(self.hummFeeds) <= self.totalRecords):
+            self.page = self.page+1
+            self.fetchHummFeeds()
+
         hummFeed = self.hummFeeds[self.currentPage]
 
         pageType = int(hummFeed["PageType"])
@@ -622,9 +636,6 @@ class Humm(QWidget):
 
         except Exception as e:
             print(e.__cause__)
-
-    def finish(self):
-        self.close()
 
 
 if __name__ == '__main__':
