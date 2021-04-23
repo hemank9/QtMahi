@@ -14,6 +14,8 @@ import UI.myprofile as myPro
 import UI.medicinetime as myMeds
 import UI.docAppScreen as myAppo
 import UI.settings as settings
+import UI.Humm as humm
+import UI.changetime as medTime
 
 
 class HomeScreen(QMainWindow):
@@ -91,7 +93,7 @@ class HomeScreen(QMainWindow):
         btn_time.setStyleSheet("border-radius : 15; background-color : #E5E5E5; color:#FFFFFF; text-align:left")
         btn_time.setIcon(QtGui.QIcon('../Resources/medtime.png'))
         btn_time.setIconSize(QtCore.QSize(191, 124))
-        btn_time.clicked.connect(self.clickme)
+        btn_time.clicked.connect(self.medTimeClicked)
 
 
         # hummbutton
@@ -100,7 +102,7 @@ class HomeScreen(QMainWindow):
         btn_humm.setStyleSheet("border-radius : 15; background-color : #E5E5E5; color:#FFFFFF; text-align:left")
         btn_humm.setIcon(QtGui.QIcon('../Resources/hum.png'))
         btn_humm.setIconSize(QtCore.QSize(181, 125))
-        btn_humm.clicked.connect(self.clickme)
+        btn_humm.clicked.connect(self.hummClicked)
 
 
         # barbutton
@@ -135,6 +137,14 @@ class HomeScreen(QMainWindow):
     def clickme(self):
         # printing pressed
         print("pressed")
+
+    def hummClicked(self):
+        self.x = humm.Humm()
+        self.x.show()
+
+    def medTimeClicked(self):
+        self.x = medTime.ChangeTime(0)
+        self.x.show()
 
     def profileClicked(self):
         self.x = myPro.MyProfile()

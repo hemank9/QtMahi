@@ -371,7 +371,7 @@ class ChangeTime(QMainWindow):
             self.btnMorning1.setStyleSheet(self.btnStyleSelected)
             self.btnAfternoon1.setStyleSheet(self.btnStyle)
             self.btnEvening1.setStyleSheet(self.btnStyle)
-            self.lblt.setText("Morining")
+            self.lblt.setText("Morning")
             self.lblAfAmPm.setText("am")
             self.lblItAmPm.setText("am")
             self.lblBfAmPm.setText("am")
