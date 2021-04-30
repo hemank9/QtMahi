@@ -25,7 +25,7 @@ class DocAppScreen(QMainWindow):
         self.setGeometry(0, 0, 1220, 700)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('../Resources/docScreen.png'))
+        self.label.setStyleSheet("background-color:#FEC32E")
         self.label.setGeometry(0, 0, 1220, 165)
         self.btnStyle = "border-radius : 10; background-color : #F0F03; color : #006CB5; font : bold "
         self.btnStyleSelected = "border-radius : 10; background-color : #C4DBF0; color : #006CB5; font : bold "
@@ -84,7 +84,7 @@ class DocAppScreen(QMainWindow):
         btnBack = QPushButton("", self)
         btnBack.setGeometry(23, 62, 115, 41)
         btnBack.setStyleSheet("border-radius : 10; ")
-        btnBack.setIcon(QtGui.QIcon('../Resources/Group 87.png'))
+        btnBack.setIcon(QtGui.QIcon('../Resources/backButton.png'))
         btnBack.setIconSize(QtCore.QSize(115, 41))
         btnBack.clicked.connect(self.close)
 

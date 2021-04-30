@@ -92,6 +92,13 @@ class MassEject(QWidget):                           # <===
         self.btnMassEjct.setGraphicsEffect(Util.getNeuShadow(0))
         self.btnMassEjct.clicked.connect(self.massEjectClicked)
 
+        btn_back = QPushButton("", self)
+        btn_back.setGeometry(40, 53, 173, 41)
+        btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
+        btn_back.setIcon(QtGui.QIcon('../Resources/backButton.png'))
+        btn_back.setIconSize(QtCore.QSize(155, 71))
+        btn_back.clicked.connect(self.close)
+
         btnok = QPushButton("OK", self)
         btnok.setGeometry(981, 561, 83, 43)
         btnok.setFont(QFont('Nunito', 10))

@@ -32,8 +32,8 @@ class HomeScreen(QMainWindow):
         self.UiComponents()
         self.setStyleSheet("background-color: #E5E5E5")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('../Resources/yellow.png'))
-        self.label.setGeometry(0,0,1220,39)
+        self.label.setStyleSheet("background-color:#FEC32E")
+        self.label.setGeometry(0, 0, 1220, 39)
 
         # showing all the widgets
         self.show()

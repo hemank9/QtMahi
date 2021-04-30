@@ -12,6 +12,6 @@ class FileView(QMainWindow):
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Resources\yellow.png'))
+        self.label.setStyleSheet("background-color:#FEC32E")
         self.label.setGeometry(0, 0, 1220, 39)
 

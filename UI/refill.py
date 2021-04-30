@@ -59,7 +59,7 @@ class Window2(QWidget):
         btn_back = QPushButton("", self)
         btn_back.setGeometry(40, 53, 173, 41)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_back.setIcon(QtGui.QIcon('../Resources/Group 49.png'))
+        btn_back.setIcon(QtGui.QIcon('../Resources/backButton.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
         btn_back.clicked.connect(self.close)
 

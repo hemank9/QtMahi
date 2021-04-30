@@ -88,7 +88,7 @@ class MyMedicines(QMainWindow):
         btn_bck = QPushButton("", self)
         btn_bck.setGeometry(43, 40, 150, 55)
         btn_bck.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_bck.setIcon(QtGui.QIcon('../Resources/Group 34.png'))
+        btn_bck.setIcon(QtGui.QIcon('../Resources/backButton.png'))
         btn_bck.setIconSize(QtCore.QSize(160, 90))
         btn_bck.clicked.connect(self.close)
 
