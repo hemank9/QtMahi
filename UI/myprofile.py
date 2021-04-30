@@ -6,6 +6,7 @@ import sys
 from UI.MyFileList import FileList
 import MyDatabase.my_database as db
 import API.api_calls as my_apis
+import Utility.MahiUtility as Util
 import json
 
 
@@ -252,6 +253,7 @@ class MyProfile(QMainWindow):
         self.btn_bmi = QPushButton("18.5", self)
         self.btn_bmi.setGeometry(35, 544, 106, 90)
         self.btn_bmi.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
+        self.btn_bmi.setGraphicsEffect(Util.getNeuShadow(0))
 
         self.lblBmiDate = QLabel("25/09/2020",self)
         self.lblBmiDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
@@ -266,6 +268,7 @@ class MyProfile(QMainWindow):
         btn_bmiT = QPushButton(self)
         btn_bmiT.setGeometry(35, 544, 106, 90)
         btn_bmiT.setStyleSheet("border-radius : 10; background-color : #007ACEDA")
+        btn_bmiT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_bmiT.clicked.connect(self.clickme)
 
 
@@ -276,6 +279,7 @@ class MyProfile(QMainWindow):
 
         self.btn_bp = QPushButton(self)
         self.btn_bp.setGeometry(151, 544, 222, 90)
+        self.btn_bp.setGraphicsEffect(Util.getNeuShadow(0))
         self.btn_bp.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
 
         self.lblBpDate = QLabel("25/09/2020",self)
@@ -291,6 +295,7 @@ class MyProfile(QMainWindow):
         btn_bpT = QPushButton(self)
         btn_bpT.setGeometry(151, 544, 222, 90)
         btn_bpT.setStyleSheet("border-radius : 10; background-color : #007ACEDA")
+        btn_bpT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_bpT.clicked.connect(self.clickme)
 
 
@@ -300,6 +305,7 @@ class MyProfile(QMainWindow):
         lhr.setStyleSheet("color:#006CB5; font: 18px; background-color: #F0F0F3")
         self.btn_hr = QPushButton("", self)
         self.btn_hr.setGeometry(383, 544, 107, 90)
+        self.btn_hr.setGraphicsEffect(Util.getNeuShadow(0))
         self.btn_hr.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
 
         self.lblHrDate = QLabel("25/09/2020",self)
@@ -316,6 +322,7 @@ class MyProfile(QMainWindow):
         btn_hrT.setGeometry(383, 544, 107, 90)
         btn_hrT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA; ")
+        btn_hrT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_hrT.clicked.connect(self.clickme)
 
 
@@ -325,6 +332,7 @@ class MyProfile(QMainWindow):
         lhg.setStyleSheet("color:#006CB5; font: 18px; background-color: #F0F0F3")
         self.btn_hg = QPushButton("", self)
         self.btn_hg.setGeometry(500, 544, 106, 90)
+        self.btn_hg.setGraphicsEffect(Util.getNeuShadow(0))
         self.btn_hg.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
 
         self.lblHgDate = QLabel("25/09/2020",self)
@@ -341,6 +349,7 @@ class MyProfile(QMainWindow):
         btn_hgT.setGeometry(500, 544, 106, 90)
         btn_hgT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
+        btn_hgT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_hgT.clicked.connect(self.clickme)
 
 
@@ -351,6 +360,7 @@ class MyProfile(QMainWindow):
         self.btn_hba = QPushButton("", self)
         self.btn_hba.setGeometry(616, 544, 106, 90)
         self.btn_hba.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
+        self.btn_hba.setGraphicsEffect(Util.getNeuShadow(0))
 
         self.lblHba1cDate = QLabel("25/09/2020",self)
         self.lblHba1cDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
@@ -366,6 +376,7 @@ class MyProfile(QMainWindow):
         btn_hba.setGeometry(616, 544, 106, 90)
         btn_hba.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
+        btn_hba.setGraphicsEffect(Util.getNeuShadow(0))
         btn_hba.clicked.connect(self.clickme)
 
 
@@ -376,6 +387,7 @@ class MyProfile(QMainWindow):
         self.btn_sugar = QPushButton("", self)
         self.btn_sugar.setGeometry(732, 544, 106, 90)
         self.btn_sugar.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
+        self.btn_sugar.setGraphicsEffect(Util.getNeuShadow(0))
 
         self.lblSugarDate = QLabel("25/09/2020",self)
         self.lblSugarDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
@@ -391,6 +403,7 @@ class MyProfile(QMainWindow):
         btn_sugarT.setGeometry(732, 544, 106, 90)
         btn_sugarT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
+        btn_sugarT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_sugarT.clicked.connect(self.clickme)
 
 
@@ -401,6 +414,7 @@ class MyProfile(QMainWindow):
         self.btn_choles = QPushButton("", self)
         self.btn_choles.setGeometry(849, 544, 106, 90)
         self.btn_choles.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
+        self.btn_choles.setGraphicsEffect(Util.getNeuShadow(0))
 
         self.lblCholDate = QLabel("25/09/2020",self)
         self.lblCholDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
@@ -416,6 +430,7 @@ class MyProfile(QMainWindow):
         btn_cholesT.setGeometry(849, 544, 106, 90)
         btn_cholesT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
+        btn_cholesT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_cholesT.clicked.connect(self.clickme)
 
 
@@ -426,6 +441,7 @@ class MyProfile(QMainWindow):
         self.btn_pt = QPushButton("", self)
         self.btn_pt.setGeometry(965, 544, 106, 90)
         self.btn_pt.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
+        self.btn_pt.setGraphicsEffect(Util.getNeuShadow(0))
 
         self.lblPtDate = QLabel("25/09/2020",self)
         self.lblPtDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
@@ -441,6 +457,7 @@ class MyProfile(QMainWindow):
         btn_ptT.setGeometry(965, 544, 106, 90)
         btn_ptT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
+        btn_ptT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_ptT.clicked.connect(self.clickme)
 
 
@@ -451,6 +468,7 @@ class MyProfile(QMainWindow):
         self.btn_temp = QPushButton("", self)
         self.btn_temp.setGeometry(1081, 544, 106, 90)
         self.btn_temp.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
+        self.btn_temp.setGraphicsEffect(Util.getNeuShadow(0))
 
         self.lblTempDate = QLabel("25/09/2020",self)
         self.lblTempDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
@@ -466,12 +484,13 @@ class MyProfile(QMainWindow):
         btn_tempT.setGeometry(1081, 544, 106, 90)
         btn_tempT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
+        btn_tempT.setGraphicsEffect(Util.getNeuShadow(0))
         btn_tempT.clicked.connect(self.clickme)
 
 
 
         btn_back = QPushButton("", self)
-        btn_back.setGeometry(881, 50, 135, 50)
+        btn_back.setGeometry(865, 50, 135, 50)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btn_back.setIcon(QtGui.QIcon('..\Resources\\backButton.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
