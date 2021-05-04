@@ -14,9 +14,6 @@ class MyProfile(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__()
-
-
-
         # setting title
         self.setWindowTitle("Python ")
         # setting geometry
