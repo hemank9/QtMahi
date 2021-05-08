@@ -32,14 +32,6 @@ class MyStats(QMainWindow):
         # plt.plot([2, 8, 7, 4, 7, 6, 2, 5, 9], marker='D')
         # plt.show()
 
-        # self.graph = pg.PlotWidget()
-        # self.setCentralWidget(self.graph)
-        # hour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        # temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 45]
-        #
-        # self.graph.setBackground('w')
-        # self.graph.plot(hour, temperature)
-
         backBtn = QPushButton(self)
         backBtn.setGeometry(21, 61, 107, 47)
         backBtn.setStyleSheet("border-radius: 8; background-color: #F0F0F3")
@@ -154,6 +146,25 @@ class MyStats(QMainWindow):
         label12.setGeometry(200, 500, 500, 300)
         label12.setFont((QFont("Nunito", 18)))
         label12.setStyleSheet("color:red")
+
+        self.graph = PlotWidget()
+        # self.setCentralWidget(self.graph)
+        hour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 45]
+
+        self.graph.setBackground('w')
+        self.graph.plot(hour, temperature)
+
+        self.gridLayoutWidget = QWidget(self)
+        rect = QtCore.QRect(21, 133, 1043, 523)
+        self.gridLayoutWidget.setGeometry(rect)
+        self.gridLayout = QGridLayout(self.gridLayoutWidget)
+        # frame = QFrame(self)
+        # frame.setGeometry(21, 133, 1043, 523)
+        # frame.setStyleSheet("background-color:red")
+        # self.gridLayout.setParent(frame)
+        self.gridLayout.addWidget(self.graph, 0, 0, 1, 3)
+
 
     def tableClick(self):
         self.lblTable = QLabel(self)
