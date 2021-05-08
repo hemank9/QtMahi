@@ -15,7 +15,7 @@ import UI.medicinetime as myMeds
 import UI.docAppScreen as myAppo
 import UI.settings as settings
 import UI.Humm as humm
-import UI.changetime as medTime
+import UI.MyCylinders as myCylinder
 
 
 class HomeScreen(QMainWindow):
@@ -69,7 +69,7 @@ class HomeScreen(QMainWindow):
         btn_med.setStyleSheet("border-radius : 30; background-color : #E5E5E5; text-align:top ; text-align:left; focus:pressed")
         btn_med.setIcon(QtGui.QIcon('../Resources/mymed.png'))
         btn_med.setIconSize(QtCore.QSize(379, 194))
-        btn_med.clicked.connect(self.myMedsClicked)
+        btn_med.clicked.connect(self.myCylinderClicked)
 
         # mystatsbutton
         btn_stat = QPushButton("MY STATS", self)
@@ -143,15 +143,15 @@ class HomeScreen(QMainWindow):
         self.x.show()
 
     def medTimeClicked(self):
-        self.x = medTime.ChangeTime(0)
+        self.x = myMeds.MyMedicines()
         self.x.show()
 
     def profileClicked(self):
         self.x = myPro.MyProfile()
         self.x.show()
 
-    def myMedsClicked(self):
-        self.x = myMeds.MyMedicines()
+    def myCylinderClicked(self):
+        self.x = myCylinder.MyCylinders()
         self.x.show()
 
     def docAppoClicked(self):
@@ -177,12 +177,12 @@ class HomeScreen(QMainWindow):
     #     self.pro.show()
 
 
-# if __name__ == '__main__':
-#
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = HomeScreen()
-#
-#     # start the app
-#     sys.exit(App.exec())
+if __name__ == '__main__':
+
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = HomeScreen()
+
+    # start the app
+    sys.exit(App.exec())
