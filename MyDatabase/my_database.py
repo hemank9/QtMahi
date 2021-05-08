@@ -24,7 +24,6 @@ def getUserID():
         print("Fetch profile details failed : ", e.__class__)
         return None
 
-
 def createSession(user_id, userstring):
     try:
     # # send userdata json directly in this method when login is successful
@@ -53,7 +52,6 @@ def createSession(user_id, userstring):
     except Exception as e:
         print("create session failed : ", e.__class__)
 
-
 def fetchProfileDetails():
     try:
         if(isLogggedIn()):
@@ -73,8 +71,6 @@ def fetchProfileDetails():
     except Exception as e:
         print("Fetch profile details failed : ", e.__class__)
         return None
-
-
 
 def updateProfile(user_id, userString):
     try:
@@ -101,7 +97,6 @@ def updateProfile(user_id, userString):
     except Exception as e:
         print("Update Profile in database failed : " + e.__class__)
 
-
 def logoutUser():
     try:
         conn.execute("DELETE FROM '" + constants.profile_table + "'")
@@ -118,7 +113,6 @@ def logoutUser():
         print("Logout user failed : ",e.__class__)
         return  False
 
-
 def isLogggedIn():
     try:
         cursor = conn.execute("SELECT COUNT(ID) from '" + constants.login_table + "'")
@@ -133,7 +127,6 @@ def isLogggedIn():
     except Exception as e:
         print("Fetch profile details failed : ", e.__class__)
         return False
-
 
 def updateCalendarDB(user_id, calendar_json):
     try:
@@ -165,7 +158,6 @@ def updateCalendarDB(user_id, calendar_json):
     except Exception as e:
         print("Update Health Calendar in database failed : " + e.__class__)
         return None
-
 
 def getCalendarData():
     try:
@@ -280,8 +272,6 @@ def updateUpcomingAppointments(user_id,appointments_string):
     except Exception as e:
         print("Add/Update upcoming appointemnts failed : "+e.__class__)
         return False
-
-
 
 if __name__ == "__main__":
 

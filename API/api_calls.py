@@ -10,7 +10,6 @@ import MyDatabase.my_database as myDB
 import Utility.MahiUtility as utility
 import API.my_urls as myUrls
 
-
 def loginAPI(user, passw):
     try:
 
@@ -52,24 +51,24 @@ def fetchProfileDetailsAPI():
 
         if myDB.isLogggedIn():
             data = {'user_id': myDB.getUserID(),
-                    'action':constants. Action_PROFILE_REQUIRED_SETUP_CHECK,
+                    'myaction':constants. Action_get_my_profile_info,
                     'stuff': constants.Stuff,
                     'app_type': constants.AppType}
 
             print("URL: "+myUrls.MAHI_CONTROLLER_URL)
             utility.printParams(data)
-            r = requests.post(url=myUrls.PROFILE_URL, data=data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
 
             print("fetch profile response : "+r.text.strip())
             response = json.loads(r.text)
 
-            if response['stat']:
+            if response['status']:
                 print("Fetch Profile Successful")
                 myDB.updateProfile(myDB.getUserID(), r.text.strip())
                 return r.text.strip()
 
             else:
-                print(response['stat'])
+                print(response['status'])
                 return None
         else:
             return None
@@ -78,34 +77,34 @@ def fetchProfileDetailsAPI():
         print("Fail " + str(e.__class__))
         return None
 
-def fetchHealthCalendarAPI(userNumber,userId,deviceId):
-    try:
-
-        data = {'user_id': userId,
-                'mobile_no': userNumber,
-                'device_id': deviceId,
-                'stuff': constants.Stuff,
-                'app_type': constants.AppType}
-
-        print("Calendar URL: "+myUrls.HEALTH_CALENDAR_URL)
-        utility.printParams(data)
-        r = requests.post(url=myUrls.HEALTH_CALENDAR_URL, data=data)
-
-        print("fetch Calendar response : "+r.text.strip())
-        response = json.loads(r.text)
-
-        if response['stat']:
-            print("Fetch Calendar Successful")
-            myDB.updateCalendarDB(userId,json.dumps(response))
-            return response
-
-        else:
-            print(response['stat'])
-            return None
-
-    except Exception as e:
-        print("Fail " + str(e.__class__))
-        return None
+# def fetchHealthCalendarAPI(userNumber,userId,deviceId):
+#     try:
+#
+#         data = {'user_id': userId,
+#                 'mobile_no': userNumber,
+#                 'device_id': deviceId,
+#                 'stuff': constants.Stuff,
+#                 'app_type': constants.AppType}
+#
+#         print("Calendar URL: "+myUrls.HEALTH_CALENDAR_URL)
+#         utility.printParams(data)
+#         r = requests.post(url=myUrls.HEALTH_CALENDAR_URL, data=data)
+#
+#         print("fetch Calendar response : "+r.text.strip())
+#         response = json.loads(r.text)
+#
+#         if response['stat']:
+#             print("Fetch Calendar Successful")
+#             myDB.updateCalendarDB(userId,json.dumps(response))
+#             return response
+#
+#         else:
+#             print(response['stat'])
+#             return None
+#
+#     except Exception as e:
+#         print("Fail " + str(e.__class__))
+#         return None
 
 def logoutUser(userId,deviceId,deviceToken):
 
@@ -149,7 +148,7 @@ def fetchAppointments(appo_type, page):
                 'check_in_flag': str(appo_type), # 0 for upcoming, 1 for completed
                 'action': constants.ACTION_GET_MY_APPOINTMENT_LIST,
                 'stuff': constants.Stuff,
-                    'app_type': constants.AppType}
+                'app_type': constants.AppType}
 
             print("Appointments URL: " + myUrls.HEALTH_URL)
             utility.printParams(data)
@@ -253,7 +252,6 @@ def saveHummSurveyQuizAns(option, feedId):
     except Exception as e:
         print(e.__cause__)
         return None
-
 
 def fetchHummFeedsDummy():
     responseStr = r'''{

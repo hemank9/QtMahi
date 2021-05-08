@@ -8,6 +8,8 @@ import MyDatabase.my_database as db
 import API.api_calls as my_apis
 import Utility.MahiUtility as Util
 import json
+import API.my_urls as urls
+import requests
 
 
 class MyProfile(QMainWindow):
@@ -47,7 +49,7 @@ class MyProfile(QMainWindow):
             self.profileResponse = json.loads(temp)
             self.setProfileData()
         else:
-            print("Profile data not available in database")
+            print("Profile data not available in API")
 
         # except Exception as E:
         #     print(E.__class__)
@@ -55,61 +57,61 @@ class MyProfile(QMainWindow):
         # method for widgets
 
     def UiComponents(self):
-        label1_pic = QLabel(self)
-        label1_pic.setPixmap(QPixmap('..\Resources\Group 41.png'))
-        label1_pic.setGeometry(34, 48, 1164, 469)
+
+        label_pic = QLabel(self)
+        label_pic.setPixmap(QPixmap('..\Resources\Group 41.png'))
+        label_pic.setGeometry(34, 48, 1164, 469)
 
         # NAME PROFILE
-        label1_pic = QLabel(self)
-        label1_pic.setPixmap(QPixmap('..\Resources\pic.png'))
-        label1_pic.setGeometry(370, 51, 184, 180)
-        label1_pic.setStyleSheet(" border-radius : 15")
+        self.label1_pic = QLabel(self)
+        self.label1_pic.setGeometry(370, 58, 180, 180)
+        self.label1_pic.setStyleSheet(" border-radius : 15")
 
 
-        self.lblName = QLabel("Shalini Mehra",self)
+        self.lblName = QLabel(self)
         self.lblName.setGeometry(105,55,243,38)
         self.lblName.setAlignment(Qt.AlignRight)
         self.lblName.setStyleSheet("color:#ee488d; font-size:30px;")
 
 
-        self.lblAgeGender = QLabel("30 Years    Female",self)
+        self.lblAgeGender = QLabel(self)
         self.lblAgeGender.setGeometry(174,89,174,31)
         self.lblAgeGender.setAlignment(Qt.AlignRight)
         self.lblAgeGender.setStyleSheet("color:#373435; font-size:18px;")
 
 
-        self.lblEmail = QLabel("shalinimehra@gmail.com",self)
+        self.lblEmail = QLabel(self)
         self.lblEmail.setGeometry(155,116,193,31)
         self.lblEmail.setAlignment(Qt.AlignRight)
         self.lblEmail.setStyleSheet("color:#373435; font-size:18px;")
 
 
-        self.lblMobile = QLabel("9988776655",self)
+        self.lblMobile = QLabel(self)
         self.lblMobile.setGeometry(162,147,186,31)
         self.lblMobile.setAlignment(Qt.AlignRight)
         self.lblMobile.setStyleSheet("color:#373435; font-size:18px;")
 
 
-        self.lblDob = QLabel("25/09/1992",self)
+        self.lblDob = QLabel(self)
         self.lblDob.setGeometry(227,176,124,31)
         self.lblDob.setAlignment(Qt.AlignRight)
         self.lblDob.setStyleSheet("color:#373435; font-size:18px;")
 
 
-        self.lblBloodGroup= QLabel("AB+",self)
+        self.lblBloodGroup= QLabel(self)
         self.lblBloodGroup.setGeometry(298,208,60,37)
         self.lblBloodGroup.setAlignment(Qt.AlignCenter)
         self.lblBloodGroup.setStyleSheet("color:#373435; font-size:23px; border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; text-align:left")
 
 
-        self.lblAddress = QLabel("423,Iscon Emporio, Near Star Bazar, Jodhpur Cross Road,Satellite Ahmedabad, Gujarat, 380009",self)
+        self.lblAddress = QLabel(self)
         self.lblAddress.setGeometry(70,253,477,50)
         self.lblAddress.setAlignment(Qt.AlignRight)
         self.lblAddress.setStyleSheet("color:#373435; font-size:18px;")
         self.lblAddress.setWordWrap(True)
 
 
-        self.lblPharmaNumber = QLabel("9887776655",self)
+        self.lblPharmaNumber = QLabel(self)
         self.lblPharmaNumber.setGeometry(272,303,275,30)
         self.lblPharmaNumber.setAlignment(Qt.AlignRight)
         self.lblPharmaNumber.setStyleSheet("color:#373435; font-size:18px;")
@@ -134,7 +136,7 @@ class MyProfile(QMainWindow):
         label3.setWordWrap(True)
 
         # Allergies
-        self.lblAllergies = QLabel("lactose intolerent, Peanuts, Preservatives", self)
+        self.lblAllergies = QLabel( self)
         self.lblAllergies.setGeometry(54, 393, 254, 114)
         self.lblAllergies.setStyleSheet("background-color : #F0F0F3; border-radius : 15;  font-size:18px; color:#373435;")
         self.lblAllergies.setWordWrap(True)
@@ -152,9 +154,23 @@ class MyProfile(QMainWindow):
         l5 = QLabel("Family History", self)
         l5.setGeometry(325, 345, 139, 29)
         l5.setStyleSheet("color:#EE488D; font: 21px; background-color: #F0F0F3")
+        self.btnFamilyPrev = QPushButton("<", self)
+        self.btnFamilyPrev.setGeometry(372, 475, 40, 25)
+        self.btnFamilyPrev.setStyleSheet(
+            "border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
+        self.btnFamilyPrev.clicked.connect(self.prevProcedureClicked)
+        self.btnFamilyNext = QPushButton(">", self)
+        self.btnFamilyNext.setGeometry(472, 475, 40, 25)
+        self.btnFamilyNext.setStyleSheet(
+            "border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
+        self.btnFamilyNext.clicked.connect(self.nextProcedureClicked)
+
+        self.lblFamilyPage = QLabel(self)
+        self.lblFamilyPage.setGeometry(430, 475, 40, 25)
+        self.lblFamilyPage.setStyleSheet("font:normal; font-size:13px; text-align: center; text-color:#373435;")
 
         # Birth History
-        self.lblGestation = QLabel('<font color="#ee488d">Gestation: </font><font color="#373435">Full Term</font>', self)
+        self.lblGestation = QLabel( self)
         self.lblGestation.setGeometry(593, 393, 176, 30)
         self.lblGestation.setStyleSheet("background-color : #F0F0F3; border-radius : 15;  font-size:18px;")
         self.lblGestation.setAlignment(Qt.AlignLeft)
@@ -199,11 +215,11 @@ class MyProfile(QMainWindow):
         self.lblIcd.setAlignment(Qt.AlignLeft)
         self.lblIcd.setWordWrap(True)
 
-        self.lblDate= QLabel('<font color="#ee488d">Date: </font><font color="#373435">25/12/2020</font>', self)
-        self.lblDate.setGeometry(900, 308, 198, 30)
-        self.lblDate.setStyleSheet("background-color : #F0F0F3; border-radius : 15;  font-size:18px;")
-        self.lblDate.setAlignment(Qt.AlignLeft)
-        self.lblDate.setWordWrap(True)
+        self.lblProcedureDate= QLabel('<font color="#ee488d">Date: </font><font color="#373435">25/12/2020</font>', self)
+        self.lblProcedureDate.setGeometry(900, 308, 198, 30)
+        self.lblProcedureDate.setStyleSheet("background-color : #F0F0F3; border-radius : 15;  font-size:18px;")
+        self.lblProcedureDate.setAlignment(Qt.AlignLeft)
+        self.lblProcedureDate.setWordWrap(True)
 
         self.lblHospital= QLabel('<font color="#ee488d">Hospital: </font><font color="#373435">CIMS</font>', self)
         self.lblHospital.setGeometry(900, 333, 198, 30)
@@ -232,12 +248,13 @@ class MyProfile(QMainWindow):
         self.btnProcedurePrev = QPushButton("<",self)
         self.btnProcedurePrev.setGeometry(960,475,40,25)
         self.btnProcedurePrev.setStyleSheet("border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
-
+        self.btnProcedurePrev.clicked.connect(self.prevProcedureClicked)
         self.btnProcedureNext = QPushButton(">",self)
         self.btnProcedureNext.setGeometry(1060,475,40,25)
         self.btnProcedureNext.setStyleSheet("border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
+        self.btnProcedureNext.clicked.connect(self.nextProcedureClicked)
 
-        self.lblProcedurePage = QLabel("1/6",self)
+        self.lblProcedurePage = QLabel(self)
         self.lblProcedurePage.setGeometry(1018,475,40,25)
         self.lblProcedurePage.setStyleSheet("font:normal; font-size:13px; text-align: center; text-color:#373435;")
 
@@ -511,32 +528,123 @@ class MyProfile(QMainWindow):
 
     def setProfileData(self):
         print("")
-        name = self.profileResponse["profile"]["firstname"] + self.profileResponse["profile"]["lastname"]
-        user_img = self.profileResponse["profile"]["user_img"]  # profile image url
-        age = str(self.profileResponse["profile"]["age"])
-        gender = self.profileResponse["profile"]["gender"]
-        contact_num = str(self.profileResponse["profile"]["contact_num"])
-        email = self.profileResponse["profile"]["email"]
-        dob = self.profileResponse["profile"]["dob"]
-        address = self.profileResponse["profile"]["address1"]
-        bgroup = self.profileResponse["profile"]["blood_group"]
+
+        # Personalized data
+        personalize_data = self.profileResponse["personalize_data"][0]
+        name = personalize_data["firstName"] + personalize_data["lastName"]
+        user_img = urls.BASE_URL + personalize_data["user_image"]  # profile image url
+        # age = str(self.profileResponse["age"])
+        gender = personalize_data["gender"]
+        contact_num = str(personalize_data["userContactNumber"])
+        email = personalize_data["userEmail"]
+        dob = personalize_data["dob"]
+        address = personalize_data["address1"]
+        bgroup = personalize_data["blood_group"]
 
         self.lblName.setText(name)
-        self.lblAgeGender.setText(age+" "+gender)
+        self.lblAgeGender.setText(gender)
         self.lblMobile.setText(contact_num)
         self.lblEmail.setText(email)
         self.lblDob.setText(dob)
         self.lblAddress.setText(address)
         self.lblBloodGroup.setText(bgroup)
 
+        image = QImage()
+        image.loadFromData(requests.get(user_img).content)
 
-# if __name__ == '__main__':
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = MyProfile()
-#
-#     window.show()
-#
-#     # start the app
-#     sys.exit(App.exec_())
+        pixmap = QtGui.QPixmap(image)
+        scaledImage = pixmap.scaled(180, 180)
+        self.label1_pic.setPixmap(scaledImage)
+
+        # Allergies
+        allergies = ""
+        i = 0
+        for allergy in self.profileResponse["allergy_data"]:
+            allergies = allergies + allergy["allergy_name"]
+            if i < len(self.profileResponse["allergy_data"])-1:
+                allergies = allergies+", "
+            i = i+1
+
+        self.lblAllergies.setText(allergies)
+
+        # Birth History
+        birth_history = self.profileResponse["birth_history_data"]
+
+        self.lblGestation.setText('<font color="#ee488d">Gestation: </font><font color="#373435">'+birth_history["gstation"]+'</font>')
+        self.lblBirthOrder.setText('<font color="#ee488d">Birth Order: </font><font color="#373435">'+birth_history["birth_order"]+'</font>')
+        self.lblDelivery.setText('<font color="#ee488d">Delivery: </font><font color="#373435">'+birth_history["delivery"]+'</font>')
+        self.lblBirthWeight.setText('<font color="#ee488d">Birth Weight: </font><font color="#373435">'+birth_history["birth_weight"]+'kg</font>')
+
+        # Medical Procedure
+
+        medical_procedures = self.profileResponse["medical_procedure_data"]
+        self.totalProcedures = 0
+        self.procedurePage = -1
+
+        if len(medical_procedures)>0:
+            self.procedurePage = 0
+            self.totalProcedures = len(medical_procedures)
+            self.setMedicalProcedure()
+
+        # Family History
+        family_history = self.profileResponse["family_disease_data"]
+        self.totalFamilyMembers = 0
+        self.familyHistoryPage = -1
+
+        if len(family_history)>0:
+            self.familyHistoryPage = 0
+            self.totalFamilyMembers = len(family_history)
+
+
+
+    def setMedicalProcedure(self):
+
+        medical_procedure = self.profileResponse["medical_procedure_data"][self.procedurePage]
+        self.lblProcedureName.setText(
+            '<font color="#ee488d">Name: </font><font color="#373435">' + medical_procedure["p_name"] + '</font>')
+        self.lblIcd.setText('<font color="#ee488d">ICD: </font><font color="#373435">' + medical_procedure[
+            "icd_code"] + '</font>')
+        self.lblProcedureDate.setText(
+            '<font color="#ee488d">Date: </font><font color="#373435">' + medical_procedure[
+                "date_of_p"] + '</font>')
+        self.lblHospital.setText(
+            '<font color="#ee488d">Hospital: </font><font color="#373435">' + medical_procedure[
+                "where_p"] + '</font>')
+        self.lblDoctor.setText(
+            '<font color="#ee488d">By: </font><font color="#373435">' + medical_procedure["by_whom"] + '</font>')
+        self.lblRecovery.setText('<font color="#ee488d">Recovery: </font><font color="#373435">' + medical_procedure["recovery"] + '</font>')
+        self.lblComments.setText(medical_procedure["special_cmt"])
+
+        self.lblProcedurePage.setText(str(self.procedurePage+1)+"/"+str(self.totalProcedures))
+
+    def nextProcedureClicked(self):
+        if self.procedurePage < self.totalProcedures-1:
+            self.procedurePage = self.procedurePage+1
+            self.setMedicalProcedure()
+
+    def prevProcedureClicked(self):
+        if self.procedurePage > 0 :
+            self.procedurePage = self.procedurePage-1
+            self.setMedicalProcedure()
+
+    def nextFamilyClicked(self):
+        if self.procedurePage < self.totalProcedures-1:
+            self.procedurePage = self.procedurePage+1
+            self.setMedicalProcedure()
+
+    def prevFamilyClicked(self):
+        if self.procedurePage > 0:
+            self.procedurePage = self.procedurePage-1
+            self.setMedicalProcedure()
+
+
+if __name__ == '__main__':
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = MyProfile()
+
+    window.show()
+
+    # start the app
+    sys.exit(App.exec_())
