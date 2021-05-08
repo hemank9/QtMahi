@@ -1,80 +1,58 @@
-import sys, time
+import pyqtgraph as pg
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication
+# importing QtCore and QtGui from the pyqtgraph module
+from pyqtgraph.Qt import QtCore, QtGui
 
-class Ui_EditTime(object):
+# importing numpy as np
+import numpy as np
 
-    def setupUi(self, EditTime):
-        EditTime.setObjectName("EditTime")
-        EditTime.resize(392, 293)
-        EditTime.setAutoFillBackground(False)
+# define the data
+title = "GeeksforGeeks PyQtGraph"
 
-        self.timeEdit = QtWidgets.QTimeEdit(EditTime)
-        self.timeEdit.setGeometry(QtCore.QRect(140, 160, 118, 22))
-        self.timeEdit.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(1999, 12, 31), QtCore.QTime(23, 59, 59)))
-        self.timeEdit.setMaximumDate(QtCore.QDate(1999, 12, 31))
-        self.timeEdit.setMinimumDate(QtCore.QDate(1999, 12, 31))
-        self.timeEdit.setMaximumTime(QtCore.QTime(23, 59, 59))
-        self.timeEdit.setMinimumTime(QtCore.QTime(00, 00, 00))
-        self.timeEdit.setCurrentSection(QtWidgets.QDateTimeEdit.HourSection)
-        self.timeEdit.setTimeSpec(QtCore.Qt.OffsetFromUTC)
-        self.timeEdit.setTime(QtCore.QTime(24,0,0))
-        self.timeEdit.setObjectName("timeEdit")
+# y values to plot by line 1
+y = [2, 8, 6, 8, 6, 11, 14, 13, 18, 19]
 
-        self.HourLCD = QtWidgets.QLCDNumber(EditTime)
-        self.HourLCD.setGeometry(QtCore.QRect(60, 70, 111, 51))
-        self.HourLCD.setObjectName("HourLCD")
+# y values to plot by line 2
+y2 = [3, 1, 5, 8, 9, 11, 16, 17, 14, 16]
+x = range(0, 10)
 
-        self.MinuteLCD = QtWidgets.QLCDNumber(EditTime)
-        self.MinuteLCD.setGeometry(QtCore.QRect(200, 70, 111, 51))
-        self.MinuteLCD.setObjectName("MinuteLCD")
+# create plot object
+plt = pg.plot()
 
-        self.OK = QtWidgets.QPushButton(EditTime)
-        self.OK.setGeometry(QtCore.QRect(160, 230, 75, 23))
-        self.OK.setObjectName("OK")
 
-        self.label = QtWidgets.QLabel(EditTime)
-        self.label.setGeometry(QtCore.QRect(90, 46, 31, 20))
-        self.label.setObjectName("label")
+# showing x and y grids
+plt.showGrid(x=True, y=True)
 
-        self.label_2 = QtWidgets.QLabel(EditTime)
-        self.label_2.setGeometry(QtCore.QRect(230, 50, 47, 13))
-        self.label_2.setObjectName("label_2")
+# adding legend
+plt.addLegend()
 
-        self.retranslateUi(EditTime)
-        QtCore.QMetaObject.connectSlotsByName(EditTime)
+# set properties of the label for y axis
+plt.setLabel('left', 'Vertical Values', units='y')
 
-    def retranslateUi(self, EditTime):
-        _translate = QtCore.QCoreApplication.translate
+# set properties of the label for x axis
+plt.setLabel('bottom', 'Horizontal Vlaues', units='s')
 
-class EditTime(QtWidgets.QWidget, Ui_EditTime):
+# setting horizontal range
+plt.setXRange(0, 10)
 
-    def __init__(self, parent=None):
+# setting vertical range
+plt.setYRange(0, 20)
 
-        super(EditTime, self).__init__(parent) # make flexible MainWindow class.
+# setting window title
+plt.setWindowTitle(title)
 
-        self.setupUi(self)
-        self.connections()   # oversight off all your connections there are made in your application.
+# ploting line in green color
+line1 = plt.plot(x, y, pen='g', symbol='x', symbolPen='g', symbolBrush=0.2, name='green')
 
-    def connections(self):
-        self.OK.clicked.connect(self.connect)
+# ploting line2 with blue color
+line2 = plt.plot(x, y2, pen='b', symbol='o', symbolPen='b', symbolBrush=0.2, name='blue')
 
-    def connect(self):
-        t_mod = self.timeEdit.time()
-        self.HourLCD.display(t_mod.hour())
-        self.MinuteLCD.display(t_mod.minute())
-
+# main method
 if __name__ == '__main__':
 
-    print ('Starting QTimeEdit application')
-    sys.stdout.flush()   # shows output directly in an editor.
+    # importing system
+    import sys
 
-
-    app = QApplication(sys.argv)
-    window = EditTime()
-    window.show()
-
-    sys.exit(app.exec_())
-
-
+    # Start Qt event loop unless running in interactive mode or using 
+    if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
+        QtGui.QApplication.instance().exec_()
