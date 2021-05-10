@@ -16,8 +16,8 @@ def getNeuShadow(type):
     shadow2.setBlurRadius(15)
     if type == 0:
         shadow2.setColor(Qt.lightGray)
-        shadow2.setXOffset(5)
-        shadow2.setYOffset(5)
+        shadow2.setXOffset(3)
+        shadow2.setYOffset(3)
     else :
         shadow2.setColor(Qt.white)
         shadow2.setXOffset(-5)

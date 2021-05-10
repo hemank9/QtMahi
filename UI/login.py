@@ -10,8 +10,6 @@ import UI.homeScreen as homeScreen
 import Controllers.login_controller as my_con
 import MyDatabase.my_database as db
 
-
-
 class MovieSplashScreen(QtWidgets.QSplashScreen):
 
     def __init__(self, pathToGIF):
@@ -32,7 +30,6 @@ class MovieSplashScreen(QtWidgets.QSplashScreen):
         pixmap = self.movie.currentPixmap()
         self.setMask(pixmap.mask())
         painter.drawPixmap(0, 0, pixmap)
-
 
 class LoginForm(QWidget):
     def __init__(self):
@@ -100,7 +97,6 @@ class LoginForm(QWidget):
             messagebox.setIcon(QMessageBox.Warning)
             messagebox.setText("Invalid username or password")  # add message box
             messagebox.exec()
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

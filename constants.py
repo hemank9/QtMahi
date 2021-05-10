@@ -4,7 +4,7 @@ RoleID = "4"
 RegID = "XXXXX"
 
 # API Actions
-Action_PROFILE_REQUIRED_SETUP_CHECK = "PROFILE_REQUIRED_SETUP_CHECK"
+Action_get_my_profile_info = "get_my_profile_info"
 ACTION_GET_MY_APPOINTMENT_LIST = "GET_MY_APPOINTMENT_LIST"
 ACTION_DEVICE_SIGN_IN = "device_sign_in"
 ACTION_my_health_calendar = "my_health_calendar"
@@ -23,8 +23,8 @@ device_id = "mahi_id"
 device_token = "mahi_token"
 
 #One must always be commented
-path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
-# path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
+# path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
+path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
 
 #Humm Pagetypes
 HUMM_IMAGE_TEXT = 0
