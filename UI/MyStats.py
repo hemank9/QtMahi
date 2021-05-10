@@ -39,6 +39,24 @@ class MyStats(QMainWindow):
         #
         # self.graph.setBackground('w')
         # self.graph.plot(hour, temperature)
+        self.lblTable = QLabel(self)
+        self.lblTable.setGeometry(21, 133, 1043, 523)
+        self.lblTable.setStyleSheet("background-color: #FFFFFF")
+        self.lblTable.hide()
+
+        self.btnClose = QPushButton(self)
+        self.btnClose.setGeometry(30, 143, 45, 45)
+        self.btnClose.setStyleSheet("background-color: #F0F0F3; border-radius:5")
+        self.btnClose.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnClose.hide()
+        self.btnClose1 = QPushButton(self)
+        self.btnClose1.setGeometry(30, 143, 45, 45)
+        self.btnClose1.setStyleSheet("background-color: #F0F0F3; border-radius:5")
+        self.btnClose1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnClose1.setIcon(QtGui.QIcon('..\Resources\\close.png'))
+        self.btnClose1.setIconSize(QtCore.QSize(45, 45))
+        self.btnClose1.clicked.connect(self.hideTableView)
+        self.btnClose1.hide()
 
         backBtn = QPushButton(self)
         backBtn.setGeometry(21, 61, 107, 47)
@@ -156,27 +174,25 @@ class MyStats(QMainWindow):
         label12.setStyleSheet("color:red")
 
     def tableClick(self):
-        self.lblTable = QLabel(self)
-        self.lblTable.setGeometry(21, 133, 1043, 523)
-        self.lblTable.setStyleSheet("background-color: #FFFFFF")
+        # self.lblTable = QLabel(self)
+        # self.lblTable.setGeometry(21, 133, 1043, 523)
+        # self.lblTable.setStyleSheet("background-color: #FFFFFF")
+        self.lblTable.show()
+        self.btnClose.show()
+        self.btnClose1.show()
+        print("pressed")
 
-        btnClose = QPushButton(self)
-        btnClose.setGeometry(30, 143, 45, 45)
-        btnClose.setStyleSheet("background-color: #F0F0F3; border-radius:5")
-        btnClose.setGraphicsEffect(Util.getNeuShadow(0))
-        btnClose1 = QPushButton(self)
-        btnClose1.setGeometry(30, 143, 45, 45)
-        btnClose1.setStyleSheet("background-color: #F0F0F3; border-radius:5")
-        btnClose1.setGraphicsEffect(Util.getNeuShadow(1))
-        btnClose1.setIcon(QtGui.QIcon('..\Resources\\close.png'))
-        btnClose1.setIconSize(QtCore.QSize(45, 45))
-        btnClose1.clicked.connect(self.close)
 
     def helpClick(self):
 
         # qlabel = QLabel(self)
         # qlabel.setGeometry(50, 100, 50, 50)
         print("pressed")
+
+    def hideTableView(self):
+        self.lblTable.hide()
+        self.btnClose.hide()
+        self.btnClose1.hide()
 
 
 if __name__ == '__main__':
