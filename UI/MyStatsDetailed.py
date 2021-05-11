@@ -12,7 +12,7 @@ import pyqtgraph as pg
 
 class MyStatsDetailed(QMainWindow):
 
-    def __init__(self, parent=None):
+    def __init__(self, vital):
         super().__init__()
         # setting title
         self.setWindowTitle("Python ")
@@ -22,6 +22,8 @@ class MyStatsDetailed(QMainWindow):
         self.label = QLabel(self)
         self.label.setStyleSheet("background-color:#FEC32E")
         self.label.setGeometry(0, 0, 1220, 39)
+
+        self.vital = vital
 
         self.UiComponents()
 
@@ -291,13 +293,13 @@ class MyStatsDetailed(QMainWindow):
         self.gridLayoutWidget.show()
 
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = MyStatsDetailed()
-
-    window.show()
-
-    # start the app
-    sys.exit(App.exec_())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = MyStatsDetailed()
+#
+#     window.show()
+#
+#     # start the app
+#     sys.exit(App.exec_())

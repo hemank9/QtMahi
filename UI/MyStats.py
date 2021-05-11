@@ -4,6 +4,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 import Utility.MahiUtility as Util
+
+import UI.MyStatsDetailed as statsDetailed
 # importing packages
 # import matplotlib.pyplot as plt
 from pyqtgraph import PlotWidget, plot
@@ -13,7 +15,7 @@ import pyqtgraph as pg
 
 class MyStats(QMainWindow):
 
-    def __init__(self, parent=None):
+    def __init__(self):
         super().__init__()
         self.setWindowTitle("My Stats")
         # setting geometry
@@ -94,18 +96,63 @@ class MyStats(QMainWindow):
         lblBpHeader.setAlignment(Qt.AlignCenter)
         lblBpHeader.setStyleSheet(self.labelHeaderStyle)
         lblBpHeader.setText("Blood Pressure")
+        lblBpHeader.setStyleSheet("color:#555; font-size:15px")
 
         lblHeartHeader = QLabel(self)
         lblHeartHeader.setGeometry(258,125,106,20)
         lblHeartHeader.setAlignment(Qt.AlignCenter)
         lblHeartHeader.setStyleSheet(self.labelHeaderStyle)
         lblHeartHeader.setText("Heart Rate")
+        lblHeartHeader.setStyleSheet("color:#555; font-size:15px")
 
         lblBmiHeader = QLabel(self)
         lblBmiHeader.setGeometry(258+118,125,106,20)
         lblBmiHeader.setAlignment(Qt.AlignCenter)
         lblBmiHeader.setStyleSheet(self.labelHeaderStyle)
         lblBmiHeader.setText("BMI")
+        lblBmiHeader.setStyleSheet("color:#555; font-size:15px")
+
+        lblHaemoHeader = QLabel(self)
+        lblHaemoHeader.setGeometry(258+(118*2),125,106,20)
+        lblHaemoHeader.setAlignment(Qt.AlignCenter)
+        lblHaemoHeader.setStyleSheet(self.labelHeaderStyle)
+        lblHaemoHeader.setText("Haemoglobin")
+        lblHaemoHeader.setStyleSheet("color:#555; font-size:15px")
+
+        lblHba1cHeader = QLabel(self)
+        lblHba1cHeader.setGeometry(258+(118*3),125,106,20)
+        lblHba1cHeader.setAlignment(Qt.AlignCenter)
+        lblHba1cHeader.setStyleSheet(self.labelHeaderStyle)
+        lblHba1cHeader.setText("HBA1C")
+        lblHba1cHeader.setStyleSheet("color:#555; font-size:15px")
+
+        lblSugarHeader = QLabel(self)
+        lblSugarHeader.setGeometry(258+(118*4),125,106,20)
+        lblSugarHeader.setAlignment(Qt.AlignCenter)
+        lblSugarHeader.setStyleSheet(self.labelHeaderStyle)
+        lblSugarHeader.setText("Sugar")
+        lblSugarHeader.setStyleSheet("color:#555; font-size:15px")
+
+        lblCholesHeader = QLabel(self)
+        lblCholesHeader.setGeometry(258+(118*5),125,106,20)
+        lblCholesHeader.setAlignment(Qt.AlignCenter)
+        lblCholesHeader.setStyleSheet(self.labelHeaderStyle)
+        lblCholesHeader.setText("Cholestrol")
+        lblCholesHeader.setStyleSheet("color:#555; font-size:15px")
+
+        lblPtnrHeader = QLabel(self)
+        lblPtnrHeader.setGeometry(258+(118*6),125,106,20)
+        lblPtnrHeader.setAlignment(Qt.AlignCenter)
+        lblPtnrHeader.setStyleSheet(self.labelHeaderStyle)
+        lblPtnrHeader.setText("Pt/Nr")
+        lblPtnrHeader.setStyleSheet("color:#555; font-size:15px")
+
+        lblTempHeader = QLabel(self)
+        lblTempHeader.setGeometry(258+(118*7),125,106,20)
+        lblTempHeader.setAlignment(Qt.AlignCenter)
+        lblTempHeader.setStyleSheet(self.labelHeaderStyle)
+        lblTempHeader.setText("Temperature")
+        lblTempHeader.setStyleSheet("color:#555; font-size:15px")
 
 
 
@@ -195,7 +242,7 @@ class MyStats(QMainWindow):
             btnBp = QPushButton(self)
             btnBp.setGeometry(startBpx,startBpy,startBpw,startBph)
             btnBp.setStyleSheet("background-color:#00AAAAAA")
-            btnBp.clicked.connect(self.BpClicked)
+            btnBp.clicked.connect(lambda: self.VitalClicked("Blood Pressure"))
 
 
             self.bpBtnList.append(btnBp)
@@ -232,7 +279,7 @@ class MyStats(QMainWindow):
             btnHeartT = QPushButton(self)
             btnHeartT.setGeometry(startHeartx, startHearty, startHeartw, startHearth)
             btnHeartT.setStyleSheet("background-color:#00AAAAAA")
-            btnHeartT.clicked.connect(self.HeartClicked)
+            btnHeartT.clicked.connect(lambda: self.VitalClicked("Heart Rate"))
 
 
 
@@ -270,7 +317,7 @@ class MyStats(QMainWindow):
             btnBmiT = QPushButton(self)
             btnBmiT.setGeometry(startHeartx+118, startHearty, startHeartw, startHearth)
             btnBmiT.setStyleSheet("background-color:#00AAAAAA")
-            btnBmiT.clicked.connect(self.HeartClicked)
+            btnBmiT.clicked.connect(lambda: self.VitalClicked("BMI"))
 
             self.bmiBtnList.append(btnBmiT)
             self.bmiLblDateList.append(lblBmiDate)
@@ -306,7 +353,7 @@ class MyStats(QMainWindow):
             btnHaemoT = QPushButton(self)
             btnHaemoT.setGeometry(startHeartx+(118*2), startHearty, startHeartw, startHearth)
             btnHaemoT.setStyleSheet("background-color:#00AAAAAA")
-            btnHaemoT.clicked.connect(self.HeartClicked)
+            btnHaemoT.clicked.connect(lambda: self.VitalClicked("Haemoglobin"))
 
             self.HaemoBtnList.append(btnHaemoT)
             self.HaemoLblDateList.append(lblHaemoDate)
@@ -342,7 +389,7 @@ class MyStats(QMainWindow):
             btnHba1cT = QPushButton(self)
             btnHba1cT.setGeometry(startHeartx+(118*3), startHearty, startHeartw, startHearth)
             btnHba1cT.setStyleSheet("background-color:#00AAAAAA")
-            btnHba1cT.clicked.connect(self.HeartClicked)
+            btnHba1cT.clicked.connect(lambda: self.VitalClicked("HBA1C"))
 
             self.Hba1cBtnList.append(btnHba1cT)
             self.Hba1cLblDateList.append(lblHba1cDate)
@@ -378,7 +425,7 @@ class MyStats(QMainWindow):
             btnSugarT = QPushButton(self)
             btnSugarT.setGeometry(startHeartx+(118*4), startHearty, startHeartw, startHearth)
             btnSugarT.setStyleSheet("background-color:#00AAAAAA")
-            btnSugarT.clicked.connect(self.HeartClicked)
+            btnSugarT.clicked.connect(lambda: self.VitalClicked("Sugar"))
 
             self.SugarBtnList.append(btnSugarT)
             self.SugarLblDateList.append(lblSugarDate)
@@ -414,7 +461,7 @@ class MyStats(QMainWindow):
             btnCholesT = QPushButton(self)
             btnCholesT.setGeometry(startHeartx+(118*5), startHearty, startHeartw, startHearth)
             btnCholesT.setStyleSheet("background-color:#00AAAAAA")
-            btnCholesT.clicked.connect(self.HeartClicked)
+            btnCholesT.clicked.connect(lambda: self.VitalClicked("Cholestrol"))
 
             self.CholesBtnList.append(btnCholesT)
             self.CholesLblDateList.append(lblCholesDate)
@@ -449,7 +496,7 @@ class MyStats(QMainWindow):
             btnPtnrT = QPushButton(self)
             btnPtnrT.setGeometry(startHeartx+(118*6), startHearty, startHeartw, startHearth)
             btnPtnrT.setStyleSheet("background-color:#00AAAAAA")
-            btnPtnrT.clicked.connect(self.HeartClicked)
+            btnPtnrT.clicked.connect(lambda: self.VitalClicked("Pt/Nr"))
 
             self.PtnrBtnList.append(btnPtnrT)
             self.PtnrLblDateList.append(lblPtnrDate)
@@ -484,19 +531,17 @@ class MyStats(QMainWindow):
             btnTemperatureT = QPushButton(self)
             btnTemperatureT.setGeometry(startHeartx+(118*7), startHearty, startHeartw, startHearth)
             btnTemperatureT.setStyleSheet("background-color:#00AAAAAA")
-            btnTemperatureT.clicked.connect(self.HeartClicked)
+            btnTemperatureT.clicked.connect(lambda: self.VitalClicked("Temperature"))
 
             self.TemperatureBtnList.append(btnTemperatureT)
             self.TemperatureLblDateList.append(lblTemperatureDate)
             self.TemperatureLblUnitList.append(lblTemperatureUnit)
             self.TemperatureLblValueList.append(lblTemperatureValue)
 
-
-    def BpClicked(self):
-        print("BP pressed")
-
-    def HeartClicked(self):
-        print("Heart pressed")
+    def VitalClicked(self,vital):
+        print(vital)
+        self.x = statsDetailed.MyStatsDetailed(vital)
+        self.x.show()
 
 
 
