@@ -232,6 +232,7 @@ class MyStatsDetailed(QMainWindow):
         self.vitalsCombo.addItem("Cholesterol")
         self.vitalsCombo.addItem("Pt/INR")
         self.vitalsCombo.addItem("Temperature")
+        self.vitalsCombo.currentIndexChanged.connect(self.vitalChanged)
 
         normalBtn = QPushButton("Normal", self)
         normalBtn.setStyleSheet("border-radius: 6; background-color: #7ACEDA; color: #FFFFFF")
@@ -270,11 +271,6 @@ class MyStatsDetailed(QMainWindow):
         self.gridLayout.addWidget(self.graph, 0, 0, 1, 3)
         self.gridLayoutWidget.setStyleSheet("background-color:white")
 
-
-
-
-
-
     def tableClick(self):
         # self.lblTable = QLabel(self)
         # self.lblTable.setGeometry(21, 133, 1043, 523)
@@ -292,14 +288,17 @@ class MyStatsDetailed(QMainWindow):
         self.lblTable.hide()
         self.gridLayoutWidget.show()
 
+    def vitalChanged(self,i):
+        print(i)
 
-# if __name__ == '__main__':
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = MyStatsDetailed()
-#
-#     window.show()
-#
-#     # start the app
-#     sys.exit(App.exec_())
+
+if __name__ == '__main__':
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = MyStatsDetailed("")
+
+    window.show()
+
+    # start the app
+    sys.exit(App.exec_())
