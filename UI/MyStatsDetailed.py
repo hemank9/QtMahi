@@ -50,11 +50,14 @@ class MyStatsDetailed(QMainWindow):
         rowcount = 1
 
         vitalsBtn = QComboBox(self)
-        vitalsBtn.setStyleSheet("border-radius: 10;")
+        vitalsBtn.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; }"
+                                       "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}")
         vitalsBtn.setGeometry(890, 145, 130, 40)
         vitalsBtn.setGraphicsEffect(Util.getNeuShadow(0))
         self.vitalsBtn1 = QComboBox(self)
-        self.vitalsBtn1.setStyleSheet("border-radius: 10; color: #00A0B5")
+        self.vitalsBtn1.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5;padding-left:15px;font-size:18px }"
+                                       "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}"
+                                       "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
         self.vitalsBtn1.setGeometry(890, 145, 130, 40)
         self.vitalsBtn1.setGraphicsEffect(Util.getNeuShadow(1))
         self.vitalsBtn1.addItem("FPG")
@@ -165,16 +168,19 @@ class MyStatsDetailed(QMainWindow):
         # addReadingsBtn1.clicked.connect(self.)
 
         filterBtn = QComboBox(self)
-        filterBtn.setStyleSheet("border-radius: 10;")
+        filterBtn.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5 }"
+                                       "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}")
         filterBtn.setGeometry(1082, 135, 110, 50)
         filterBtn.setGraphicsEffect(Util.getNeuShadow(0))
         self.filterBtn1 = QComboBox(self)
-        self.filterBtn1.setStyleSheet("border-radius: 10; color: #00A0B5")
         self.filterBtn1.setGeometry(1082, 135, 110, 50)
         self.filterBtn1.setGraphicsEffect(Util.getNeuShadow(1))
         self.filterBtn1.addItem("Weekly")
         self.filterBtn1.addItem("Monthly")
         self.filterBtn1.addItem("Yearly")
+        self.filterBtn1.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5;padding-left:15px;font-size:18px }"
+                                       "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}"
+                                       "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
         # self.filterBtn1.addItem("Haemoglobin")
         # filterBtn1.clicked.connect(self.)
 
@@ -216,12 +222,15 @@ class MyStatsDetailed(QMainWindow):
 
         self.vitalsCombo1 = QComboBox(self)
         self.vitalsCombo1.setGeometry(187, 57, 214, 50)
-        self.vitalsCombo1.setStyleSheet("border-radius: 10; color: #00A0B5 ")
+        self.vitalsCombo1.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; }"
+                                       "QComboBox::drop-down { background:rgb(255,255,255,0)}")
         self.vitalsCombo1.setGraphicsEffect(Util.getNeuShadow(1))
 
         self.vitalsCombo = QComboBox(self)
         self.vitalsCombo.setGeometry(187, 57, 214, 50)
-        self.vitalsCombo.setStyleSheet("border-radius: 10; color: #00A0B5; ")
+        self.vitalsCombo.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; padding-left:15px;font-size:18px}"
+                                       "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}"
+                                       "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
         self.vitalsCombo.setGraphicsEffect(Util.getNeuShadow(0))
         self.vitalsCombo.addItem("HBA1C")
         self.vitalsCombo.addItem("Blood Pressure")
@@ -290,6 +299,8 @@ class MyStatsDetailed(QMainWindow):
 
     def vitalChanged(self,i):
         print(i)
+
+
 
 
 if __name__ == '__main__':
