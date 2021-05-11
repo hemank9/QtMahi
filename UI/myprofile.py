@@ -10,6 +10,7 @@ import Utility.MahiUtility as Util
 import json
 import API.my_urls as urls
 import requests
+import math
 
 
 class MyProfile(QMainWindow):
@@ -122,18 +123,37 @@ class MyProfile(QMainWindow):
         l2 = QLabel("Medical History", self)
         l2.setGeometry(573, 40, 150, 29)
         l2.setStyleSheet("color:#EE488D; font: 21px; background-color: #F0F0F3")
-        lblMedHistory = QLabel("Multi label i.e With multi line", self)
-        lblMedHistory.setGeometry(600, 100, 250, 220)
-        lblMedHistory.setStyleSheet(" background-color : #F0F0F3")
-        # making it multi line
-        lblMedHistory.setWordWrap(True)
         # l2.setStyleSheet("color:#EE488D; font: 21px")
 
         # Emergency contact
-        label3 = QLabel("Emergency", self)
-        label3.setGeometry(881, 112, 307, 82)
-        label3.setStyleSheet("border-radius : 10; background-color : #00A0B5 ")
-        label3.setWordWrap(True)
+        self.lblEmergency = QLabel("Emergency : 9988776655\n\nCare Taker : 9988776655", self)
+        self.lblEmergency.setGeometry(881, 112, 307, 82)
+        self.lblEmergency.setAlignment(Qt.AlignCenter)
+        self.lblEmergency.setStyleSheet("border-radius : 10; background-color : #00A0B5; color:white; font-size:18px; font-weight:bold")
+        self.lblEmergency.setWordWrap(True)
+
+        self.lblDiseaseHistory = QLabel(self)
+        self.lblDiseaseHistory.setWordWrap(True)
+        self.lblDiseaseHistory.setGeometry(596,98,250,200)
+        self.lblDiseaseHistory.setAlignment(Qt.AlignTop)
+        self.lblDiseaseHistory.setStyleSheet("font-size:18px;")
+
+        self.btnDiseasePrev = QPushButton("<", self)
+        self.btnDiseasePrev.setGeometry(640, 305, 40, 25)
+        self.btnDiseasePrev.setStyleSheet(
+            "border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
+        self.btnDiseasePrev.clicked.connect(lambda : self.diseaseChanged(0))
+
+        self.btnDiseaseNext = QPushButton(">", self)
+        self.btnDiseaseNext.setGeometry(755, 305, 40, 25)
+        self.btnDiseaseNext.setStyleSheet(
+            "border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
+        self.btnDiseaseNext.clicked.connect(lambda : self.diseaseChanged(1))
+
+        self.lblDiseasePage = QLabel(self)
+        self.lblDiseasePage.setGeometry(710, 305, 40, 25)
+        self.lblDiseasePage.setStyleSheet("font:normal; font-size:13px; text-align: center; text-color:#373435;")
+
 
         # Allergies
         self.lblAllergies = QLabel( self)
@@ -147,10 +167,13 @@ class MyProfile(QMainWindow):
 
 
         # Family history
-        lblFamilyHistory = QLabel("Multi label i.e With multi line", self)
-        lblFamilyHistory.setGeometry(344, 393, 213, 119)
-        lblFamilyHistory.setStyleSheet("background-color : #F0F0F3; border-radius : 15")
-        lblFamilyHistory.setWordWrap(True)
+
+        self.lblFamHistory = QLabel(self)
+        self.lblFamHistory.setGeometry(345,395,195,75)
+        self.lblFamHistory.setAlignment(Qt.AlignTop)
+        self.lblFamHistory.setStyleSheet("background-color : #F0F0F3; border-radius : 15;  font-size:18px; color:#373435;")
+        self.lblFamHistory.setWordWrap(True)
+
         l5 = QLabel("Family History", self)
         l5.setGeometry(325, 345, 139, 29)
         l5.setStyleSheet("color:#EE488D; font: 21px; background-color: #F0F0F3")
@@ -158,15 +181,15 @@ class MyProfile(QMainWindow):
         self.btnFamilyPrev.setGeometry(372, 475, 40, 25)
         self.btnFamilyPrev.setStyleSheet(
             "border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
-        self.btnFamilyPrev.clicked.connect(self.prevProcedureClicked)
+        self.btnFamilyPrev.clicked.connect(lambda : self.famHistoryChanged(0))
         self.btnFamilyNext = QPushButton(">", self)
         self.btnFamilyNext.setGeometry(472, 475, 40, 25)
         self.btnFamilyNext.setStyleSheet(
             "border-radius:10; font:bold; font-size:13px; background-color : #7ACEDA; color:#FFFFFF;text-align: center;")
-        self.btnFamilyNext.clicked.connect(self.nextProcedureClicked)
+        self.btnFamilyNext.clicked.connect(lambda : self.famHistoryChanged(1))
 
         self.lblFamilyPage = QLabel(self)
-        self.lblFamilyPage.setGeometry(430, 475, 40, 25)
+        self.lblFamilyPage.setGeometry(432, 475, 40, 25)
         self.lblFamilyPage.setStyleSheet("font:normal; font-size:13px; text-align: center; text-color:#373435;")
 
         # Birth History
@@ -540,6 +563,7 @@ class MyProfile(QMainWindow):
         dob = personalize_data["dob"]
         address = personalize_data["address1"]
         bgroup = personalize_data["blood_group"]
+        pharmacyNumber = personalize_data["pharmacy_number"]
 
         self.lblName.setText(name)
         self.lblAgeGender.setText(gender)
@@ -548,6 +572,7 @@ class MyProfile(QMainWindow):
         self.lblDob.setText(dob)
         self.lblAddress.setText(address)
         self.lblBloodGroup.setText(bgroup)
+        self.lblPharmaNumber.setText(pharmacyNumber)
 
         image = QImage()
         image.loadFromData(requests.get(user_img).content)
@@ -576,7 +601,6 @@ class MyProfile(QMainWindow):
         self.lblBirthWeight.setText('<font color="#ee488d">Birth Weight: </font><font color="#373435">'+birth_history["birth_weight"]+'kg</font>')
 
         # Medical Procedure
-
         medical_procedures = self.profileResponse["medical_procedure_data"]
         self.totalProcedures = 0
         self.procedurePage = -1
@@ -587,15 +611,85 @@ class MyProfile(QMainWindow):
             self.setMedicalProcedure()
 
         # Family History
-        family_history = self.profileResponse["family_disease_data"]
+        family_history = self.profileResponse["famliy_disease_data"]
         self.totalFamilyMembers = 0
         self.familyHistoryPage = -1
-
         if len(family_history)>0:
             self.familyHistoryPage = 0
             self.totalFamilyMembers = len(family_history)
+            self.setFamHistory()
+
+        # My Disease
+        disease_history = self.profileResponse["disease_data"]["my_disease"]
+
+        self.totalDieases = 0
+        self.diseasePage = -1
+        self.diseaseList = []
+        if len(disease_history)>0:
+            self.diseasePage = 0
+            for i in disease_history:
+                self.totalDieases = self.totalDieases+len(i)
+
+                for disease in i:
+                    self.diseaseList.append(disease)
+
+            self.setDiseaseData()
+
+    def setDiseaseData(self):
+        print("")
+
+        self.lblDiseasePage.setText(str(self.diseasePage+1)+"/"+str(math.ceil(self.totalDieases/3)))
+        index = self.diseasePage*3
+        loop = self.totalDieases-index
+        if loop>3:
+            loop = 3
+
+        diseaseString = ""
+        for i in range(loop):
+            diseaseString = diseaseString+'<font color="#ee488d">' + self.diseaseList[index+i]["disease_name"] + '<br/></font>'
+            diseaseString = diseaseString+'<font color="#373435">'+self.diseaseList[index+i]["start_date"]+\
+                            ' - '+self.diseaseList[index+i]["end_date"]+'<br/><br/></font>'
+
+        self.lblDiseaseHistory.setText(diseaseString)
+
+    def diseaseChanged(self,type):
+        if type == 0:
+            if self.diseasePage > 0:
+                self.diseasePage = self.diseasePage-1
+                self.setDiseaseData()
+
+        elif type == 1:
+            if (self.diseasePage+1)*3 < self.totalDieases :
+                self.diseasePage = self.diseasePage + 1
+                self.setDiseaseData()
 
 
+
+    def setFamHistory(self):
+        famHistory = self.profileResponse["famliy_disease_data"][self.familyHistoryPage]
+        self.lblFamilyPage.setText(str(self.familyHistoryPage+1)+"/"+str(self.totalFamilyMembers))
+        diseases = ""
+        j = 1
+        for i in famHistory['disease_histry']:
+            diseases = diseases+i["disease_name"]
+            if j < len(famHistory['disease_histry']):
+                diseases = diseases+", "
+            j = j+1
+
+        self.lblFamHistory.setText('<font color="#ee488d">' + str(famHistory['relation']) + ': </font><font color="#373435">'+diseases+'</font>')
+
+    def famHistoryChanged(self,type):
+
+        if type == 0:
+            if self.familyHistoryPage > 0:
+                self.familyHistoryPage = self.familyHistoryPage-1
+                self.setFamHistory()
+
+        elif type == 1:
+
+            if self.familyHistoryPage < self.totalFamilyMembers -1:
+                self.familyHistoryPage = self.familyHistoryPage + 1
+                self.setFamHistory()
 
     def setMedicalProcedure(self):
 
