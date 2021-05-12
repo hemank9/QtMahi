@@ -147,6 +147,15 @@ class MyStatsDetailed(QMainWindow):
         # self.btnClose1.clicked.connect(self.GraphViewClicked)
         # self.btnClose1.hide()
 
+        syncBtn = QPushButton(self)
+        syncBtn.setGeometry(133, 63, 45, 45)
+        syncBtn.setStyleSheet("border-radius: 8; background-color: #F0F0F3")
+        syncBtn.setIcon(QtGui.QIcon('..\Resources\\syncBtn.png'))
+        syncBtn.setIconSize(QtCore.QSize(112, 52))
+        syncBtn.setGraphicsEffect(Util.getNeuShadow(0))
+        syncBtn.clicked.connect(self.close)
+
+
         backBtn = QPushButton(self)
         backBtn.setGeometry(21, 61, 107, 47)
         backBtn.setStyleSheet("border-radius: 8; background-color: #F0F0F3")
