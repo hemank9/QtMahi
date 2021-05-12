@@ -117,7 +117,7 @@ def logoutUser(userId,deviceId,deviceToken):
                     'stuff': constants.Stuff,
                     'app_type': constants.AppType}
 
-            print("logout URL: " + myUrls.HEALTH_CALENDAR_URL)
+            print("logout URL: " + myUrls.LOGOUT_API)
             utility.printParams(data)
             r = requests.post(url=myUrls.LOGOUT_API, data=data)
 
@@ -533,6 +533,40 @@ def fetchHummFeedsDummy():
     }'''
 
     return json.loads(responseStr, strict=False)
+
+def fetchMedicalFiles(sortOrder):
+    try:
+        if myDB.isLogggedIn():
+            data ={'user_id': str(myDB.getUserID()),
+                    'stuff': constants.Stuff,
+                    'app_type': constants.AppType,
+                    'myaction': constants.ACTION_get_patient_file_type_list,
+                    'sort_order': sortOrder,
+                   }
+
+            print("Fetch Files URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Files response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch Files Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+        else:
+            print("user not logged in")
+            return None
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+
 
 if __name__ == "__main__":
     print("API Calls Main Function")

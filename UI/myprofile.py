@@ -663,8 +663,6 @@ class MyProfile(QMainWindow):
                 self.diseasePage = self.diseasePage + 1
                 self.setDiseaseData()
 
-
-
     def setFamHistory(self):
         famHistory = self.profileResponse["famliy_disease_data"][self.familyHistoryPage]
         self.lblFamilyPage.setText(str(self.familyHistoryPage+1)+"/"+str(self.totalFamilyMembers))

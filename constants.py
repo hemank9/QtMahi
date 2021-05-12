@@ -10,6 +10,7 @@ ACTION_DEVICE_SIGN_IN = "device_sign_in"
 ACTION_my_health_calendar = "my_health_calendar"
 ACTION_get_my_feeds = "get_my-feeds"
 ACTION_USER_OPTION_SAVE = "USEROPTIONSAVE"
+ACTION_get_patient_file_type_list = "get_patient_file_type_list"
 
 # Database Connection Settings
 my_database_name = "mahi.db"
