@@ -527,16 +527,24 @@ class MyProfile(QMainWindow):
 
 
         btn_back = QPushButton("", self)
-        btn_back.setGeometry(865, 50, 135, 50)
+        btn_back.setGeometry(879, 50, 112, 50)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btn_back.setIcon(QtGui.QIcon('..\Resources\\backButton.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
         btn_back.clicked.connect(self.close)
 
+        syncBtn = QPushButton(self)
+        syncBtn.setGeometry(1002, 55, 45, 45)
+        syncBtn.setStyleSheet("border-radius: 8; background-color: #F0F0F3")
+        syncBtn.setIcon(QtGui.QIcon('..\Resources\\syncBtn.png'))
+        syncBtn.setIconSize(QtCore.QSize(112, 52))
+        syncBtn.setGraphicsEffect(Util.getNeuShadow(0))
+        syncBtn.clicked.connect(self.close)
+
         btn_files = QPushButton("", self)
-        btn_files.setGeometry(999, 50, 189, 50)
-        btn_files.setStyleSheet("border-radius : 20; background-color: #F0F0F3; text-align:left")
-        btn_files.setIcon(QtGui.QIcon('..\Resources\medfiles.png'))
+        btn_files.setGeometry(1064, 55, 122, 50)
+        btn_files.setStyleSheet("border-radius : 8; background-color: #00A0B5; text-align:left")
+        btn_files.setIcon(QtGui.QIcon('..\Resources\medFiles.png'))
         btn_files.setIconSize(QtCore.QSize(189, 71))
         btn_files.clicked.connect(self.medfiles)
 
