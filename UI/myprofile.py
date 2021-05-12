@@ -287,17 +287,17 @@ class MyProfile(QMainWindow):
         lbmi.setGeometry(71, 634, 34, 26)
         lbmi.setStyleSheet("color:#006CB5; font: 18px; background-color: #F0F0F3")
 
-        self.btn_bmi = QPushButton("18.5", self)
+        self.btn_bmi = QPushButton( self)
         self.btn_bmi.setGeometry(35, 544, 106, 90)
         self.btn_bmi.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
         self.btn_bmi.setGraphicsEffect(Util.getNeuShadow(0))
 
-        self.lblBmiDate = QLabel("25/09/2020",self)
+        self.lblBmiDate = QLabel(self)
         self.lblBmiDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblBmiDate.setGeometry(65,549,70,16)
         self.lblBmiDate.setAlignment(Qt.AlignRight)
 
-        self.lblBmiUnit = QLabel("kg/m2",self)
+        self.lblBmiUnit = QLabel(self)
         self.lblBmiUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblBmiUnit.setGeometry(65,608,70,20)
         self.lblBmiUnit.setAlignment(Qt.AlignRight)
@@ -314,17 +314,21 @@ class MyProfile(QMainWindow):
         lbp.setGeometry(198, 634, 132, 20)
         lbp.setStyleSheet("color:#006CB5; font: 18px; background-color: #F0F0F3")
 
-        self.btn_bp = QPushButton(self)
-        self.btn_bp.setGeometry(151, 544, 222, 90)
-        self.btn_bp.setGraphicsEffect(Util.getNeuShadow(0))
-        self.btn_bp.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
+        btn_bp = QPushButton(self)
+        btn_bp.setGeometry(151, 544, 222, 90)
+        btn_bp.setGraphicsEffect(Util.getNeuShadow(0))
+        btn_bp.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
 
-        self.lblBpDate = QLabel("25/09/2020",self)
+        self.lblBpValue = QLabel(self)
+        self.lblBpValue.setStyleSheet("font:bold; font-size:24px; text-align: center; background-color:#00AAAAAA")
+        self.lblBpValue.setGeometry(163,572,200,33)
+
+        self.lblBpDate = QLabel(self)
         self.lblBpDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblBpDate.setGeometry(295,549,70,16)
         self.lblBpDate.setAlignment(Qt.AlignRight)
 
-        self.lblBpUnit = QLabel("mm/hg",self)
+        self.lblBpUnit = QLabel(self)
         self.lblBpUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblBpUnit.setGeometry(295,608,70,20)
         self.lblBpUnit.setAlignment(Qt.AlignRight)
@@ -340,17 +344,17 @@ class MyProfile(QMainWindow):
         lhr = QLabel("Heart Rate", self)
         lhr.setGeometry(389, 634, 110, 29)
         lhr.setStyleSheet("color:#006CB5; font: 18px; background-color: #F0F0F3")
-        self.btn_hr = QPushButton("", self)
+        self.btn_hr = QPushButton( self)
         self.btn_hr.setGeometry(383, 544, 107, 90)
         self.btn_hr.setGraphicsEffect(Util.getNeuShadow(0))
         self.btn_hr.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
 
-        self.lblHrDate = QLabel("25/09/2020",self)
+        self.lblHrDate = QLabel(self)
         self.lblHrDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblHrDate.setGeometry(412,549,70,16)
         self.lblHrDate.setAlignment(Qt.AlignRight)
 
-        self.lblHrUnit = QLabel("bpm",self)
+        self.lblHrUnit = QLabel(self)
         self.lblHrUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblHrUnit.setGeometry(412,608,70,20)
         self.lblHrUnit.setAlignment(Qt.AlignRight)
@@ -372,12 +376,12 @@ class MyProfile(QMainWindow):
         self.btn_hg.setGraphicsEffect(Util.getNeuShadow(0))
         self.btn_hg.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
 
-        self.lblHgDate = QLabel("25/09/2020",self)
+        self.lblHgDate = QLabel(self)
         self.lblHgDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblHgDate.setGeometry(526,549,70,16)
         self.lblHgDate.setAlignment(Qt.AlignRight)
 
-        self.lblHgUnit = QLabel("g/dl",self)
+        self.lblHgUnit = QLabel(self)
         self.lblHgUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblHgUnit.setGeometry(526,608,70,20)
         self.lblHgUnit.setAlignment(Qt.AlignRight)
@@ -399,12 +403,12 @@ class MyProfile(QMainWindow):
         self.btn_hba.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
         self.btn_hba.setGraphicsEffect(Util.getNeuShadow(0))
 
-        self.lblHba1cDate = QLabel("25/09/2020",self)
+        self.lblHba1cDate = QLabel(self)
         self.lblHba1cDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblHba1cDate.setGeometry(645,549,70,16)
         self.lblHba1cDate.setAlignment(Qt.AlignRight)
 
-        self.lblHba1cUnit = QLabel("mmol/mol",self)
+        self.lblHba1cUnit = QLabel(self)
         self.lblHba1cUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblHba1cUnit.setGeometry(645,608,70,20)
         self.lblHba1cUnit.setAlignment(Qt.AlignRight)
@@ -426,12 +430,12 @@ class MyProfile(QMainWindow):
         self.btn_sugar.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
         self.btn_sugar.setGraphicsEffect(Util.getNeuShadow(0))
 
-        self.lblSugarDate = QLabel("25/09/2020",self)
+        self.lblSugarDate = QLabel(self)
         self.lblSugarDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblSugarDate.setGeometry(762,549,70,16)
         self.lblSugarDate.setAlignment(Qt.AlignRight)
 
-        self.lblSugarUnit = QLabel("mmol/mol",self)
+        self.lblSugarUnit = QLabel(self)
         self.lblSugarUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblSugarUnit.setGeometry(762,608,70,20)
         self.lblSugarUnit.setAlignment(Qt.AlignRight)
@@ -453,12 +457,12 @@ class MyProfile(QMainWindow):
         self.btn_choles.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
         self.btn_choles.setGraphicsEffect(Util.getNeuShadow(0))
 
-        self.lblCholDate = QLabel("25/09/2020",self)
+        self.lblCholDate = QLabel(self)
         self.lblCholDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblCholDate.setGeometry(879,549,70,16)
         self.lblCholDate.setAlignment(Qt.AlignRight)
 
-        self.lblCholUnit = QLabel("mg/dl",self)
+        self.lblCholUnit = QLabel(self)
         self.lblCholUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblCholUnit.setGeometry(879,608,70,20)
         self.lblCholUnit.setAlignment(Qt.AlignRight)
@@ -480,12 +484,12 @@ class MyProfile(QMainWindow):
         self.btn_pt.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
         self.btn_pt.setGraphicsEffect(Util.getNeuShadow(0))
 
-        self.lblPtDate = QLabel("25/09/2020",self)
+        self.lblPtDate = QLabel(self)
         self.lblPtDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblPtDate.setGeometry(994,549,70,16)
         self.lblPtDate.setAlignment(Qt.AlignRight)
 
-        self.lblPtUnit = QLabel("bpm",self)
+        self.lblPtUnit = QLabel(self)
         self.lblPtUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblPtUnit.setGeometry(994,608,70,20)
         self.lblPtUnit.setAlignment(Qt.AlignRight)
@@ -507,12 +511,12 @@ class MyProfile(QMainWindow):
         self.btn_temp.setStyleSheet("border-radius : 10; background-color : #7ACEDA; color:#FFFFFF; font:bold; font-size:24px; text-align: center;")
         self.btn_temp.setGraphicsEffect(Util.getNeuShadow(0))
 
-        self.lblTempDate = QLabel("25/09/2020",self)
+        self.lblTempDate = QLabel(self)
         self.lblTempDate.setStyleSheet("color:white;font-size:12px; background-color : #7ACEDA")
         self.lblTempDate.setGeometry(1109,549,70,16)
         self.lblTempDate.setAlignment(Qt.AlignRight)
 
-        self.lblTempUnit = QLabel("f",self)
+        self.lblTempUnit = QLabel(self)
         self.lblTempUnit.setStyleSheet("color:white;font-size:15px; background-color : #7ACEDA")
         self.lblTempUnit.setGeometry(1109,608,70,20)
         self.lblTempUnit.setAlignment(Qt.AlignRight)
@@ -527,25 +531,25 @@ class MyProfile(QMainWindow):
 
 
         btn_back = QPushButton("", self)
-        btn_back.setGeometry(879, 50, 112, 50)
+        btn_back.setGeometry(879, 55, 112, 41)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btn_back.setIcon(QtGui.QIcon('..\Resources\\backButton.png'))
-        btn_back.setIconSize(QtCore.QSize(155, 71))
+        btn_back.setIconSize(QtCore.QSize(112, 41))
         btn_back.clicked.connect(self.close)
 
         syncBtn = QPushButton(self)
-        syncBtn.setGeometry(1002, 55, 45, 45)
+        syncBtn.setGeometry(1002, 55, 45, 41)
         syncBtn.setStyleSheet("border-radius: 8; background-color: #F0F0F3")
         syncBtn.setIcon(QtGui.QIcon('..\Resources\\syncBtn.png'))
-        syncBtn.setIconSize(QtCore.QSize(112, 52))
+        syncBtn.setIconSize(QtCore.QSize(45, 41))
         syncBtn.setGraphicsEffect(Util.getNeuShadow(0))
         syncBtn.clicked.connect(self.close)
 
         btn_files = QPushButton("", self)
-        btn_files.setGeometry(1064, 55, 122, 50)
+        btn_files.setGeometry(1064, 55, 122, 41)
         btn_files.setStyleSheet("border-radius : 8; background-color: #00A0B5; text-align:left")
         btn_files.setIcon(QtGui.QIcon('..\Resources\medFiles.png'))
-        btn_files.setIconSize(QtCore.QSize(189, 71))
+        btn_files.setIconSize(QtCore.QSize(122, 41))
         btn_files.clicked.connect(self.medfiles)
 
     def clickme(self):
@@ -642,6 +646,63 @@ class MyProfile(QMainWindow):
                     self.diseaseList.append(disease)
 
             self.setDiseaseData()
+
+
+        # Vital Data
+
+        vital_data = self.profileResponse["vital_data"]
+
+        self.lblBmiDate.setText(str(vital_data["WEIGHT"]["latest_measured_on"]).split(" ")[0])
+        height = float(str(vital_data["HEIGHT"]["latest_value"]).split(" ")[0])/100
+        weight = float(str(vital_data["WEIGHT"]["latest_value"]).split(" ")[0])
+        bmiValue = weight/(height*height)
+        self.btn_bmi.setText(str(round(bmiValue,1)))
+        self.lblBmiUnit.setText("Kg/m2")
+
+        temp = str(vital_data["BLOOD PRESSURE"]["latest_value"]).split(" ")[0].split("/")
+        bpValue = '<font color="#fff">'+temp[0]+'</font><font color="#006CB5"> SYS</font>   <font color="#fff">' \
+                    ''+temp[1]+'</font><font color="#006CB5"> DIA</font>'
+        self.lblBpValue.setText(bpValue)
+        self.lblBpDate.setText(str(vital_data["BLOOD PRESSURE"]["latest_measured_on"]).split(" ")[0])
+        self.lblBpUnit.setText(str(vital_data["BLOOD PRESSURE"]["vital_measured"]))
+
+        self.btn_hr.setText(str(vital_data["HEART RATE"]["latest_value"]).split(" ")[0])
+        self.lblHrDate.setText(str(vital_data["HEART RATE"]["latest_measured_on"]).split(" ")[0])
+        self.lblHrUnit.setText(str(vital_data["HEART RATE"]["vital_measured"]))
+
+
+        self.btn_hg.setText(str(vital_data["HAEMOGLOBIN"]["latest_value"]).split(" ")[0])
+        self.lblHgDate.setText(str(vital_data["HAEMOGLOBIN"]["latest_measured_on"]).split(" ")[0])
+        self.lblHgUnit.setText(str(vital_data["HAEMOGLOBIN"]["vital_measured"]))
+
+
+        self.btn_hba.setText(str(vital_data["HBA1C"]["latest_value"]).split(" ")[0])
+        self.lblHba1cDate.setText(str(vital_data["HBA1C"]["latest_measured_on"]).split(" ")[0])
+        self.lblHba1cUnit.setText(str(vital_data["HBA1C"]["vital_measured"]))
+
+
+        self.btn_choles.setText(str(vital_data["CHOLESTEROL"]["latest_value"]).split(" ")[0])
+        self.lblCholDate.setText(str(vital_data["CHOLESTEROL"]["latest_measured_on"]).split(" ")[0])
+        self.lblCholUnit.setText(str(vital_data["CHOLESTEROL"]["vital_measured"]))
+
+
+        self.btn_pt.setText(str(vital_data["PT/INR"]["latest_value"]).split(" ")[0])
+        self.lblPtDate.setText(str(vital_data["PT/INR"]["latest_measured_on"]).split(" ")[0])
+        self.lblPtUnit.setText(str(vital_data["PT/INR"]["vital_measured"]))
+
+
+        self.btn_temp.setText(str(vital_data["TEMPERATURE"]["latest_value"]).split(" ")[0])
+        self.lblTempDate.setText(str(vital_data["TEMPERATURE"]["latest_measured_on"]).split(" ")[0])
+        self.lblTempUnit.setText(str(vital_data["TEMPERATURE"]["vital_measured"]))
+
+
+        # sugarDate = str(vital_data["SUGAR"]["latest_measured_on"]).split(" ")[0]
+        # self.lblSugarDate.setText(sugarDate)
+
+        self.btn_sugar.setText("N.A.")
+
+
+
 
     def setDiseaseData(self):
         print("")

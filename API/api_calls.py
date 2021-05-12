@@ -574,7 +574,7 @@ if __name__ == "__main__":
     # response = fetchProfileDetailsAPI(myDB.getUserID())
     # response = fetchHealthCalendarAPI("9131577259","46747","dummy")
     #
-    # loginAPI("9131577259", "admin")
+    loginAPI("9131577259", "admin")
     # myDB.getUserID()
     # logoutUser(myDB.getUserID(),"dsfasdfsdf","asdfsdafsdf")
 
