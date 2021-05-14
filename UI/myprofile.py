@@ -422,7 +422,7 @@ class MyProfile(QMainWindow):
 
 
 
-        lsugar = QLabel("Sugar", self)
+        lsugar = QLabel("Weight", self)
         lsugar.setGeometry(756, 634, 59, 29)
         lsugar.setStyleSheet("color:#006CB5; font: 18px; background-color: #F0F0F3")
         self.btn_sugar = QPushButton("", self)
@@ -696,10 +696,12 @@ class MyProfile(QMainWindow):
         self.lblTempUnit.setText(str(vital_data["TEMPERATURE"]["vital_measured"]))
 
 
-        # sugarDate = str(vital_data["SUGAR"]["latest_measured_on"]).split(" ")[0]
-        # self.lblSugarDate.setText(sugarDate)
 
-        self.btn_sugar.setText("N.A.")
+        self.btn_sugar.setText(str(vital_data["WEIGHT"]["latest_value"]).split(" ")[0])
+        self.lblSugarDate.setText(str(vital_data["WEIGHT"]["latest_measured_on"]).split(" ")[0])
+        self.lblSugarUnit.setText(str(vital_data["WEIGHT"]["vital_measured"]))
+
+        # self.btn_sugar.setText("N.A.")
 
 
 
