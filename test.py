@@ -1,66 +1,39 @@
 import pyqtgraph as pg
-
-# importing QtCore and QtGui from the pyqtgraph module
-from pyqtgraph.Qt import QtCore, QtGui
-from PyQt5.QtWidgets import *
-
-# importing numpy as np
+from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.dockarea import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import numpy as np
 
-class HomeScreen(QMainWindow):
-    def __init__(self, parent = None):
-        super().__init__()
 
-    # define the data
-    title = "GeeksforGeeks PyQtGraph"
-
-    # y values to plot by line 1
-    y = [2, 8, 6, 8, 6, 11, 14, 13, 18, 19]
-
-    # y values to plot by line 2
-    y2 = [3, 1, 5, 8, 9, 11, 16, 17, 14, 16]
-    x = range(0, 10)
-
-    # create plot object
-    plt = pg.plot()
+def on_double_click_out(event):
+    mouseEvent = event[0]
+    mousePoint = mouseEvent.pos()
+    if mouseEvent.double():
+        print("Double click")
+    if p.p1.sceneBoundingRect().contains(mousePoint):
+        print('x=', mousePoint.x(), ' y=', mousePoint.y())
 
 
-    # showing x and y grids
-    plt.showGrid(x=True, y=True)
+class Plotter():
+    def __init__(self):
+        pg.setConfigOption('background', 'w')
+        pg.setConfigOption('foreground', 'k')
 
-    # adding legend
-    plt.addLegend()
+        self.win = pg.GraphicsLayoutWidget(show=True)
+        self.win.resize(1000, 500)
+        self.win.setWindowTitle('pyqtgraph example: dockarea')
 
-    # set properties of the label for y axis
-    plt.setLabel('left', 'Vertical Values', units='y')
+        self.p1 = self.win.addPlot()
+        self.win.show()
 
-    # set properties of the label for x axis
-    plt.setLabel('bottom', 'Horizontal Vlaues', units='s')
 
-    # setting horizontal range
-    plt.setXRange(0, 10)
+p = Plotter()
+proxy = pg.SignalProxy(p.win.scene().sigMouseClicked, rateLimit=60, slot=on_double_click_out)
 
-    # setting vertical range
-    plt.setYRange(0, 20)
-
-    # setting window title
-    plt.setWindowTitle(title)
-
-    # ploting line in green color
-    line1 = plt.plot(x, y, pen='g', symbol='x', symbolPen='g', symbolBrush=0.2, name='green')
-
-    # ploting line2 with blue color
-    line2 = plt.plot(x, y2, pen='b', symbol='o', symbolPen='b', symbolBrush=0.2, name='blue')
-
-    self.ui.gridLayout.addWidget(self.graphwidget1, 0, 0, 1, 3)
-    self.ui.gridLayout.addWidget(self.graphwidget2, 0, 0, 1, 3)
-
-# main method
 if __name__ == '__main__':
-
-    # importing system
     import sys
 
-    # Start Qt event loop unless running in interactive mode or using 
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         QtGui.QApplication.instance().exec_()
