@@ -11,8 +11,6 @@ import UI.MyStatsDetailed as statsDetailed
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
-
-
 class MyStats(QMainWindow):
 
     def __init__(self):
@@ -31,6 +29,12 @@ class MyStats(QMainWindow):
         self.show()
 
     def UiComponents(self):
+
+        self.initVitals()
+
+        self.lblHideVitals = QLabel(self)
+        self.lblHideVitals.setGeometry(0,120,1500,1000)
+        self.lblHideVitals.setStyleSheet("background-color:#F0F0F3")
         backBtn = QPushButton(self)
         backBtn.setGeometry(21, 61, 107, 47)
         backBtn.setStyleSheet("border-radius: 8; background-color: #F0F0F3")
@@ -53,13 +57,17 @@ class MyStats(QMainWindow):
 
         self.vitalsCombo1 = QComboBox(self)
         self.vitalsCombo1.setGeometry(187, 57, 214, 50)
-        self.vitalsCombo1.setStyleSheet("border-radius: 10; color: #00A0B5 ")
+        self.vitalsCombo1.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; }"
+                                        "QComboBox::drop-down { background:rgb(255,255,255,0)}")
         self.vitalsCombo1.setGraphicsEffect(Util.getNeuShadow(1))
 
         self.vitalsCombo = QComboBox(self)
         self.vitalsCombo.setGeometry(187, 57, 214, 50)
-        self.vitalsCombo.setStyleSheet("border-radius: 10; color: #00A0B5; ")
+        self.vitalsCombo.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; padding-left:15px;font-size:18px}"
+                                       "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}"
+                                       "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
         self.vitalsCombo.setGraphicsEffect(Util.getNeuShadow(0))
+        self.vitalsCombo.addItem("All Vitals")
         self.vitalsCombo.addItem("HBA1C")
         self.vitalsCombo.addItem("Blood Pressure")
         self.vitalsCombo.addItem("Heart Rate")
@@ -69,6 +77,15 @@ class MyStats(QMainWindow):
         self.vitalsCombo.addItem("Cholesterol")
         self.vitalsCombo.addItem("Pt/INR")
         self.vitalsCombo.addItem("Temperature")
+        self.vitalsCombo.currentIndexChanged.connect(self.vitalChanged)
+
+        syncBtn = QPushButton(self)
+        syncBtn.setGeometry(133, 63, 45, 45)
+        syncBtn.setStyleSheet("border-radius: 8; background-color: #F0F0F3")
+        syncBtn.setIcon(QtGui.QIcon('..\Resources\\syncBtn.png'))
+        syncBtn.setIconSize(QtCore.QSize(112, 52))
+        syncBtn.setGraphicsEffect(Util.getNeuShadow(0))
+        syncBtn.clicked.connect(self.close)
 
         normalBtn = QPushButton("Normal", self)
         normalBtn.setStyleSheet("border-radius: 6; background-color: #7ACEDA; color: #FFFFFF")
@@ -84,6 +101,68 @@ class MyStats(QMainWindow):
         highLowBtn.setStyleSheet("border-radius: 6; background-color: #FE4343; color: #FFFFFF")
         highLowBtn.setGeometry(674, 57, 120, 50)
         highLowBtn.setGraphicsEffect(Util.getNeuShadow(0))
+
+        self.filterBtn = QComboBox(self)
+        self.filterBtn.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5 }"
+                                "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}")
+        self.filterBtn.setGeometry(1082, 135, 110, 50)
+        self.filterBtn.setGraphicsEffect(Util.getNeuShadow(0))
+        self.filterBtn1 = QComboBox(self)
+        self.filterBtn1.setGeometry(1082, 135, 110, 50)
+        self.filterBtn1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.filterBtn1.addItem("Weekly")
+        self.filterBtn1.addItem("Monthly")
+        self.filterBtn1.addItem("Yearly")
+        self.filterBtn1.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5;padding-left:15px;font-size:18px }"
+                                      "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}"
+                                      "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
+        # self.filterBtn1.addItem("Haemoglobin")
+        # filterBtn1.clicked.connect(self.)
+
+        self.tableBtn = QPushButton(self)
+        self.tableBtn.setStyleSheet("border-radius: 15;")
+        self.tableBtn.setGeometry(1082, 213, 110, 130)
+        self.tableBtn.setGraphicsEffect(Util.getNeuShadow(0))
+        self.tableBtn1 = QPushButton(self)
+        self.tableBtn1.setStyleSheet("border-radius: 15;")
+        self.tableBtn1.setGeometry(1082, 213, 110, 130)
+        self.tableBtn1.setIcon(QtGui.QIcon('..\Resources\\table.png'))
+        self.tableBtn1.setIconSize(QtCore.QSize(110, 130))
+        self.tableBtn1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.tableBtn1.clicked.connect(self.tableClick)
+
+        self.graphBtn = QPushButton(self)
+        self.graphBtn.setStyleSheet("border-radius: 15;")
+        self.graphBtn.setGeometry(1082, 371, 110, 130)
+        self.graphBtn.setGraphicsEffect(Util.getNeuShadow(0))
+        self.graphBtn1 = QPushButton(self)
+        self.graphBtn1.setStyleSheet("border-radius: 15;")
+        self.graphBtn1.setGeometry(1082, 371, 110, 130)
+        self.graphBtn1.setIcon(QtGui.QIcon('..\Resources\\graph.png'))
+        self.graphBtn1.setIconSize(QtCore.QSize(110, 130))
+        self.graphBtn1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.graphBtn1.clicked.connect(self.GraphViewClicked)
+
+        self.helpBtn = QPushButton(self)
+        self.helpBtn.setStyleSheet("border-radius: 15;")
+        self.helpBtn.setGeometry(1082, 529, 110, 130)
+        self.helpBtn.setGraphicsEffect(Util.getNeuShadow(0))
+        self.helpBtn1 = QPushButton(self)
+        self.helpBtn1.setStyleSheet("border-radius: 15;")
+        self.helpBtn1.setGeometry(1082, 529, 110, 130)
+        self.helpBtn1.setIcon(QtGui.QIcon('..\Resources\\helpStats.png'))
+        self.helpBtn1.setIconSize(QtCore.QSize(110, 130))
+        self.helpBtn1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.helpBtn1.clicked.connect(self.helpClick)
+
+        self.initTableView()
+        self.initGraph()
+
+        self.showAllVitals()
+
+
+    def initVitals(self):
+
 
 
         self.normalBtnStyle = "border-radius: 10; background-color: #7ACEDA;"
@@ -538,10 +617,226 @@ class MyStats(QMainWindow):
             self.TemperatureLblUnitList.append(lblTemperatureUnit)
             self.TemperatureLblValueList.append(lblTemperatureValue)
 
+    def initGraph(self):
+        self.graph = PlotWidget()
+        # self.setCentralWidget(self.graph)
+        hour1 = ["20/03/21", "08/09/20", "05/11/20", "28/10/20", "01/07/20", "08/03/21", "18/01/21", "16/03/21",
+                 "11/03/21", "19/04/21"]
+        temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 45]
+
+        self.graph.setBackground('w')
+        self.graph.plot(range(len(hour1)), temperature, symbol='o')
+        xax = self.graph.getAxis('bottom')
+        ticks = [list(zip(range(len(hour1)), hour1))]
+        xax.setTicks(ticks)
+
+        self.gridLayoutWidget = QWidget(self)
+        rect = QtCore.QRect(21, 133, 1043, 530)
+        self.gridLayoutWidget.setGeometry(rect)
+        self.gridLayout = QGridLayout(self.gridLayoutWidget)
+        # frame = QFrame(self)
+        # frame.setGeometry(21, 133, 1043, 523)
+        # frame.setStyleSheet("background-color:red")
+        # self.gridLayout.setParent(frame)
+        self.gridLayout.addWidget(self.graph, 0, 0, 1, 3)
+        self.gridLayoutWidget.setStyleSheet("background-color:white")
+
+    def initTableView(self):
+        # Graph View
+
+        self.lblTable = QLabel(self)
+        self.lblTable.setGeometry(21, 133, 1043, 530)
+        self.lblTable.setStyleSheet("background-color: #FFFFFF")
+
+        startx = 60
+        starty = 210
+        startw = 122
+        starth = 86
+        rowcount = 1
+
+        self.vitalsDetailed = QComboBox(self)
+        self.vitalsDetailed.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; }"
+                                "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}")
+        self.vitalsDetailed.setGeometry(890, 145, 130, 40)
+        self.vitalsDetailed.setGraphicsEffect(Util.getNeuShadow(0))
+        self.vitalsDetailed1 = QComboBox(self)
+        self.vitalsDetailed1.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5;padding-left:15px;font-size:18px }"
+                                      "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}"
+                                      "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
+        self.vitalsDetailed1.setGeometry(890, 145, 130, 40)
+        self.vitalsDetailed1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.vitalsDetailed1.addItem("FPG")
+        self.vitalsDetailed1.addItem("OTGG")
+        self.vitalsDetailed1.addItem("RGT")
+        # self.filterBtn1.addItem("Haemoglobin")
+        # filterBtn1.clicked.connect(self.)
+
+        self.btnPageBack = QPushButton(self)
+        self.btnPageBack.setGeometry(459, 595, 50, 50)
+        self.btnPageBack.setStyleSheet("border-radius : 10; background-color: #F0F03")
+        self.btnPageBack.setGraphicsEffect(Util.getNeuShadow(0))
+
+        self.btnPageBack1 = QPushButton(self)
+        self.btnPageBack1.setGeometry(459, 595, 50, 50)
+        self.btnPageBack1.setStyleSheet("border-radius : 10; background-color: #F0F03;font-size:20px;color:#777")
+        self.btnPageBack1.setText("<")
+        self.btnPageBack1.setIconSize(QtCore.QSize(115, 41))
+        self.btnPageBack1.setGraphicsEffect(Util.getNeuShadow(1))
+        # btnPageBack1.clicked.connect(self.PageBack)
+
+        self.btnPageNext = QPushButton(self)
+        self.btnPageNext.setGeometry(639, 595, 50, 50)
+        self.btnPageNext.setStyleSheet("border-radius : 10; background-color: #F0F03 ")
+        self.btnPageNext.setGraphicsEffect(Util.getNeuShadow(0))
+
+        self.btnPageNext1 = QPushButton(self)
+        self.btnPageNext1.setGeometry(639, 595, 50, 50)
+        self.btnPageNext1.setStyleSheet("border-radius : 10; background-color: #F0F03;font-size:20px;color:#777 ")
+        self.btnPageNext1.setText(">")
+        self.btnPageNext1.setIconSize(QtCore.QSize(115, 41))
+        self.btnPageNext1.setGraphicsEffect(Util.getNeuShadow(1))
+        # btnPageNext1.clicked.connect(self.PageNext)
+
+        self.lblPageNo = QLabel("", self)
+        self.lblPageNo.setGeometry(551, 608, 50, 31)
+        self.lblPageNo.setStyleSheet("border-radius : 10; background-color: pink")
+        self.lblPageNo.setAlignment(Qt.AlignCenter)
+
+        self.lblBkgList = []
+        self.lblVitalDateList = []
+        self.lblVitalValueList = []
+        self.lblVitalUnitList = []
+        for i in range(28):
+
+            if (i > 0):
+                startx = startx + 140
+
+            if i > 0 and (i) % 7 == 0:
+                startx = 60
+                starty = starty + 95
+                # rowcount = rowcount+1
+
+            lblBkg = QLabel(self)
+            pixmap = QtGui.QPixmap('../Resources/graphBkg.png')
+            scaledImage = pixmap.scaled(startw, starth)
+            lblBkg.setPixmap(QPixmap(scaledImage))
+            lblBkg.setGeometry(startx, starty, startw, starth)
+            lblBkg.setStyleSheet("background-color:#00AAAAAA")
+
+            lblDate = QLabel(self)
+            lblDate.setGeometry(startx + 16, starty + 9, 89, 29)
+            lblDate.setText("20/03/21")
+            lblDate.setAlignment(Qt.AlignCenter)
+            lblDate.setStyleSheet("color:#727376; font-size:18px; background-color:#00FFFFFF")
+
+            lblValue = QLabel(self)
+            lblValue.setGeometry(startx + 16, starty + 39, 89, 29)
+            lblValue.setText("16.8")
+            lblValue.setAlignment(Qt.AlignCenter)
+            lblValue.setStyleSheet("color:white; font-size:22px; background-color:#00FFFFFF")
+
+            lblUnit = QLabel(self)
+            lblUnit.setGeometry(startx + 16, starty + 59, 89, 29)
+            lblUnit.setText("mmol/mol")
+            lblUnit.setAlignment(Qt.AlignCenter)
+            lblUnit.setStyleSheet("color:white; font-size:15px; background-color:#00FFFFFF")
+
+            self.lblBkgList.append(lblBkg)
+            self.lblVitalDateList.append(lblDate)
+            self.lblVitalUnitList.append(lblUnit)
+            self.lblVitalValueList.append(lblValue)
+
+        self.lblTable.hide()
+
     def VitalClicked(self,vital):
         print(vital)
         self.x = statsDetailed.MyStatsDetailed(vital)
         self.x.show()
+
+    def vitalChanged(self,i):
+        print(i)
+        if i == 0:
+            self.showAllVitals()
+        else:
+            self.tableClick()
+
+    def tableClick(self):
+        self.toggleTable(True)
+        self.gridLayoutWidget.hide()
+        self.lblHideVitals.show()
+        self.toggleSidePanel(True)
+
+    def helpClick(self):
+        print("pressed")
+
+    def GraphViewClicked(self):
+        self.toggleTable(False)
+        self.gridLayoutWidget.show()
+        self.lblHideVitals.show()
+        self.toggleSidePanel(True)
+
+    def showAllVitals(self):
+        self.lblTable.hide()
+        self.gridLayoutWidget.hide()
+        self.lblHideVitals.hide()
+        self.toggleSidePanel(False)
+        self.toggleTable(False)
+
+    def toggleSidePanel(self,show):
+
+        if show:
+            self.filterBtn.show()
+            self.filterBtn1.show()
+            self.graphBtn.show()
+            self.graphBtn1.show()
+            self.tableBtn.show()
+            self.tableBtn1.show()
+            self.helpBtn.show()
+            self.helpBtn1.show()
+        else:
+            self.filterBtn.hide()
+            self.filterBtn1.hide()
+            self.graphBtn.hide()
+            self.graphBtn1.hide()
+            self.tableBtn.hide()
+            self.tableBtn1.hide()
+            self.helpBtn.hide()
+            self.helpBtn1.hide()
+
+    def toggleTable(self,show):
+
+        if show:
+            self.lblTable.show()
+            self.vitalsDetailed.show()
+            self.vitalsDetailed1.show()
+            self.btnPageBack.show()
+            self.btnPageBack1.show()
+            self.btnPageNext.show()
+            self.btnPageNext1.show()
+            self.lblPageNo.show()
+
+            for i in range(28):
+                self.lblBkgList[i].show()
+                self.lblVitalDateList[i].show()
+                self.lblVitalUnitList[i].show()
+                self.lblVitalValueList[i].show()
+        else:
+            self.lblTable.hide()
+            self.vitalsDetailed.hide()
+            self.vitalsDetailed1.hide()
+            self.btnPageBack.hide()
+            self.btnPageBack1.hide()
+            self.btnPageNext.hide()
+            self.btnPageNext1.hide()
+            self.lblPageNo.hide()
+
+            for i in range(28):
+                self.lblBkgList[i].hide()
+                self.lblVitalDateList[i].hide()
+                self.lblVitalUnitList[i].hide()
+                self.lblVitalValueList[i].hide()
+
+
 
 
 

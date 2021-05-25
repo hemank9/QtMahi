@@ -534,14 +534,31 @@ def fetchHummFeedsDummy():
 
     return json.loads(responseStr, strict=False)
 
-def fetchMedicalFiles(sortOrder):
+
+def getDummyResponse():
+    return '''{"status":true,"response":[
+{"date":"2020-09-28","fileType":"3","file":"1601459107-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-Growth-and-development-Fine-motor-1.png","fileNote":"test 1","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459107-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-Growth-and-development-Fine-motor-1.png"},
+{"date":"2020-09-30","fileType":"3","file":"1601459389-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-Growth-and-development-Fine-motor-1.png","fileNote":"test 2","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459389-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-Growth-and-development-Fine-motor-1.png"},
+{"date":"2020-09-30","fileType":"3","file":"1605168988-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 3","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1605168988-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"},
+{"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 4","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"}, 
+{"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 5","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"},
+{"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 6","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"},
+{"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 7","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"},
+{"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 8","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"},
+{"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 9","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"}
+],"folder":"patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0","msg":"File Load Successfully"}'''
+
+
+def fetchMedicalFiles(sortOrder, fileType):
     try:
         if myDB.isLogggedIn():
             data ={'user_id': str(myDB.getUserID()),
                     'stuff': constants.Stuff,
                     'app_type': constants.AppType,
-                    'myaction': constants.ACTION_get_patient_file_type_list,
+                    'myaction': constants.ACTION_my_medical_files,
                     'sort_order': sortOrder,
+                    'search':"",
+                    'file_type': str(fileType)
                    }
 
             print("Fetch Files URL: " + myUrls.MAHI_CONTROLLER_URL)
@@ -550,9 +567,43 @@ def fetchMedicalFiles(sortOrder):
 
             print("Fetch Files response : " + r.text.strip())
             response = json.loads(r.text, strict=False)
+            # response = json.loads(getDummyResponse(), strict=False)
             if response['status']:
 
                 print("Fetch Files Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+        else:
+            print("user not logged in")
+            return None
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+
+def fetchMedicalFileTypes():
+    try:
+        if myDB.isLogggedIn():
+
+            data ={'user_id': str(myDB.getUserID()),
+                    'stuff': constants.Stuff,
+                    'app_type': constants.AppType,
+                    'myaction': constants.ACTION_get_patient_file_type_list,
+                   }
+
+            print("Fetch File Types URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch File Types response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch File Types Successful")
                 return response
 
             else:
@@ -574,7 +625,7 @@ if __name__ == "__main__":
     # response = fetchProfileDetailsAPI(myDB.getUserID())
     # response = fetchHealthCalendarAPI("9131577259","46747","dummy")
     #
-    loginAPI("9131577259", "admin")
+    # loginAPI("9131577259", "admin")
     # myDB.getUserID()
     # logoutUser(myDB.getUserID(),"dsfasdfsdf","asdfsdafsdf")
 

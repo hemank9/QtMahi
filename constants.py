@@ -11,6 +11,7 @@ ACTION_my_health_calendar = "my_health_calendar"
 ACTION_get_my_feeds = "get_my-feeds"
 ACTION_USER_OPTION_SAVE = "USEROPTIONSAVE"
 ACTION_get_patient_file_type_list = "get_patient_file_type_list"
+ACTION_my_medical_files = "my_medical_files"
 
 # Database Connection Settings
 my_database_name = "mahi.db"
