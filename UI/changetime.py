@@ -49,14 +49,27 @@ class ChangeTime(QMainWindow):
 
 
         btn_bck = QPushButton("", self)
-        btn_bck.setGeometry(43, 48, 150, 75)
+        btn_bck.setGeometry(29, 57, 112, 41)
         btn_bck.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btn_bck.setIcon(QtGui.QIcon('../Resources/backButton.png'))
         btn_bck.setIconSize(QtCore.QSize(160, 90))
         btn_bck.clicked.connect(self.close)
 
+        btnSync1 = QPushButton(self)
+        btnSync1.setGeometry(152, 60, 39, 39)
+        btnSync1.setStyleSheet("border-radius : 10; background-color : #F0F0F3")
+        btnSync1.setIcon(QtGui.QIcon('../Resources/syncBtn.png'))
+        btnSync1.setIconSize(QtCore.QSize(39, 39))
+        btnSync1.setGraphicsEffect(Util.getNeuShadow(0))
+        btnSync = QPushButton(self)
+        btnSync.setGeometry(152, 60, 39, 39)
+        btnSync.setStyleSheet("border-radius : 10; background-color : #F0F0F3")
+        btnSync.setIcon(QtGui.QIcon('../Resources/syncBtn.png'))
+        btnSync.setIconSize(QtCore.QSize(39, 39))
+        btnSync.setGraphicsEffect(Util.getNeuShadow(1))
+
         self.lblt = QLabel("Morning", self)
-        self.lblt.setGeometry(354, 70, 135, 40)
+        self.lblt.setGeometry(354, 70, 195, 40)
         self.lblt.setStyleSheet("color:#00A0B5;font-size:27px; font:bold")
 
         lblbf = QLabel("Before Food", self)
@@ -239,44 +252,70 @@ class ChangeTime(QMainWindow):
         self.lblItMin.setAlignment(QtCore.Qt.AlignCenter)
         self.lblItMin.setStyleSheet("background-color : #0000")
 
-        # Buttons of Morning, Evening, Afternoon
+        # Buttons of Morning, Evening, Afternoon, Mid Night, Late Night, Early Morning
 
         btnMorning = QPushButton("Morning", self)
-        btnMorning.setGeometry(41, 217, 200, 80)
+        btnMorning.setGeometry(27, 142, 200, 50)
         btnMorning.setStyleSheet(self.btnStyleSelected)
         btnMorning.setGraphicsEffect(Util.getNeuShadow(1))
-
         self.btnMorning1 = QPushButton("Morning", self)
-        self.btnMorning1.setGeometry(41, 217, 200, 80)
+        self.btnMorning1.setGeometry(27, 142, 200, 50)
         self.btnMorning1.setStyleSheet(self.btnStyleSelected)
         self.btnMorning1.setGraphicsEffect(Util.getNeuShadow(0))
         self.btnMorning1.clicked.connect(self.morningClicked)
 
 
         btnAfternoon = QPushButton("Afternoon", self)
-        btnAfternoon.setGeometry(41, 326, 200, 80)
+        btnAfternoon.setGeometry(27, 211, 200, 50)
         btnAfternoon.setStyleSheet(self.btnStyle)
         btnAfternoon.setGraphicsEffect(Util.getNeuShadow(1))
-
         self.btnAfternoon1 = QPushButton("Afternoon", self)
-        self.btnAfternoon1.setGeometry(41, 326, 200, 80)
+        self.btnAfternoon1.setGeometry(27, 211, 200, 50)
         self.btnAfternoon1.setStyleSheet(self.btnStyle)
         self.btnAfternoon1.setGraphicsEffect(Util.getNeuShadow(0))
         self.btnAfternoon1.clicked.connect(self.afternoonClicked)
 
 
         btnEvening = QPushButton("Evening", self)
-        btnEvening.setGeometry(41, 435, 200, 80)
+        btnEvening.setGeometry(27, 280, 200, 50)
         btnEvening.setStyleSheet(self.btnStyle)
         btnEvening.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnEvening.clicked.connect(self.close)
-
         self.btnEvening1 = QPushButton("Evening", self)
-        self.btnEvening1.setGeometry(41, 435, 200, 80)
+        self.btnEvening1.setGeometry(27, 280, 200, 50)
         self.btnEvening1.setStyleSheet(self.btnStyle)
         self.btnEvening1.setGraphicsEffect(Util.getNeuShadow(0))
         self.btnEvening1.clicked.connect(self.eveningClicked)
 
+
+        btnMidNight = QPushButton( self)
+        btnMidNight.setGeometry(27, 351, 200, 50)
+        btnMidNight.setStyleSheet(self.btnStyle)
+        btnMidNight.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnMidNight1 = QPushButton("Mid Night", self)
+        self.btnMidNight1.setGeometry(27, 351, 200, 50)
+        self.btnMidNight1.setStyleSheet(self.btnStyle)
+        self.btnMidNight1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnMidNight1.clicked.connect(self.midNightClicked)
+
+        btnLateNight = QPushButton( self)
+        btnLateNight.setGeometry(27, 420, 200, 50)
+        btnLateNight.setStyleSheet(self.btnStyle)
+        btnLateNight.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnLateNight1 = QPushButton("Late Night", self)
+        self.btnLateNight1.setGeometry(27, 420, 200, 50)
+        self.btnLateNight1.setStyleSheet(self.btnStyle)
+        self.btnLateNight1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnLateNight1.clicked.connect(self.lateNightClicked)
+
+        btnEarlyMorning = QPushButton( self)
+        btnEarlyMorning.setGeometry(27, 490, 200, 50)
+        btnEarlyMorning.setStyleSheet(self.btnStyle)
+        btnEarlyMorning.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnEarlyMorning1 = QPushButton("Early Morning", self)
+        self.btnEarlyMorning1.setGeometry(27, 490, 200, 50)
+        self.btnEarlyMorning1.setStyleSheet(self.btnStyle)
+        self.btnEarlyMorning1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnEarlyMorning1.clicked.connect(self.earlyMorningClicked)
 
         btnOk = QPushButton("", self)
         btnOk.setGeometry(967, 459, 158, 92)
@@ -365,12 +404,24 @@ class ChangeTime(QMainWindow):
     def eveningClicked(self):
         self.dayTimeSelected(3)
 
+    def midNightClicked(self):
+        self.dayTimeSelected(4)
+
+    def lateNightClicked(self):
+        self.dayTimeSelected(5)
+
+    def earlyMorningClicked(self):
+        self.dayTimeSelected(6)
+
     def dayTimeSelected(self,type):
 
         if type == 1:
             self.btnMorning1.setStyleSheet(self.btnStyleSelected)
             self.btnAfternoon1.setStyleSheet(self.btnStyle)
             self.btnEvening1.setStyleSheet(self.btnStyle)
+            self.btnMidNight1.setStyleSheet(self.btnStyle)
+            self.btnLateNight1.setStyleSheet(self.btnStyle)
+            self.btnEarlyMorning1.setStyleSheet(self.btnStyle)
             self.lblt.setText("Morning")
             self.lblAfAmPm.setText("am")
             self.lblItAmPm.setText("am")
@@ -380,6 +431,9 @@ class ChangeTime(QMainWindow):
             self.btnMorning1.setStyleSheet(self.btnStyle)
             self.btnAfternoon1.setStyleSheet(self.btnStyleSelected)
             self.btnEvening1.setStyleSheet(self.btnStyle)
+            self.btnMidNight1.setStyleSheet(self.btnStyle)
+            self.btnLateNight1.setStyleSheet(self.btnStyle)
+            self.btnEarlyMorning1.setStyleSheet(self.btnStyle)
             self.lblt.setText("Afternoon")
             self.lblAfAmPm.setText("pm")
             self.lblItAmPm.setText("pm")
@@ -389,19 +443,58 @@ class ChangeTime(QMainWindow):
             self.btnMorning1.setStyleSheet(self.btnStyle)
             self.btnAfternoon1.setStyleSheet(self.btnStyle)
             self.btnEvening1.setStyleSheet(self.btnStyleSelected)
+            self.btnMidNight1.setStyleSheet(self.btnStyle)
+            self.btnLateNight1.setStyleSheet(self.btnStyle)
+            self.btnEarlyMorning1.setStyleSheet(self.btnStyle)
             self.lblt.setText("Evening")
             self.lblAfAmPm.setText("pm")
             self.lblItAmPm.setText("pm")
             self.lblBfAmPm.setText("pm")
 
+        elif type == 4:
+            self.btnMorning1.setStyleSheet(self.btnStyle)
+            self.btnAfternoon1.setStyleSheet(self.btnStyle)
+            self.btnEvening1.setStyleSheet(self.btnStyle)
+            self.btnMidNight1.setStyleSheet(self.btnStyleSelected)
+            self.btnLateNight1.setStyleSheet(self.btnStyle)
+            self.btnEarlyMorning1.setStyleSheet(self.btnStyle)
+            self.lblt.setText("Mid Night")
+            self.lblAfAmPm.setText("am")
+            self.lblItAmPm.setText("am")
+            self.lblBfAmPm.setText("am")
+
+        elif type == 5:
+            self.btnMorning1.setStyleSheet(self.btnStyle)
+            self.btnAfternoon1.setStyleSheet(self.btnStyle)
+            self.btnEvening1.setStyleSheet(self.btnStyle)
+            self.btnMidNight1.setStyleSheet(self.btnStyle)
+            self.btnLateNight1.setStyleSheet(self.btnStyleSelected)
+            self.btnEarlyMorning1.setStyleSheet(self.btnStyle)
+            self.lblt.setText("Late Night")
+            self.lblAfAmPm.setText("am")
+            self.lblItAmPm.setText("am")
+            self.lblBfAmPm.setText("am")
+
+        elif type == 6:
+            self.btnMorning1.setStyleSheet(self.btnStyle)
+            self.btnAfternoon1.setStyleSheet(self.btnStyle)
+            self.btnEvening1.setStyleSheet(self.btnStyle)
+            self.btnMidNight1.setStyleSheet(self.btnStyle)
+            self.btnLateNight1.setStyleSheet(self.btnStyle)
+            self.btnEarlyMorning1.setStyleSheet(self.btnStyleSelected)
+            self.lblt.setText("Early Morning")
+            self.lblAfAmPm.setText("am")
+            self.lblItAmPm.setText("am")
+            self.lblBfAmPm.setText("am")
+
 # if __name__ == '__main__':
 #     App = QApplication(sys.argv)
 #
 #     # create the instance of our Window
-#     window = ChangeTime()
+#     window = ChangeTime(QMainWindow)
 #
 #     window.show()
 #
 # # start the app
 #     sys.exit(App.exec())
-
+#
