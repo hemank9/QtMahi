@@ -12,6 +12,8 @@ ACTION_get_my_feeds = "get_my-feeds"
 ACTION_USER_OPTION_SAVE = "USEROPTIONSAVE"
 ACTION_get_patient_file_type_list = "get_patient_file_type_list"
 ACTION_my_medical_files = "my_medical_files"
+ACTION_terms_condition = "terms_condition"
+ACTION_privacy_policy = "privacy_policy"
 
 # Database Connection Settings
 my_database_name = "mahi.db"

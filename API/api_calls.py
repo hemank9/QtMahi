@@ -534,7 +534,6 @@ def fetchHummFeedsDummy():
 
     return json.loads(responseStr, strict=False)
 
-
 def getDummyResponse():
     return '''{"status":true,"response":[
 {"date":"2020-09-28","fileType":"3","file":"1601459107-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-Growth-and-development-Fine-motor-1.png","fileNote":"test 1","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459107-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-Growth-and-development-Fine-motor-1.png"},
@@ -547,7 +546,6 @@ def getDummyResponse():
 {"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 8","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"},
 {"date":"2020-10-01","fileType":"3","file":"1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png","fileNote":"test 9","medicalObservation":"test","hashtag":"test","created_by":"1311","file_extention":"png","file_url":"https:\/\/patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0.nyc3.digitaloceanspaces.com\/1601459595-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0-keval-the-name-is-enough.png"}
 ],"folder":"patient-65nZ6gSRUJOHnNrsMJbsOkSym8hrAJ4rKgk9S6j0","msg":"File Load Successfully"}'''
-
 
 def fetchMedicalFiles(sortOrder, fileType):
     try:
@@ -584,7 +582,6 @@ def fetchMedicalFiles(sortOrder, fileType):
         print(e.__cause__)
         return None
 
-
 def fetchMedicalFileTypes():
     try:
         if myDB.isLogggedIn():
@@ -617,6 +614,67 @@ def fetchMedicalFileTypes():
         print(e.__cause__)
         return None
 
+def fetchTermsAndCondtions():
+    try:
+        if myDB.isLogggedIn():
+
+            data ={
+                    'app_type': constants.AppType,
+                    'myaction': constants.ACTION_terms_condition,
+                   }
+
+            print("Fetch T&C URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch T&C response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch T&C Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+        else:
+            print("user not logged in")
+            return None
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+def fetchPrivacyPolicy():
+    try:
+        if myDB.isLogggedIn():
+
+            data ={
+                    'app_type': constants.AppType,
+                    'myaction': constants.ACTION_privacy_policy,
+                   }
+
+            print("Fetch Privacy Policy URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Privacy Policy response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch Privacy Policy Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+        else:
+            print("user not logged in")
+            return None
+    except Exception as e:
+        print(e.__cause__)
+        return None
 
 
 if __name__ == "__main__":
@@ -638,3 +696,5 @@ if __name__ == "__main__":
     #     print("User logged out")
 
     # fetchAppointments("0","1")
+    # fetchTermsAndCondtions()
+    # fetchPrivacyPolicy()
