@@ -15,7 +15,7 @@ import UI.medicinetime as myMeds
 import UI.docAppScreen as myAppo
 import UI.settings as settings
 import UI.Humm as humm
-import UI.MyCylinders as myCylinder
+import UI.MyCylinders2 as myCylinder
 
 
 class HomeScreen(QMainWindow):

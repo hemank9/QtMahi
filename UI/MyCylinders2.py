@@ -1,12 +1,10 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPixmap
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from PyQt5 import QtGui
-from PyQt5 import QtCore
+import sys
 import Utility.MahiUtility as Util
 
-import sys
 
 class PillboxListItem(QWidget):
     def __init__(self, parent=None):
@@ -116,29 +114,38 @@ class PillboxListItem(QWidget):
     def eightClicked(self):
         print("eight clicked")
 
-class PrescriptionTable(QWidget):
+class MyCylinders(QMainWindow):
+
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Medical Files")
-        self.setGeometry(0, 0, 1220, 685)
+
+        # setting title
+        self.setWindowTitle("Python ")
+
+        # setting geometry
+        self.setGeometry(0, 0, 1220, 700)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
-        self.label.setStyleSheet("background-color:#FEC32E")
-        self.label.setGeometry(0, 0, 1220, 39)
+        self.label.setPixmap(QPixmap('../Resources/Group 108.png'))
+        self.label.setGeometry(0, -10, 1220, 195)
 
+
+        # calling method
         self.UiComponents()
-    #
-    #     # showing all the widgets
+
+        # showing all the widgets
         self.show()
-    #
+
+    # method for widgets
     def UiComponents(self):
+
         # four buttons on the my medicine page
-        # Medicine history
+        #Medicine history
         btnMedHistory1 = QPushButton(self)
         btnMedHistory1.setGeometry(198, 57, 150, 70)
         btnMedHistory1.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         btnMedHistory1.setGraphicsEffect(Util.getNeuShadow(0))
-        btnMedHistory = QPushButton("Medicine \n History", self)
+        btnMedHistory = QPushButton("Medicine \n History",self)
         btnMedHistory.setGeometry(198, 57, 150, 70)
         btnMedHistory.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
         btnMedHistory.setGraphicsEffect(Util.getNeuShadow(1))
@@ -166,7 +173,7 @@ class PrescriptionTable(QWidget):
         btnExtraDosage.setGraphicsEffect(Util.getNeuShadow(1))
         # btnExtraDosage.clicked.connect(self.clickme)
 
-        # Medicine Time
+        #Medicine Time
         btnMedTime1 = QPushButton("", self)
         btnMedTime1.setGeometry(693, 57, 150, 70)
         btnMedTime1.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
@@ -198,10 +205,11 @@ class PrescriptionTable(QWidget):
         btnSync.setIconSize(QtCore.QSize(39, 39))
         btnSync.setGraphicsEffect(Util.getNeuShadow(1))
 
+
         btn_cylinder1 = QPushButton("", self)
         btn_cylinder1.setGeometry(16, 140, 168, 38)
         btn_cylinder1.setStyleSheet("border-radius : 10; background-color : #F0F0F3")
-        btn_cylinder1.setIconSize(QtCore.QSize(168, 38))
+        btn_cylinder1.setIconSize(QtCore.QSize( 168, 38))
         btn_cylinder1.setGraphicsEffect(Util.getNeuShadow(0))
         btn_cylinder = QPushButton("Cylinder View >", self)
         btn_cylinder.setGeometry(16, 140, 168, 38)
@@ -210,8 +218,22 @@ class PrescriptionTable(QWidget):
         btn_cylinder.setGraphicsEffect(Util.getNeuShadow(1))
         # btn_cylinder.clicked.connect(self.close)
 
-        lbl_txt1 = QLabel("* click on the buttons to see the medicine details", self)
+        # lbl_pic1 = QLabel(self)
+        # lbl_pic1.setPixmap(QPixmap('Resources\mahi_ui_popart-01 2.png'))
+        # lbl_pic1.setGeometry(797, 20, 271, 161)
+        #
+        # lbl_pic2 = QLabel(self)
+        # lbl_pic2.setPixmap(QPixmap('Resources\pic2.png'))
+        # lbl_pic2.setGeometry(1016, 94, 143, 101)
+
+        lbl_txt1 = QLabel("* click on the buttons to see the medicine details",self)
         lbl_txt1.setGeometry(43, 197, 471, 29)
+
+        # lbl_txt = QLabel("97", self)
+        # lbl_txt.setGeometry(840, 60, 130, 80)
+        # lbl_txt.setFont(QFont('Arial', 40))
+        # lbl_txt.setAlignment(QtCore.Qt.AlignRight)
+        # lbl_txt.setStyleSheet("background-color : #fff9ea; color : #FEC32E; font-weight: bold")
 
         self.myQListWidget = QListWidget(self)
         self.myQListWidget.setGeometry(40,236,830,450)
@@ -247,129 +269,21 @@ class PrescriptionTable(QWidget):
 
 
 
-        self.frame = QFrame(self)
-        self.frame.setGeometry(25,234,1169,450)
-        self.vBox = QVBoxLayout(self)
+    def clickme(self):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setText("DONT KNOW ABOUT THIS MEDICINE MAYBE CROCINE")
+        msgBox.setWindowTitle("QMessageBox Example")
+        msgBox.exec()
 
-        self.vBox.setParent(self.frame)
-
-        self.tableWidget = QTableWidget()
-
-        self.tableWidget.setShowGrid(False)
-        self.tableWidget.horizontalHeader().setVisible(False)
-        self.tableWidget.verticalHeader().setVisible(False)
-
-        # Row count
-        self.tableWidget.setRowCount(7)
-
-        # Column count
-        self.tableWidget.setColumnCount(5)
-        for i in range(7):
-            medicineItem = QTableWidgetItem(str(i+1)+". Dolo")
-            medicineItem.setFont(QFont("Arial",12))
-
-            morningItem = QTableWidgetItem("1 AF")
-            morningItem.setTextAlignment(Qt.AlignCenter)
-            morningItem.setFont(QFont("Arial",12))
-
-            afternoonItem = QTableWidgetItem("0.5 IOT")
-            afternoonItem.setTextAlignment(Qt.AlignCenter)
-            afternoonItem.setFont(QFont("Arial",12))
-
-            eveItem = QTableWidgetItem("1 BF")
-            eveItem.setTextAlignment(Qt.AlignCenter)
-            eveItem.setFont(QFont("Arial",12))
-
-            durationItem = QTableWidgetItem("20 days")
-            durationItem.setTextAlignment(Qt.AlignCenter)
-            durationItem.setFont(QFont("Arial",12))
-
-            self.tableWidget.setItem(i,0,medicineItem)
-            self.tableWidget.setItem(i,1,morningItem)
-            self.tableWidget.setItem(i,2,afternoonItem)
-            self.tableWidget.setItem(i,3,eveItem)
-            self.tableWidget.setItem(i,4,durationItem)
-
-
-
-        # Table will fit the screen horizontally
-        self.tableWidget.horizontalHeader().setStretchLastSection(True)
-        self.tableWidget.horizontalHeader().setSectionResizeMode(
-            QHeaderView.Stretch)
-        # self.tableWidget.show()
-        self.vBox.addWidget(self.tableWidget)
-
-        # table headers
-        self.lblTableMedicine = QLabel("Medicine", self)
-        self.lblTableMedicine.setAlignment(Qt.AlignCenter)
-        self.lblTableMedicine.setGeometry(33, 178, 232, 63)
-        self.lblTableMedicine.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
-
-        self.lblTableDosage = QLabel("Dosage", self)
-        self.lblTableDosage.setAlignment(Qt.AlignCenter)
-        self.lblTableDosage.setGeometry(266, 178, 690, 31)
-        self.lblTableDosage.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
-
-        self.lblTableMorning = QLabel("Morning", self)
-        self.lblTableMorning.setAlignment(Qt.AlignCenter)
-        self.lblTableMorning.setGeometry(266, 210, 229, 31)
-        self.lblTableMorning.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
-
-        self.lblTableAfternoon = QLabel("Afternoon", self)
-        self.lblTableAfternoon.setAlignment(Qt.AlignCenter)
-        self.lblTableAfternoon.setGeometry(496, 210, 229, 31)
-        self.lblTableAfternoon.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
-
-        self.lblTableEvening = QLabel("Evening", self)
-        self.lblTableEvening.setAlignment(Qt.AlignCenter)
-        self.lblTableEvening.setGeometry(726, 210, 230, 31)
-        self.lblTableEvening.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
-
-        self.lblTableDuration = QLabel("Duration", self)
-        self.lblTableDuration.setAlignment(Qt.AlignCenter)
-        self.lblTableDuration.setGeometry(957, 178, 228, 63)
-        self.lblTableDuration.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
-
-        # self.frame.hide()
-        # self.lblTableDuration.hide()
-        # self.lblTableEvening.hide()
-        # self.lblTableAfternoon.hide()
-        # self.lblTableMorning.hide()
-        # self.lblTableMedicine.hide()
-        # self.lblTableDosage.hide()
-        self.myQListWidget.hide()
-
-
-stylesheet = """
-    QTableWidget {
-        background-color: black; 
-        border-radius: 10px
-    }
-
-    QTableWidget::item {
-        color: #222222;           
-        border-radius: 5px; 
-        border: 1px solid #999;
-        padding: 15px;
-    }
-
-    # QTableWidget::item:selected {
-    #     background-color: yellow;
-    #     color: blue;
-    # }
-"""
-
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-    App.setStyleSheet(stylesheet)
-
-    # create the instance of our Window
-    window = PrescriptionTable()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
-
-
-
+#
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = MyCylinders()
+#
+#     window.show()
+#
+#     # start the app
+#     sys.exit(App.exec())
