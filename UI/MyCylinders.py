@@ -126,6 +126,7 @@ class PrescriptionTable(QWidget):
         self.label.setStyleSheet("background-color:#FEC32E")
         self.label.setGeometry(0, 0, 1220, 39)
 
+        self.cylinderVisible = True
         self.UiComponents()
     #
     #     # showing all the widgets
@@ -203,18 +204,19 @@ class PrescriptionTable(QWidget):
         btn_cylinder1.setStyleSheet("border-radius : 10; background-color : #F0F0F3")
         btn_cylinder1.setIconSize(QtCore.QSize(168, 38))
         btn_cylinder1.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_cylinder = QPushButton("Cylinder View >", self)
-        btn_cylinder.setGeometry(16, 140, 168, 38)
-        btn_cylinder.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color :#EE488D")
-        btn_cylinder.setIconSize(QtCore.QSize(168, 38))
-        btn_cylinder.setGraphicsEffect(Util.getNeuShadow(1))
-        # btn_cylinder.clicked.connect(self.close)
+        self.btn_cylinder = QPushButton("Cylinder View >", self)
+        self.btn_cylinder.setGeometry(16, 140, 168, 38)
+        self.btn_cylinder.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color :#EE488D")
+        self.btn_cylinder.setIconSize(QtCore.QSize(168, 38))
+        self.btn_cylinder.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btn_cylinder.clicked.connect(self.cylinderClicked)
 
-        lbl_txt1 = QLabel("* click on the buttons to see the medicine details", self)
-        lbl_txt1.setGeometry(43, 197, 471, 29)
+        self.lbl_txt1 = QLabel("* click on the buttons to see the medicine details", self)
+        self.lbl_txt1.setGeometry(43, 190, 471, 29)
 
         self.myQListWidget = QListWidget(self)
-        self.myQListWidget.setGeometry(40,236,830,450)
+        self.myQListWidget.setStyleSheet("border:None;")
+        self.myQListWidget.setGeometry(40,220,830,450)
 
         for i in range(8):
             # Create QCustomQWidget
@@ -248,7 +250,7 @@ class PrescriptionTable(QWidget):
 
 
         self.frame = QFrame(self)
-        self.frame.setGeometry(25,234,1169,450)
+        self.frame.setGeometry(25,256,1169,450)
         self.vBox = QVBoxLayout(self)
 
         self.vBox.setParent(self.frame)
@@ -302,32 +304,32 @@ class PrescriptionTable(QWidget):
         # table headers
         self.lblTableMedicine = QLabel("Medicine", self)
         self.lblTableMedicine.setAlignment(Qt.AlignCenter)
-        self.lblTableMedicine.setGeometry(33, 178, 232, 63)
+        self.lblTableMedicine.setGeometry(33, 200, 232, 63)
         self.lblTableMedicine.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
 
         self.lblTableDosage = QLabel("Dosage", self)
         self.lblTableDosage.setAlignment(Qt.AlignCenter)
-        self.lblTableDosage.setGeometry(266, 178, 690, 31)
+        self.lblTableDosage.setGeometry(266, 200, 690, 31)
         self.lblTableDosage.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
         self.lblTableMorning = QLabel("Morning", self)
         self.lblTableMorning.setAlignment(Qt.AlignCenter)
-        self.lblTableMorning.setGeometry(266, 210, 229, 31)
+        self.lblTableMorning.setGeometry(266, 232, 229, 31)
         self.lblTableMorning.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
         self.lblTableAfternoon = QLabel("Afternoon", self)
         self.lblTableAfternoon.setAlignment(Qt.AlignCenter)
-        self.lblTableAfternoon.setGeometry(496, 210, 229, 31)
+        self.lblTableAfternoon.setGeometry(496, 232, 229, 31)
         self.lblTableAfternoon.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
         self.lblTableEvening = QLabel("Evening", self)
         self.lblTableEvening.setAlignment(Qt.AlignCenter)
-        self.lblTableEvening.setGeometry(726, 210, 230, 31)
+        self.lblTableEvening.setGeometry(726, 232, 230, 31)
         self.lblTableEvening.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
         self.lblTableDuration = QLabel("Duration", self)
         self.lblTableDuration.setAlignment(Qt.AlignCenter)
-        self.lblTableDuration.setGeometry(957, 178, 228, 63)
+        self.lblTableDuration.setGeometry(957, 200, 228, 63)
         self.lblTableDuration.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
 
         # self.frame.hide()
@@ -337,7 +339,41 @@ class PrescriptionTable(QWidget):
         # self.lblTableMorning.hide()
         # self.lblTableMedicine.hide()
         # self.lblTableDosage.hide()
-        self.myQListWidget.hide()
+
+        self.viewChanged()
+
+    def cylinderClicked(self):
+        if(self.cylinderVisible):
+            self.cylinderVisible = False
+            self.btn_cylinder.setText("Prescription View >")
+        else:
+            self.cylinderVisible = True
+            self.btn_cylinder.setText("Cylinder View >")
+
+        self.viewChanged()
+
+    def viewChanged(self):
+        if self.cylinderVisible:
+            self.frame.hide()
+            self.lblTableEvening.hide()
+            self.lblTableAfternoon.hide()
+            self.lblTableDuration.hide()
+            self.lblTableMorning.hide()
+            self.lblTableDosage.hide()
+            self.lblTableMedicine.hide()
+            self.myQListWidget.show()
+            self.lbl_txt1.show()
+        else:
+            self.frame.show()
+            self.lblTableEvening.show()
+            self.lblTableAfternoon.show()
+            self.lblTableDuration.show()
+            self.lblTableMorning.show()
+            self.lblTableDosage.show()
+            self.lblTableMedicine.show()
+            self.myQListWidget.hide()
+            self.lbl_txt1.hide()
+
 
 
 stylesheet = """
