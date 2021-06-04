@@ -10,7 +10,7 @@ from PyQt5.QtCore import *
 class PrescriptionTable(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Medical Files")
+        self.setWindowTitle("Prescription")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
