@@ -1,4 +1,5 @@
 AppType = "user_app"
+AppType2 = "health_machine"
 Stuff = "stuff"
 RoleID = "4"
 RegID = "XXXXX"
@@ -14,6 +15,10 @@ ACTION_get_patient_file_type_list = "get_patient_file_type_list"
 ACTION_my_medical_files = "my_medical_files"
 ACTION_terms_condition = "terms_condition"
 ACTION_privacy_policy = "privacy_policy"
+ACTION_get_cylinder_data = "get_cylinder_data"
+ACTION_device_register = "device_register"
+ACTION_device_logout = "device_logout"
+ACTION_book_cylinder_refill_request = "book_cylinder_refill_request"
 
 # Database Connection Settings
 my_database_name = "mahi.db"

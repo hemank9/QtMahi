@@ -16,8 +16,8 @@ def loginAPI(user, passw):
         data = {'username': user,
                 'password': passw,
                 'regId': constants.RegID,
-                'device_id': "1f2d998f83b22271",
-                'device_token': "1f2d998f83b22271",
+                'device_id': constants.device_id,
+                'device_token': constants.device_token,
                 'role': constants.RoleID,
                 'myaction': constants.ACTION_DEVICE_SIGN_IN,
                 'app_type': constants.AppType}
@@ -676,6 +676,139 @@ def fetchPrivacyPolicy():
         print(e.__cause__)
         return None
 
+def registerHealthMachine():
+    try:
+        if myDB.isLogggedIn():
+            data ={
+                    'user_id': myDB.getUserID(),
+                    'app_type': constants.AppType2,
+                    'device_id': constants.device_id,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_device_register,
+                   }
+
+            print("Register Health Machine URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Register Health Machine response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Register Health Machine Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+def logoutMachine():
+    try:
+        if myDB.isLogggedIn():
+            data ={
+                    'user_id': myDB.getUserID(),
+                    'app_type': constants.AppType2,
+                    'device_id': constants.device_id,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_device_logout,
+                   }
+
+            print("Logout Health Machine URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Logout Health Machine response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Logout Health Machine Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+def fetchCylinderMedication():
+    try:
+        if myDB.isLogggedIn():
+
+            data ={
+                    'user_id': myDB.getUserID(),
+                    'device_id': constants.device_id,
+                    'stuff': constants.Stuff,
+                    'app_type': constants.AppType,
+                    'myaction': constants.ACTION_get_cylinder_data,
+                   }
+
+            print("Fetch Cylinder Medication URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Cylinder Medication response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch Cylinder Medication Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+        else:
+            print("user not logged in")
+            return None
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+def bookRefillingRequest():
+    try:
+        if myDB.isLogggedIn():
+
+            data ={
+                    'user_id': myDB.getUserID(),
+                    'stuff': constants.Stuff,
+                    'app_type': constants.AppType,
+                    'myaction': constants.ACTION_book_cylinder_refill_request,
+                   }
+
+            print("Book Refilling Request URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Book Refilling Request response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Book Refilling Request Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+        else:
+            print("user not logged in")
+            return None
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
 
 if __name__ == "__main__":
     print("API Calls Main Function")
@@ -698,3 +831,7 @@ if __name__ == "__main__":
     # fetchAppointments("0","1")
     # fetchTermsAndCondtions()
     # fetchPrivacyPolicy()
+    # registerHealthMachine()
+    # fetchCylinderMedication()
+    # logoutMachine()
+    # bookRefillingRequest()
