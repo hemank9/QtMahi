@@ -99,11 +99,14 @@ def updateProfile(user_id, userString):
 
 def logoutUser():
     try:
-        conn.execute("DELETE FROM '" + constants.profile_table + "'")
-        conn.execute("DELETE FROM '" + constants.health_calendar_table + "'")
-        conn.execute("DELETE FROM '" + constants.login_table + "'")
-        conn.execute("DELETE FROM '" + constants.completed_appointments_table + "'")
-        conn.execute("DELETE FROM '" + constants.upcoming_appointments_table + "'")
+        conn.execute("DROP TABLE '" + constants.profile_table + "'")
+        conn.execute("DROP TABLE '" + constants.health_calendar_table + "'")
+        conn.execute("DROP TABLE '" + constants.login_table + "'")
+        conn.execute("DROP TABLE '" + constants.completed_appointments_table + "'")
+        conn.execute("DROP TABLE '" + constants.upcoming_appointments_table + "'")
+        conn.execute("DROP TABLE '" + constants.slot_timings + "'")
+        conn.execute("DROP TABLE '" + constants.cylinder_table + "'")
+        conn.execute("DROP TABLE '" + constants.dosage_status_table + "'")
         conn.commit()
         print("Session cleared, user logout successful")
 
@@ -209,6 +212,27 @@ def initTables():
     conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.completed_appointments_table + ''' 
                                (ID TEXT PRIMARY KEY   NOT NULL,
                            APPO_JSON   TEXT);''')
+
+    conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.slot_timings_table + ''' 
+                               (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                           SLOT_NAME TEXT NOT NULL, SLOT_TIME TEXT NOT NULL);''')
+
+    conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.cylinder_table + ''' 
+                               (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                           C_ID TEXT NOT NULL UNIQUE, C_COLORS TEXT, C_LOCK TEXT,
+                           MED_FREQUENCY TEXT, MED_TIME_SLOT TEXT, MED_TIME_CHECK TEXT);''')
+
+    # conn.execute("DROP TABLE "+constants.med_time_table)
+    conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.med_time_table + ''' 
+                               (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                           MED_DATE TEXT NOT NULL, MED_TIME TEXT,CYLINDER_ID TEXT,
+                            DOSAGE TEXT NOT NULL);''')
+
+    conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.dosage_status_table + ''' 
+                               (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                           DOSAGE_ID TEXT NOT NULL, MED_DATE TEXT, MED_TIME TEXT,
+                            STATUS TEXT);''')
+
     conn.commit()
 
 def updateCompletedAppointments(user_id,appointments_string):
@@ -274,11 +298,148 @@ def updateUpcomingAppointments(user_id,appointments_string):
         return False
 
 def setMedicationDB(response):
-    try:
-        print("")
-    except:
-        print("Set Medication DB : Something went wrong !")
 
+    conn.execute("DELETE FROM '" + constants.cylinder_table + "'")
+    conn.execute("DELETE FROM '" + constants.med_time_table + "'")
+    conn.execute("DELETE FROM '" + constants.dosage_status_table + "'")
+
+    # try:
+    cylinder_data = response["data"]["medication_cylinder"]
+
+    for cylinderId in constants.cylinders:
+        cylinderData = cylinder_data[cylinderId]
+
+        dosage_colors = str(cylinderData["dosage_color"])
+        cylinder_lock = str(cylinderData["is_cylinder_lock"])
+        med_time_slot = str(cylinderData["medicine_timing_name"])
+        med_food_check = str(cylinderData["food_time_check"])
+        med_frequency = str(cylinderData["med_frequency"])
+
+        conn.execute("INSERT INTO '"+constants.cylinder_table+"' (C_ID,"
+                  "C_COLORS, C_LOCK, MED_FREQUENCY, MED_TIME_SLOT, MED_TIME_CHECK) "
+                  "VALUES (?,?,?,?,?,?)",(cylinderId,dosage_colors,cylinder_lock,med_frequency,
+                  med_time_slot,med_food_check))
+
+        time_slot = med_time_slot+"_"+med_food_check
+
+        cursor = conn.execute("SELECT SLOT_TIME FROM '"+constants.slot_timings_table+"' "
+                    "WHERE SLOT_NAME = '"+time_slot+"'")
+        row = cursor.fetchone()
+        dosage_time = str(row[0])
+        for dose in cylinderData["dosages"]:
+            med_date = str(dose["med_take_date"])
+            dosage = str(dose["medicine_list"])
+
+            conn.execute("INSERT INTO '"+constants.med_time_table+"' (MED_DATE,"
+                      "MED_TIME,DOSAGE, CYLINDER_ID) VALUES(?,?,?,?)",
+                         (med_date,dosage_time,dosage,cylinderId))
+
+            temp = conn.execute("SELECT ID FROM '" + constants.med_time_table + "' ORDER BY ID DESC")
+            dosageId = temp.fetchone()
+            # print(dosageId[0])
+            conn.execute("INSERT INTO '"+constants.dosage_status_table+"' (DOSAGE_ID,"
+                      "MED_DATE,MED_TIME, STATUS) VALUES(?,?,?,?)",
+                         (str(dosageId[0]),med_date,dosage_time, constants.dosage_available))
+
+    conn.commit()
+    # except:
+    #     print("Set Medication DB : Something went wrong !")
+
+def setSlotTimings(response):
+    try:
+
+        # if we get data from server
+        if(response != None):
+            pass
+
+        # else set up static slot timings
+        else:
+
+            conn.execute("DELETE FROM '"+constants.slot_timings_table+"'")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
+                    "VALUES ( 'morning_before_food', '08:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
+                    "VALUES ( 'morning_after_food', '09:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
+                    "VALUES ( 'noon_before_food', '12:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
+                    "VALUES ( 'noon_after_food', '13:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
+                    "VALUES ( 'evening_before_food', '19:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
+                    "VALUES ( 'evening_after_food', '21:00' )")
+
+            conn.commit()
+
+    except Exception as e:
+        print("Something went wrong : Set Slot Timings "+str(e.__cause__))
+
+def getSlotTimings():
+    try:
+
+        cursor = conn.execute("SELECT * from '" + constants.slot_timings_table + "'")
+
+        for row in cursor:
+            print(str(row))
+
+    except Exception as e:
+        print("Something went wrong : Get Slot Timings "+str(e.__cause__))
+
+def getCylinderData():
+    try:
+
+        cursor = conn.execute("SELECT * from '" + constants.cylinder_table + "'")
+
+        for row in cursor:
+            print(str(row))
+
+    except Exception as e:
+        print("Something went wrong : Get Slot Timings "+str(e.__cause__))
+
+def getDosages():
+    try:
+
+        cursor = conn.execute("SELECT * from '" + constants.med_time_table + "'")
+
+        for row in cursor:
+            print(str(row))
+
+    except Exception as e:
+        print("Something went wrong : Get Slot Timings "+str(e.__cause__))
+
+def getDosagesStatus():
+    try:
+        # conn.execute("INSERT INTO '" + constants.dosage_status_table + "' (DOSAGE_ID,"
+        #            "MED_DATE,MED_TIME, STATUS) VALUES(?,?,?,?)",
+        #              ('197','2021-06-12', '10:15', '5'))
+        # conn.commit()
+        # cursor = conn.execute("SELECT * FROM '"+constants.dosage_status_table+
+        #           "'")
+
+        # # Query to get latest entries for all doses
+        # query = "SELECT * from '" + constants.dosage_status_table +"' x "+\
+        #        "WHERE x.ID in (SELECT max(ID) FROM '"+constants.dosage_status_table+\
+        # "' y where y.DOSAGE_ID = x.DOSAGE_ID)"
+        #
+        # # Join medicine table and dosage status table
+        # cursor = conn.execute("SELECT * from '" + constants.med_time_table + "' c JOIN ("+
+        #          query+") y ON c.ID = y.DOSAGE_ID")
+
+        cursor = conn.execute("SELECT * from '" + constants.med_time_table + "' c JOIN '"+
+                 constants.dosage_status_table+"' y ON c.ID = y.DOSAGE_ID JOIN '"+
+              constants.cylinder_table+"' z ON c.CYLINDER_ID = z.C_ID ORDER BY c.ID")
+        # for row in cursor:
+        #     print(str(row))
+        return cursor
+
+    except Exception as e:
+        print("Something went wrong : Get Dosage Status "+str(e.__cause__))
 
 if __name__ == "__main__":
 
@@ -297,3 +458,8 @@ if __name__ == "__main__":
     # logoutUser()
     # getCalendarData()
     # resetDatabase()
+    # setSlotTimings(None)
+    # getSlotTimings()
+    # getCylinderData()
+    # getDosages()
+    getDosagesStatus()

@@ -5,7 +5,9 @@ from PyQt5.QtCore import *
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 import Utility.MahiUtility as Util
-
+import MyDatabase.my_database as myDb
+import constants as myConst
+import json
 import sys
 
 class PillboxListItem(QWidget):
@@ -218,31 +220,138 @@ class PrescriptionTable(QWidget):
         self.myQListWidget.setStyleSheet("border:None;")
         self.myQListWidget.setGeometry(40,220,830,450)
 
-        for i in range(8):
+        cursor = myDb.getDosagesStatus()
+
+        cylinder1 = []
+        cylinder2 = []
+        cylinder3 = []
+        cylinder4 = []
+        cylinder5 = []
+        cylinder6 = []
+        cylinder7 = []
+        cylinder8 = []
+
+        maxLen = 0
+
+        for row in cursor:
+            # print(str(row))
+
+            if row[3] == myConst.cylinders[0]:
+                cylinder1.append(row)
+                if len(cylinder1)>maxLen:
+                    maxLen = len(cylinder1)
+
+            elif row[3] == myConst.cylinders[1]:
+                cylinder2.append(row)
+                if len(cylinder2)>maxLen:
+                    maxLen = len(cylinder2)
+
+            elif row[3] == myConst.cylinders[2]:
+                cylinder3.append(row)
+                if len(cylinder3)>maxLen:
+                    maxLen = len(cylinder3)
+
+            elif row[3] == myConst.cylinders[3]:
+                cylinder4.append(row)
+                if len(cylinder4)>maxLen:
+                    maxLen = len(cylinder4)
+
+            elif row[3] == myConst.cylinders[4]:
+                cylinder5.append(row)
+                if len(cylinder5)>maxLen:
+                    maxLen = len(cylinder5)
+
+            elif row[3] == myConst.cylinders[5]:
+                cylinder6.append(row)
+                if len(cylinder6)>maxLen:
+                    maxLen = len(cylinder6)
+
+            elif row[3] == myConst.cylinders[6]:
+                cylinder7.append(row)
+                if len(cylinder7)>maxLen:
+                    maxLen = len(cylinder7)
+
+            elif row[3] == myConst.cylinders[7]:
+                cylinder8.append(row)
+                if len(cylinder8)>maxLen:
+                    maxLen = len(cylinder8)
+
+
+        cylinder1 = self.cylinderInsertNone(cylinder1,maxLen)
+        cylinder2 = self.cylinderInsertNone(cylinder2,maxLen)
+        cylinder3 = self.cylinderInsertNone(cylinder3,maxLen)
+        cylinder4 = self.cylinderInsertNone(cylinder4,maxLen)
+        cylinder5 = self.cylinderInsertNone(cylinder5,maxLen)
+        cylinder6 = self.cylinderInsertNone(cylinder6,maxLen)
+        cylinder7 = self.cylinderInsertNone(cylinder7,maxLen)
+        cylinder8 = self.cylinderInsertNone(cylinder8,maxLen)
+
+        # for i in cylinder1:
+        #     if i!=None:
+        #         print(i[12])
+
+
+        for i in range(maxLen):
             # Create QCustomQWidget
             myQCustomQWidget = PillboxListItem()
             myQListWidgetItem = QListWidgetItem(self.myQListWidget)
             myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
 
+            if(cylinder1[i]==None):
+                myQCustomQWidget.setButtonColor(1,myConst.color_transparent)
+            else:
+                temp = str(cylinder1[i][12]).replace("'",'"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(1,colors["filled_dosage"])
 
-            myQCustomQWidget.setButtonColor(1,"#FAD208")
-            myQCustomQWidget.setButtonColor(2,"#F7941D")
-            myQCustomQWidget.setButtonColor(3,"#BF2D93")
-            myQCustomQWidget.setButtonColor(4,"#92278F")
-            myQCustomQWidget.setButtonColor(5,"#009DF8")
-            myQCustomQWidget.setButtonColor(6,"#08077C")
-            myQCustomQWidget.setButtonColor(7,"#714D3F")
-            myQCustomQWidget.setButtonColor(8,"#7A2548")
+            if(cylinder2[i]==None):
+                myQCustomQWidget.setButtonColor(2,myConst.color_transparent)
+            else:
+                temp = str(cylinder2[i][12]).replace("'", '"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(2,colors["filled_dosage"])
 
-            if i == 0:
-                myQCustomQWidget.setButtonColor(1, "#00FAD208")
-                myQCustomQWidget.setButtonColor(2, "#00F7941D")
-                myQCustomQWidget.setButtonColor(3, "#00BF2D93")
-                myQCustomQWidget.setButtonColor(4, "#0092278F")
-                myQCustomQWidget.setButtonColor(5, "#00009DF8")
-                myQCustomQWidget.setButtonColor(6, "#0008077C")
-                myQCustomQWidget.setButtonColor(7, "#00714D3F")
-                myQCustomQWidget.setButtonColor(8, "#F00")
+            if(cylinder3[i]==None):
+                myQCustomQWidget.setButtonColor(3,myConst.color_transparent)
+            else:
+                temp = str(cylinder3[i][12]).replace("'", '"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(3,colors["filled_dosage"])
+
+            if(cylinder4[i]==None):
+                myQCustomQWidget.setButtonColor(4,myConst.color_transparent)
+            else:
+                temp = str(cylinder4[i][12]).replace("'", '"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(4,colors["filled_dosage"])
+
+            if(cylinder5[i]==None):
+                myQCustomQWidget.setButtonColor(5,myConst.color_transparent)
+            else:
+                temp = str(cylinder5[i][12]).replace("'", '"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(5,colors["filled_dosage"])
+
+            if(cylinder6[i]==None):
+                myQCustomQWidget.setButtonColor(6,myConst.color_transparent)
+            else:
+                temp = str(cylinder6[i][12]).replace("'", '"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(6,colors["filled_dosage"])
+
+            if(cylinder7[i]==None):
+                myQCustomQWidget.setButtonColor(7,myConst.color_transparent)
+            else:
+                temp = str(cylinder7[i][12]).replace("'", '"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(7,colors["filled_dosage"])
+
+            if(cylinder8[i]==None):
+                myQCustomQWidget.setButtonColor(8,myConst.color_transparent)
+            else:
+                temp = str(cylinder8[i][12]).replace("'", '"')
+                colors = json.loads(temp)
+                myQCustomQWidget.setButtonColor(8,colors["filled_dosage"])
 
             self.myQListWidget.addItem(myQListWidgetItem)
             self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
@@ -373,6 +482,15 @@ class PrescriptionTable(QWidget):
             self.lblTableMedicine.show()
             self.myQListWidget.hide()
             self.lbl_txt1.hide()
+
+    def cylinderInsertNone(self,cylinder, maxlen):
+        diff = maxlen - len(cylinder)
+        if (diff > 0):
+            for i in range(diff):
+                cylinder.insert(0, None)
+
+        return cylinder
+
 
 
 
