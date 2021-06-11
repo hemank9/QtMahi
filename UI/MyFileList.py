@@ -86,6 +86,7 @@ class FileList(QMainWindow):
 
     def fileClicked(self,item):
         self.x = webPage.WebPage(self.fileList[item.row()]["file_url"])
+        # self.x = webPage.WebPage("https://www.google.com/maps/search/?api=1&query=23.0384%2C72.5288")
         self.x.show()
 
     def fetchMedicalFilesAPI(self):
@@ -133,13 +134,13 @@ class FileList(QMainWindow):
         self.fetchMedicalFilesAPI()
 
 
-# if __name__ == '__main__':
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = FileList()
-#
-#     window.show()
-#
-#     # start the app
-#     sys.exit(App.exec_())
+if __name__ == '__main__':
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = FileList()
+
+    window.show()
+
+    # start the app
+    sys.exit(App.exec_())

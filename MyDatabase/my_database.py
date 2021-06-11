@@ -273,6 +273,13 @@ def updateUpcomingAppointments(user_id,appointments_string):
         print("Add/Update upcoming appointemnts failed : "+e.__class__)
         return False
 
+def setMedicationDB(response):
+    try:
+        print("")
+    except:
+        print("Set Medication DB : Something went wrong !")
+
+
 if __name__ == "__main__":
 
     initTables()
