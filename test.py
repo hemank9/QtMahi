@@ -1,39 +1,52 @@
-import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
-from pyqtgraph.dockarea import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-import numpy as np
+import sys
+import io
+import folium  # pip install folium
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWebEngineWidgets import QWebEngineView  # pip install PyQtWebEngine
+
+"""
+Folium in PyQt5
+"""
 
 
-def on_double_click_out(event):
-    mouseEvent = event[0]
-    mousePoint = mouseEvent.pos()
-    if mouseEvent.double():
-        print("Double click")
-    if p.p1.sceneBoundingRect().contains(mousePoint):
-        print('x=', mousePoint.x(), ' y=', mousePoint.y())
-
-
-class Plotter():
+class MyApp(QWidget):
     def __init__(self):
-        pg.setConfigOption('background', 'w')
-        pg.setConfigOption('foreground', 'k')
+        super().__init__()
+        self.setWindowTitle('Folium in PyQt Example')
+        self.window_width, self.window_height = 1600, 1200
+        self.setMinimumSize(self.window_width, self.window_height)
 
-        self.win = pg.GraphicsLayoutWidget(show=True)
-        self.win.resize(1000, 500)
-        self.win.setWindowTitle('pyqtgraph example: dockarea')
+        layout = QVBoxLayout()
+        self.setLayout(layout)
 
-        self.p1 = self.win.addPlot()
-        self.win.show()
+        coordinate = (23.0384, 72.5288)
+        m = folium.Map(
+            tiles='Stamen Terrain',
+            zoom_start=25,
+            location=coordinate
+        )
 
+        # save map data to data object
+        data = io.BytesIO()
+        m.save(data, close_file=False)
 
-p = Plotter()
-proxy = pg.SignalProxy(p.win.scene().sigMouseClicked, rateLimit=60, slot=on_double_click_out)
+        webView = QWebEngineView()
+        webView.setHtml(data.getvalue().decode())
+        layout.addWidget(webView)
+
 
 if __name__ == '__main__':
-    import sys
+    app = QApplication(sys.argv)
+    app.setStyleSheet('''
+        QWidget {
+            font-size: 35px;
+        }
+    ''')
 
-    if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QApplication.instance().exec_()
+    myApp = MyApp()
+    myApp.show()
+
+    try:
+        sys.exit(app.exec_())
+    except SystemExit:
+        print('Closing Window...')
