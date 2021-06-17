@@ -14,51 +14,53 @@ class PillboxListItem(QWidget):
     def __init__(self, parent=None):
         super(PillboxListItem, self).__init__(parent)
 
+
         frame1 = QFrame(self)
         frame1.setFixedWidth(800)
         # frame1.setGraphicsEffect(shadow)
         frame1.setStyleSheet("background-color:#f0f0f3")
+        self.cylinderData = []
 
         self.fixedSttyle = "border-radius : 10; background-color : ";
         self.btn1 = QPushButton("", self)
         # self.btn1.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn1.setFixedSize(86, 32)
-        self.btn1.clicked.connect(self.oneClicked)
+        self.btn1.clicked.connect(lambda: self.dosageClicked(0))
 
         self.btn2 = QPushButton("", self)
         # self.btn2.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn2.setFixedSize(86, 32)
-        self.btn2.clicked.connect(self.twoClicked)
+        self.btn2.clicked.connect(lambda: self.dosageClicked(1))
 
         self.btn3 = QPushButton("", self)
         # self.btn3.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn3.setFixedSize(86, 32)
-        self.btn3.clicked.connect(self.threeClicked)
+        self.btn3.clicked.connect(lambda: self.dosageClicked(2))
 
         self.btn4 = QPushButton("", self)
         # self.btn4.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn4.setFixedSize(86, 32)
-        self.btn4.clicked.connect(self.fourClicked)
+        self.btn4.clicked.connect(lambda: self.dosageClicked(3))
 
         self.btn5 = QPushButton("", self)
         # self.btn5.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn5.setFixedSize(86, 32)
-        self.btn5.clicked.connect(self.fiveClicked)
+        self.btn5.clicked.connect(lambda: self.dosageClicked(4))
 
         self.btn6 = QPushButton("", self)
         # self.btn6.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn6.setFixedSize(86, 32)
-        self.btn6.clicked.connect(self.sixClicked)
+        self.btn6.clicked.connect(lambda: self.dosageClicked(5))
 
         self.btn7 = QPushButton("", self)
         # self.btn7.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn7.setFixedSize(86, 32)
-        self.btn7.clicked.connect(self.sevenClicked)
+        self.btn7.clicked.connect(lambda: self.dosageClicked(6))
 
         self.btn8 = QPushButton("", self)
         # self.btn8.setStyleSheet("border-radius : 10; background-color : #006CB5;")
         self.btn8.setFixedSize(86, 32)
-        self.btn8.clicked.connect(self.eightClicked)
+        self.btn8.clicked.connect(lambda: self.dosageClicked(7))
 
 
         self.allQHBoxLayout = QHBoxLayout()
@@ -93,30 +95,17 @@ class PillboxListItem(QWidget):
         elif t==8:
             self.btn8.setStyleSheet(self.fixedSttyle + str(color) + ";")
 
+    def setJSONData(self,row):
+        self.row = row
 
-    def oneClicked(self):
-        print("one clicked")
+    def setCylinderData(self,cylinderData):
+        self.cylinderData.append(cylinderData)
 
-    def twoClicked(self):
-        print("two clicked")
 
-    def threeClicked(self):
-        print("three clicked")
+    def dosageClicked(self, position):
+        print("clicked position : "+str(position)+" | Row:"+str(self.row))
+        print(self.cylinderData[position])
 
-    def fourClicked(self):
-        print("four clicked")
-
-    def fiveClicked(self):
-        print("five clicked")
-
-    def sixClicked(self):
-        print("six clicked")
-
-    def sevenClicked(self):
-        print("seven clicked")
-
-    def eightClicked(self):
-        print("eight clicked")
 
 class PrescriptionTable(QWidget):
     def __init__(self):
@@ -220,7 +209,7 @@ class PrescriptionTable(QWidget):
         self.myQListWidget.setStyleSheet("border:None;")
         self.myQListWidget.setGeometry(40,220,830,450)
 
-        cursor = myDb.getDosagesStatus()
+        cursor = myDb.getDosagesStatus(2)
 
         cylinder1 = []
         cylinder2 = []
@@ -297,61 +286,127 @@ class PrescriptionTable(QWidget):
             myQListWidgetItem = QListWidgetItem(self.myQListWidget)
             myQListWidgetItem.setSizeHint(myQCustomQWidget.sizeHint())
 
+            myQCustomQWidget.setJSONData(i)
+            myQCustomQWidget.setCylinderData(cylinder1[i])
+            myQCustomQWidget.setCylinderData(cylinder2[i])
+            myQCustomQWidget.setCylinderData(cylinder3[i])
+            myQCustomQWidget.setCylinderData(cylinder4[i])
+            myQCustomQWidget.setCylinderData(cylinder5[i])
+            myQCustomQWidget.setCylinderData(cylinder6[i])
+            myQCustomQWidget.setCylinderData(cylinder7[i])
+            myQCustomQWidget.setCylinderData(cylinder8[i])
+
             if(cylinder1[i]==None):
                 myQCustomQWidget.setButtonColor(1,myConst.color_transparent)
             else:
                 temp = str(cylinder1[i][12]).replace("'",'"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(1,colors["filled_dosage"])
+
+                status = cylinder1[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(1,colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(1, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(1, colors["empty_dosage"])
 
             if(cylinder2[i]==None):
                 myQCustomQWidget.setButtonColor(2,myConst.color_transparent)
             else:
                 temp = str(cylinder2[i][12]).replace("'", '"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(2,colors["filled_dosage"])
+
+                status = cylinder2[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(2, colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(2, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(2, colors["empty_dosage"])
 
             if(cylinder3[i]==None):
                 myQCustomQWidget.setButtonColor(3,myConst.color_transparent)
             else:
                 temp = str(cylinder3[i][12]).replace("'", '"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(3,colors["filled_dosage"])
+
+                status = cylinder3[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(3, colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(3, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(3, colors["empty_dosage"])
 
             if(cylinder4[i]==None):
                 myQCustomQWidget.setButtonColor(4,myConst.color_transparent)
             else:
                 temp = str(cylinder4[i][12]).replace("'", '"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(4,colors["filled_dosage"])
+
+                status = cylinder4[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(4, colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(4, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(4, colors["empty_dosage"])
 
             if(cylinder5[i]==None):
                 myQCustomQWidget.setButtonColor(5,myConst.color_transparent)
             else:
                 temp = str(cylinder5[i][12]).replace("'", '"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(5,colors["filled_dosage"])
+
+                status = cylinder5[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(5, colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(5, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(5, colors["empty_dosage"])
 
             if(cylinder6[i]==None):
                 myQCustomQWidget.setButtonColor(6,myConst.color_transparent)
             else:
                 temp = str(cylinder6[i][12]).replace("'", '"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(6,colors["filled_dosage"])
+
+                status = cylinder6[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(6, colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(6, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(6, colors["empty_dosage"])
 
             if(cylinder7[i]==None):
                 myQCustomQWidget.setButtonColor(7,myConst.color_transparent)
             else:
                 temp = str(cylinder7[i][12]).replace("'", '"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(7,colors["filled_dosage"])
+
+                status = cylinder7[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(7, colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(7, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(7, colors["empty_dosage"])
 
             if(cylinder8[i]==None):
                 myQCustomQWidget.setButtonColor(8,myConst.color_transparent)
             else:
                 temp = str(cylinder8[i][12]).replace("'", '"')
                 colors = json.loads(temp)
-                myQCustomQWidget.setButtonColor(8,colors["filled_dosage"])
+
+                status = cylinder8[i][9]
+                if status == myConst.dosage_available:
+                    myQCustomQWidget.setButtonColor(8, colors["filled_dosage"])
+                elif status == myConst.dosage_missed:
+                    myQCustomQWidget.setButtonColor(8, myConst.color_red)
+                else:
+                    myQCustomQWidget.setButtonColor(8, colors["empty_dosage"])
 
             self.myQListWidget.addItem(myQListWidgetItem)
             self.myQListWidget.setItemWidget(myQListWidgetItem, myQCustomQWidget)
