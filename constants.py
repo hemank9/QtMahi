@@ -19,6 +19,7 @@ ACTION_get_cylinder_data = "get_cylinder_data"
 ACTION_device_register = "device_register"
 ACTION_device_logout = "device_logout"
 ACTION_book_cylinder_refill_request = "book_cylinder_refill_request"
+ACTION_default_medication_timing = "default_medication_timing"
 
 # Database Connection Settings
 my_database_name = "mahi.db"
@@ -31,6 +32,8 @@ slot_timings_table = "SLOT_TIMINGS"
 cylinder_table = "CYLINDER"
 med_time_table = "MEDICINE_TIME"
 dosage_status_table = "DOSAGE_STATUS"
+extra_dosage_med_table = "EXTRA_DOSAGE_MEDS"
+extra_dosage_cylinder_table = "EXTRA_DOSAGE_CYLINDER"
 
 device_id = "mahi_id"
 device_token = "mahi_token"
@@ -55,3 +58,4 @@ dosage_taken = "taken"
 
 #colors
 color_transparent = "#00FFFFFF"
+color_red = "#FF0000"
