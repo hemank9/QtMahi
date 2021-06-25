@@ -759,8 +759,8 @@ def fetchCylinderMedication():
             r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
 
             print("Fetch Cylinder Medication response : " + r.text.strip())
-            response = json.loads(r.text, strict=False)
-            # response = json.loads(getDummyResponse(), strict=False)
+            # response = json.loads(r.text, strict=False)
+            response = json.loads(getDummyResponse(), strict=False)
             if response['status']:
 
                 print("Fetch Cylinder Medication Successful")
@@ -846,6 +846,42 @@ def fetchDefaultTimings():
         print(e.__cause__)
         return None
 
+def fetchPrescriptionHistory(page,doctor_id):
+    try:
+        if myDB.isLogggedIn():
+
+            data ={
+                    'app_type': constants.AppType2,
+                    'page': str(page),
+                    'user_id': myDB.getUserID(),
+                    'stuff': constants.Stuff,
+                    'doctor_id': str(doctor_id),
+                    'myaction': constants.ACTION_GET_MY_PRESCRIPTION_LIST,
+                   }
+
+            print("Fetch Prescription History URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Prescription History response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch Prescription History Successful")
+                myDB.setSlotTimings(response)
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+        else:
+            print("user not logged in")
+            return None
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
 if __name__ == "__main__":
     print("API Calls Main Function")
 
@@ -872,3 +908,5 @@ if __name__ == "__main__":
     # logoutMachine()
     # bookRefillingRequest()
     fetchDefaultTimings()
+
+    # fetchPrescriptionHistory(1,617)

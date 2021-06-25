@@ -20,6 +20,7 @@ ACTION_device_register = "device_register"
 ACTION_device_logout = "device_logout"
 ACTION_book_cylinder_refill_request = "book_cylinder_refill_request"
 ACTION_default_medication_timing = "default_medication_timing"
+ACTION_GET_MY_PRESCRIPTION_LIST = "GET_MY_PRESCRIPTION_LIST"
 
 # Database Connection Settings
 my_database_name = "mahi.db"

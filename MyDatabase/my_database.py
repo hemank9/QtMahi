@@ -439,11 +439,18 @@ def setSlotTimings(response):
                     for timing in extra_dosage_timings:
                         med_timing_name = timing["med_timing_name"]
 
-                        medicine_time = timing["medicine_time"]
+                        before_food_key = med_timing_name + "_before_food"
+                        after_food_key = med_timing_name + "_after_food"
+
+                        before_food_time = timing["before_food_time"]
+                        after_food_time = timing["after_food_time"]
 
                         conn.execute("INSERT INTO '" + constants.slot_timings_table +
                                      "' (SLOT_NAME, SLOT_TIME) " \
-                                     "VALUES (?,?)", (med_timing_name, medicine_time))
+                                     "VALUES (?,?)", (before_food_key, before_food_time))
+                        conn.execute("INSERT INTO '" + constants.slot_timings_table +
+                                     "' (SLOT_NAME, SLOT_TIME) " \
+                                     "VALUES (?,?)", (after_food_key, after_food_time))
 
                     conn.commit()
 
