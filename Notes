@@ -64,5 +64,5 @@ ask sir if freq is required in repetative meds
             myQCustomQWidget.setButtonColor(8,"#7A2548")
 
 
-
+Replacing pics with labels where ever pics are not required anymore.
 
