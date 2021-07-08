@@ -846,6 +846,44 @@ def fetchDefaultTimings():
         print(e.__cause__)
         return None
 
+def fetchPrescriptionHistory(page):
+    try:
+        if myDB.isLogggedIn():
+
+            data = {
+                    'app_type': constants.AppType,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_GET_MY_PRESCRIPTION_LIST,
+                    'user_id': myDB.getUserID(),
+                    'page': str(page),
+                    'doctor_id': "all",
+
+            }
+            print("Fetch Prescription History URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Prescription History response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch T&C Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+
 if __name__ == "__main__":
     print("API Calls Main Function")
 
@@ -871,4 +909,5 @@ if __name__ == "__main__":
     # fetchCylinderMedication()
     # logoutMachine()
     # bookRefillingRequest()
-    fetchDefaultTimings()
+    # fetchDefaultTimings()
+    # fetchPrescriptionHistory(1)
