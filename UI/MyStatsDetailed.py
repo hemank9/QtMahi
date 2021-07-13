@@ -288,6 +288,8 @@ class MyStatsDetailed(QMainWindow):
         # self.gridLayout.setParent(frame)
         self.gridLayout.addWidget(self.graph, 0, 0, 1, 3)
         self.gridLayoutWidget.setStyleSheet("background-color:white")
+        # self.graphWidget.showGrid(x=True, y=True)
+
 
     def tableClick(self):
         # self.lblTable = QLabel(self)
