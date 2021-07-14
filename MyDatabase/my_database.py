@@ -548,8 +548,9 @@ def getDosagesStatus(type):
                   constants.cylinder_table+"' z ON c.CYLINDER_ID = z.C_ID ORDER BY c.ID")
 
         if cursor!=None :
-            for row in cursor:
-                print(str(row))
+            # for row in cursor:
+            #     print(str(row))
+            print("Fetch Cylinder Data Successful")
             return cursor
         else:
             return None

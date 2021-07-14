@@ -64,7 +64,7 @@ class Window2(QWidget):
         btn_back.clicked.connect(self.close)
 
 
-class Window(QMainWindow):
+class Refill(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -130,22 +130,23 @@ class Window(QMainWindow):
     #     self.l.show()
     #     # self.hide()
 
-App = QApplication(sys.argv)
-
-# create the instance of our Window
-window = Window()
-
-window.show()
-
-# start the app
-sys.exit(App.exec())
 
 
 
+#
 # if __name__ == '__main__':
-#     app = QApplication(sys.argv)
+#     #     app = QApplication(sys.argv)
+#     #
+#     #     demo = AppDemo()
+#     #     demo.show()
+#     #
+#     #     app.exit(app.exec_())
+#     App = QApplication(sys.argv)
 #
-#     demo = AppDemo()
-#     demo.show()
+#     # create the instance of our Window
+#     window = Refill()
 #
-#     app.exit(app.exec_())
+#     window.show()
+#
+#     # start the app
+#     sys.exit(App.exec())

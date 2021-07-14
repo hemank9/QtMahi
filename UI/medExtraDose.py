@@ -191,24 +191,17 @@ class ExtraDose(QWidget):
         self.x = ed.ExtraDosage()
         self.x.show()
 
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = ExtraDose()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+#
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = ExtraDose()
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())
 
 
 

@@ -16,6 +16,8 @@ import UI.docAppScreen as myAppo
 import UI.settings as settings
 import UI.Humm as humm
 import UI.MyCylinders2 as myCylinder
+import UI.refill as myRefill
+import UI.MyStats as myStats
 
 
 class HomeScreen(QMainWindow):
@@ -58,7 +60,7 @@ class HomeScreen(QMainWindow):
         #profilebutton
         btn_pro = QPushButton("PROFILE", self)
         btn_pro.setGeometry(272, 77, 349, 194)
-        btn_pro.setStyleSheet("border-radius : 30; background-color : black; color:#FFFFFF; text-align:left")
+        btn_pro.setStyleSheet("border-radius : 30; background-color : #E5E5E5; color:#FFFFFF; text-align:left")
         btn_pro.setIcon(QtGui.QIcon('../Resources/myprofile.png'))
         btn_pro.setIconSize(QtCore.QSize(349, 194))
         btn_pro.clicked.connect(self.profileClicked)
@@ -77,7 +79,7 @@ class HomeScreen(QMainWindow):
         btn_stat.setStyleSheet("border-radius : 30; background-color : #E5E5E5; color:#FFFFFF; text-align:left")
         btn_stat.setIcon(QtGui.QIcon('../Resources/mystats.png'))
         btn_stat.setIconSize(QtCore.QSize(346, 261))
-        btn_stat.clicked.connect(self.clickme)
+        btn_stat.clicked.connect(self.myStatsClicked)
 
         # settingsbutton    background-image : Resources(setm.png)  background-color : #F5A5BF  color:#FFFFFF
         btn_sett = QPushButton("", self)
@@ -120,7 +122,7 @@ class HomeScreen(QMainWindow):
         btn_refill.setStyleSheet("border-radius : 20; background-color : #E5E5E5; text-align:left")
         btn_refill.setIcon(QtGui.QIcon('../Resources/medfill.png'))
         btn_refill.setIconSize(QtCore.QSize(134, 477))
-        btn_refill.clicked.connect(self.clickme)
+        btn_refill.clicked.connect(self.refillClicked)
 
 
         # doc_appointment_button
@@ -170,6 +172,14 @@ class HomeScreen(QMainWindow):
         vbox.addWidget(self.calendar)
 
         self.setLayout(vbox)
+
+    def refillClicked(self):
+        self.x = myRefill.Refill()
+        self.x.show()
+
+    def myStatsClicked(self):
+        self.x = myStats.MyStats(0)
+        self.x.show()
 
     # # create pyqt5 app
     # def mypro(self):

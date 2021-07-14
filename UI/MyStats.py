@@ -13,7 +13,7 @@ import pyqtgraph as pg
 
 class MyStats(QMainWindow):
 
-    def __init__(self):
+    def __init__(self,type):
         super().__init__()
         self.setWindowTitle("My Stats")
         # setting geometry
@@ -22,6 +22,8 @@ class MyStats(QMainWindow):
         self.label = QLabel(self)
         self.label.setStyleSheet("background-color:#FEC32E")
         self.label.setGeometry(0, 0, 1220, 39)
+
+        self.pageInit = type
 
         self.UiComponents()
 
@@ -158,7 +160,10 @@ class MyStats(QMainWindow):
         self.initTableView()
         self.initGraph()
 
-        self.showAllVitals()
+        if self.pageInit == 0:
+            self.showAllVitals()
+        else:
+            self.vitalsCombo.setCurrentIndex(self.pageInit)
 
 
     def initVitals(self):
@@ -835,9 +840,6 @@ class MyStats(QMainWindow):
                 self.lblVitalDateList[i].hide()
                 self.lblVitalUnitList[i].hide()
                 self.lblVitalValueList[i].hide()
-
-
-
 
 
 if __name__ == '__main__':

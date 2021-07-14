@@ -330,9 +330,9 @@ class MedicineHistory(QWidget):
         self.btnPageNext1.setGraphicsEffect(Util.getNeuShadow(1))
         # btnPageNext1.clicked.connect(self.PageNext)
 
-        self.lblPageNo = QLabel("", self)
-        self.lblPageNo.setGeometry(605, 626, 50, 31)
-        self.lblPageNo.setStyleSheet("border-radius : 10; background-color: pink")
+        self.lblPageNo = QLabel("1 / 1", self)
+        self.lblPageNo.setGeometry(600, 621, 60, 41)
+        self.lblPageNo.setStyleSheet("font:bold; font-size:16px")
         self.lblPageNo.setAlignment(Qt.AlignCenter)
 
     def clickme(self):

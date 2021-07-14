@@ -9,6 +9,9 @@ import MyDatabase.my_database as myDb
 import constants as myConst
 import json
 import sys
+import UI.MedicineHistory as medHist
+import UI.medicinetime as medTime
+import UI.medExtraDose as medDose
 
 class PillboxListItem(QWidget):
     def __init__(self, parent=None):
@@ -134,7 +137,7 @@ class PrescriptionTable(QWidget):
         btnMedHistory.setGeometry(198, 57, 150, 70)
         btnMedHistory.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
         btnMedHistory.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnMedHistory1.clicked.connect(self.)
+        btnMedHistory.clicked.connect(lambda : self.buttonsClicked(1))
 
         # analytics
         btn_analytics1 = QPushButton("", self)
@@ -145,7 +148,6 @@ class PrescriptionTable(QWidget):
         btn_analytics.setGeometry(363, 57, 150, 70)
         btn_analytics.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
         btn_analytics.setGraphicsEffect(Util.getNeuShadow(1))
-        # btn_analytics.clicked.connect(self.clickme)
 
         # Extra Dosage
         btnExtraDosage1 = QPushButton("", self)
@@ -156,18 +158,18 @@ class PrescriptionTable(QWidget):
         btnExtraDosage.setGeometry(528, 57, 150, 70)
         btnExtraDosage.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
         btnExtraDosage.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnExtraDosage.clicked.connect(self.clickme)
+        btnExtraDosage.clicked.connect(lambda : self.buttonsClicked(3))
 
         # Medicine Time
         btnMedTime1 = QPushButton("", self)
         btnMedTime1.setGeometry(693, 57, 150, 70)
         btnMedTime1.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         btnMedTime1.setGraphicsEffect(Util.getNeuShadow(0))
-        btnMedTime = QPushButton("Extra Dosage", self)
+        btnMedTime = QPushButton("Medicine Time", self)
         btnMedTime.setGeometry(693, 57, 150, 70)
         btnMedTime.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
         btnMedTime.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnMedTime.clicked.connect(self.clickme)
+        btnMedTime.clicked.connect(lambda : self.buttonsClicked(2))
 
         btn_return = QPushButton("", self)
         btn_return.setGeometry(16, 59, 112, 41)
@@ -419,6 +421,9 @@ class PrescriptionTable(QWidget):
 
         self.vBox.setParent(self.frame)
 
+
+        # Prescription View
+
         self.tableWidget = QTableWidget()
 
         self.tableWidget.setShowGrid(False)
@@ -546,6 +551,19 @@ class PrescriptionTable(QWidget):
 
         return cylinder
 
+    def buttonsClicked(self,type):
+
+        if type == 1:
+            self.x = medHist.MedicineHistory()
+            self.x.show()
+
+        elif type == 2:
+            self.x = medTime.MyMedicines()
+            self.x.show()
+
+        elif type == 3:
+            self.x = medDose.ExtraDose()
+            self.x.show()
 
 
 

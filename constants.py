@@ -41,8 +41,8 @@ device_id = "mahi_id"
 device_token = "mahi_token"
 
 #One must always be commented
-path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
-# path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
+# path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
+path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
 #
 #Humm Pagetypes
 HUMM_IMAGE_TEXT = 0

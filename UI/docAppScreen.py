@@ -24,9 +24,9 @@ class DocAppScreen(QMainWindow):
         # setting geometry
         self.setGeometry(0, 0, 1220, 700)
         self.setStyleSheet("background-color: #F0F0F3")
-        self.label = QLabel(self)
-        self.label.setStyleSheet("background-color:#FEC32E")
-        self.label.setGeometry(0, 0, 1220, 165)
+        # self.label = QLabel(self)
+        # self.label.setStyleSheet("background-color:#FEC32E")
+        # self.label.setGeometry(0, 0, 1220, 165)
         self.btnStyle = "border-radius : 10; background-color : #F0F03; color : #006CB5; font : bold "
         self.btnStyleSelected = "border-radius : 10; background-color : #C4DBF0; color : #006CB5; font : bold "
         self.fontObj = QFont('Arial', 9)
@@ -130,6 +130,7 @@ class DocAppScreen(QMainWindow):
         # self.myQListWidget.
 
         self.loadingDialog = MahiUtil.LoadingGif()
+        self.myQListWidget.setStyleSheet("border:None;")
 
 
     def UpcominClick(self):

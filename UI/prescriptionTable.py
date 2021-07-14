@@ -8,8 +8,33 @@ import Utility.MahiUtility as Util
 from PyQt5.QtCore import *
 
 class PrescriptionTable(QWidget):
+
     def __init__(self):
         super().__init__()
+        stylesheet = """
+                    QTableWidget {
+                        background-color: black; 
+                        border-radius: 10px
+                    }
+
+                    QTableWidget::item {
+                        color: #222222;           
+                        border-radius: 5px; 
+                        border: 1px solid #999;
+                        padding: 15px;
+                    }
+
+                    # QTableWidget::item:selected {
+                    #     background-color: yellow;
+                    #     color: blue;
+                    # }
+                """
+
+        self.setStyleSheet(stylesheet)
+
+        # App = QApplication(sys.argv)
+        # App.setStyleSheet(stylesheet)
+
         self.setWindowTitle("Prescription")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
@@ -18,10 +43,8 @@ class PrescriptionTable(QWidget):
         self.label.setGeometry(0, 0, 1220, 39)
 
         self.UiComponents()
-    #
-    #     # showing all the widgets
         self.show()
-    #
+
     def UiComponents(self):
 
         btn_back = QPushButton("", self)
@@ -161,36 +184,20 @@ class PrescriptionTable(QWidget):
         lblTableDuration.setGeometry(957,178,228,63)
         lblTableDuration.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
 
-stylesheet = """
-    QTableWidget {
-        background-color: black; 
-        border-radius: 10px
-    }
 
-    QTableWidget::item {
-        color: #222222;           
-        border-radius: 5px; 
-        border: 1px solid #999;
-        padding: 15px;
-    }
 
-    # QTableWidget::item:selected {
-    #     background-color: yellow;
-    #     color: blue;
-    # }
-"""
-
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-    App.setStyleSheet(stylesheet)
-
-    # create the instance of our Window
-    window = PrescriptionTable()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#
+#     App = QApplication(sys.argv)
+#     App.setStyleSheet(stylesheet)
+#
+#     # create the instance of our Window
+#     window = PrescriptionTable()
+#
+#     window.show()
+#
+#     # start the app
+#     sys.exit(App.exec())
 
 
 

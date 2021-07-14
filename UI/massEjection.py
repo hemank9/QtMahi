@@ -78,15 +78,8 @@ class MassEject(QWidget):                           # <===
         self.btnejctNxtDose.setGraphicsEffect(Util.getNeuShadow(0))
         self.btnejctNxtDose.clicked.connect(self.ejectNextDoseClicked)
 
-        self.btnDailyEarlyEjct = QPushButton("Daily Early Ejection", self)
-        self.btnDailyEarlyEjct.setGeometry(477, 54, 260, 55)
-        self.btnDailyEarlyEjct.setFont(QFont('Arial', 10))
-        self.btnDailyEarlyEjct.setStyleSheet(self.btnStyle)
-        self.btnDailyEarlyEjct.setGraphicsEffect(Util.getNeuShadow(0))
-        self.btnDailyEarlyEjct.clicked.connect(self.dailyEarlyClicked)
-
         self.btnMassEjct = QPushButton("Mass Ejection", self)
-        self.btnMassEjct.setGeometry(771, 54, 224, 55)
+        self.btnMassEjct.setGeometry(477, 54, 224, 55)
         self.btnMassEjct.setFont(QFont('Nunito', 10))
         self.btnMassEjct.setStyleSheet(self.btnStyleSelected)
         self.btnMassEjct.setGraphicsEffect(Util.getNeuShadow(0))
@@ -172,9 +165,6 @@ class MassEject(QWidget):                           # <===
     def massEjectClicked(self):
         self.SetButtonClicked(1)
 
-    def dailyEarlyClicked(self):
-        self.SetButtonClicked(2)
-
     def ejectNextDoseClicked(self):
         self.SetButtonClicked(3)
 
@@ -182,16 +172,9 @@ class MassEject(QWidget):                           # <===
         
         if type == 1:
             self.btnMassEjct.setStyleSheet(self.btnStyleSelected)
-            self.btnDailyEarlyEjct.setStyleSheet(self.btnStyle)
-            self.btnejctNxtDose.setStyleSheet(self.btnStyle)
-
-        elif type == 2:
-            self.btnMassEjct.setStyleSheet(self.btnStyle)
-            self.btnDailyEarlyEjct.setStyleSheet(self.btnStyleSelected)
             self.btnejctNxtDose.setStyleSheet(self.btnStyle)
 
         elif type == 3:
             self.btnMassEjct.setStyleSheet(self.btnStyle)
-            self.btnDailyEarlyEjct.setStyleSheet(self.btnStyle)
             self.btnejctNxtDose.setStyleSheet(self.btnStyleSelected)
 

@@ -277,13 +277,13 @@ class MyCylinders(QMainWindow):
         msgBox.exec()
 
 #
-# if __name__ == '__main__':
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = MyCylinders()
-#
-#     window.show()
-#
-#     # start the app
-#     sys.exit(App.exec())
+if __name__ == '__main__':
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = MyCylinders()
+
+    window.show()
+
+    # start the app
+    sys.exit(App.exec())

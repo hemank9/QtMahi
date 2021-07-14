@@ -11,6 +11,7 @@ import json
 import API.my_urls as urls
 import requests
 import math
+import UI.MyStats as myStats
 
 
 class MyProfile(QMainWindow):
@@ -306,9 +307,7 @@ class MyProfile(QMainWindow):
         btn_bmiT.setGeometry(35, 544, 106, 90)
         btn_bmiT.setStyleSheet("border-radius : 10; background-color : #007ACEDA")
         btn_bmiT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_bmiT.clicked.connect(self.clickme)
-
-
+        btn_bmiT.clicked.connect(lambda : self.VitalClicked(5))
 
         lbp = QLabel("Blood Pressure", self)
         lbp.setGeometry(198, 634, 132, 20)
@@ -337,7 +336,7 @@ class MyProfile(QMainWindow):
         btn_bpT.setGeometry(151, 544, 222, 90)
         btn_bpT.setStyleSheet("border-radius : 10; background-color : #007ACEDA")
         btn_bpT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_bpT.clicked.connect(self.clickme)
+        btn_bpT.clicked.connect(lambda : self.VitalClicked(2))
 
 
 
@@ -364,7 +363,7 @@ class MyProfile(QMainWindow):
         btn_hrT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA; ")
         btn_hrT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_hrT.clicked.connect(self.clickme)
+        btn_hrT.clicked.connect(lambda : self.VitalClicked(3))
 
 
 
@@ -391,7 +390,7 @@ class MyProfile(QMainWindow):
         btn_hgT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
         btn_hgT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_hgT.clicked.connect(self.clickme)
+        btn_hgT.clicked.connect(lambda : self.VitalClicked(4))
 
 
 
@@ -418,7 +417,7 @@ class MyProfile(QMainWindow):
         btn_hba.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
         btn_hba.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_hba.clicked.connect(self.clickme)
+        btn_hba.clicked.connect(lambda : self.VitalClicked(1))
 
 
 
@@ -445,7 +444,7 @@ class MyProfile(QMainWindow):
         btn_sugarT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
         btn_sugarT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_sugarT.clicked.connect(self.clickme)
+        btn_sugarT.clicked.connect(lambda : self.VitalClicked(6))
 
 
 
@@ -472,7 +471,7 @@ class MyProfile(QMainWindow):
         btn_cholesT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
         btn_cholesT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_cholesT.clicked.connect(self.clickme)
+        btn_cholesT.clicked.connect(lambda : self.VitalClicked(7))
 
 
 
@@ -499,7 +498,7 @@ class MyProfile(QMainWindow):
         btn_ptT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
         btn_ptT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_ptT.clicked.connect(self.clickme)
+        btn_ptT.clicked.connect(lambda : self.VitalClicked(8))
 
 
 
@@ -526,7 +525,7 @@ class MyProfile(QMainWindow):
         btn_tempT.setStyleSheet(
             "border-radius : 10; background-color : #007ACEDA;")
         btn_tempT.setGraphicsEffect(Util.getNeuShadow(0))
-        btn_tempT.clicked.connect(self.clickme)
+        btn_tempT.clicked.connect(lambda : self.VitalClicked(9))
 
 
 
@@ -552,9 +551,10 @@ class MyProfile(QMainWindow):
         btn_files.setIconSize(QtCore.QSize(122, 41))
         btn_files.clicked.connect(self.medfiles)
 
-    def clickme(self):
+    def VitalClicked(self,vitalId):
         # printing pressed
-        print("pressed")
+        self.x = myStats.MyStats(vitalId)
+        self.x.show()
 
     def medfiles(self):
         self.m = FileList()
@@ -702,9 +702,6 @@ class MyProfile(QMainWindow):
         self.lblSugarUnit.setText(str(vital_data["WEIGHT"]["vital_measured"]))
 
         # self.btn_sugar.setText("N.A.")
-
-
-
 
     def setDiseaseData(self):
         print("")
