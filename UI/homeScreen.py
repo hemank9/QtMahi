@@ -15,7 +15,7 @@ import UI.medicinetime as myMeds
 import UI.docAppScreen as myAppo
 import UI.settings as settings
 import UI.Humm as humm
-import UI.MyCylinders2 as myCylinder
+import UI.MyCylinders as myCylinder
 import UI.refill as myRefill
 import UI.MyStats as myStats
 
@@ -153,7 +153,7 @@ class HomeScreen(QMainWindow):
         self.x.show()
 
     def myCylinderClicked(self):
-        self.x = myCylinder.MyCylinders()
+        self.x = myCylinder.PrescriptionTable()
         self.x.show()
 
     def docAppoClicked(self):
