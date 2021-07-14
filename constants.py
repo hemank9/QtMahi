@@ -48,7 +48,8 @@ path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
 HUMM_IMAGE_TEXT = 0
 HUMM_FULL_IMAGE = 2
 HUMM_IMAGE_QUIZ_SURVEY = 5
-
+HUMM_FULL_TEXT = 4
+HUMM_FULL_TEXT_SURVEY = 7
 # static cylinder IDs
 cylinders = ["blue","darkblue","darkgreen", "darkpink", "green", "lightblue", "lightpink", "pink"]
 
