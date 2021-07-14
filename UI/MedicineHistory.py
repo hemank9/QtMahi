@@ -39,9 +39,9 @@ class MedicineHistory(QWidget):
         btnMedHistory1.setGraphicsEffect(Util.getNeuShadow(0))
         self.btnMedHistory = QPushButton("Medicine \n History", self)
         self.btnMedHistory.setGeometry(198, 57, 150, 70)
-        self.btnMedHistory.setStyleSheet(self.btnStyle)
+        self.btnMedHistory.setStyleSheet(self.btnStyleSelected)
         self.btnMedHistory.setGraphicsEffect(Util.getNeuShadow(1))
-        self.btnMedHistory.clicked.connect(self.medHistoryClicked)
+        # self.btnMedHistory.clicked.connect(self.medHistoryClicked)
 
         # RX Change
         btnRxChange1 = QPushButton("", self)
@@ -119,7 +119,7 @@ class MedicineHistory(QWidget):
         btnPrescription111 = QPushButton(self)
         btnPrescription111.setGeometry(16, 188, 779, 67)
         btnPrescription111.setStyleSheet("border-radius : 10; background-color : #00F0F0F3;")
-        btnPrescription111.clicked.connect(self.clickme)
+        btnPrescription111.clicked.connect(self.medHistoryClicked)
 
         #2ND TAB
         lblPrescription2 = QLabel(self)
@@ -339,7 +339,7 @@ class MedicineHistory(QWidget):
         print('pressed')
 
     def medHistoryClicked(self):
-        self.buttonSelected(1)
+        # self.buttonSelected(1)
         self.m = presc.MedPrescriptionTable()
         self.m.show()
 
