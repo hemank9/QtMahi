@@ -6,6 +6,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import socket
+from datetime import datetime
 
 def printParams(params):
     for i,k in params.items():
@@ -23,6 +24,15 @@ def getNeuShadow(type):
         shadow2.setXOffset(-5)
         shadow2.setYOffset(-5)
     return shadow2
+
+def convert24to12Time(oldTime):
+    try:
+        d = datetime.strptime(oldTime, "%H:%M")
+        return d.strftime("%I:%M %p")
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
 
 class LoadingGif(QWidget):
     def __init__(self):

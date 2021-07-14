@@ -8,6 +8,7 @@ import UI.datePickMassEjection as massEject
 import UI.changetime as changeTime
 import sys
 import Utility.MahiUtility as Util
+import MyDatabase.my_database as myDb
 
 class MyMedicines(QMainWindow):
 
@@ -37,56 +38,51 @@ class MyMedicines(QMainWindow):
     # method for widgets
     def UiComponents(self):
 
-        lblMorningBf = QLabel(self)
-        lblMorningBf.setStyleSheet("background-color: red; text: bold")
-        lblMorningBf.setGeometry(157, 285, 87, 38)
-        lblMorningBf.setText("7:30 pm")
-        lblMorningBf.setAlignment(Qt.AlignCenter)
+        self.TextStyle = "text: bold; font-size:17px"
+        self.lblMorningBf = QLabel(self)
+        self.lblMorningBf.setStyleSheet(self.TextStyle)
+        self.lblMorningBf.setGeometry(157, 285, 87, 38)
+        self.lblMorningBf.setAlignment(Qt.AlignCenter)
 
-        lblMorningAf = QLabel(self)
-        lblMorningAf.setStyleSheet("background-color: red; text: bold")
-        lblMorningAf.setGeometry(277, 285, 87, 38)
-        lblMorningAf.setText("7:30 pm")
-        lblMorningAf.setAlignment(Qt.AlignCenter)
+        self.lblMorningAf = QLabel(self)
+        self.lblMorningAf.setStyleSheet(self.TextStyle)
+        self.lblMorningAf.setGeometry(277, 285, 87, 38)
+        self.lblMorningAf.setAlignment(Qt.AlignCenter)
 
-        lblAfternoonBf = QLabel(self)
-        lblAfternoonBf.setStyleSheet("background-color: red; text: bold")
-        lblAfternoonBf.setGeometry(559, 285, 87, 38)
-        lblAfternoonBf.setText("7:30 pm")
-        lblAfternoonBf.setAlignment(Qt.AlignCenter)
+        self.lblAfternoonBf = QLabel(self)
+        self.lblAfternoonBf.setStyleSheet(self.TextStyle)
+        self.lblAfternoonBf.setGeometry(559, 285, 87, 38)
+        self.lblAfternoonBf.setAlignment(Qt.AlignCenter)
 
-        lblAfternoonAf = QLabel(self)
-        lblAfternoonAf.setStyleSheet("background-color: red; text: bold")
-        lblAfternoonAf.setGeometry(679, 285, 87, 38)
-        lblAfternoonAf.setText("7:30 pm")
-        lblAfternoonAf.setAlignment(Qt.AlignCenter)
+        self.lblAfternoonAf = QLabel(self)
+        self.lblAfternoonAf.setStyleSheet(self.TextStyle)
+        self.lblAfternoonAf.setGeometry(679, 285, 87, 38)
+        self.lblAfternoonAf.setAlignment(Qt.AlignCenter)
 
-        lblEveningBf = QLabel(self)
-        lblEveningBf.setStyleSheet("background-color: red; text: bold")
-        lblEveningBf.setGeometry(946, 285, 87, 38)
-        lblEveningBf.setText("7:30 pm")
-        lblEveningBf.setAlignment(Qt.AlignCenter)
+        self.lblEveningBf = QLabel(self)
+        self.lblEveningBf.setStyleSheet(self.TextStyle)
+        self.lblEveningBf.setGeometry(938, 285, 87, 38)
+        self.lblEveningBf.setAlignment(Qt.AlignCenter)
 
-        lblEveningAf = QLabel(self)
-        lblEveningAf.setStyleSheet("background-color: red; text: bold")
-        lblEveningAf.setGeometry(1066, 285, 87, 38)
-        lblEveningAf.setText("7:30 pm")
-        lblEveningAf.setAlignment(Qt.AlignCenter)
+        self.lblEveningAf = QLabel(self)
+        self.lblEveningAf.setStyleSheet(self.TextStyle)
+        self.lblEveningAf.setGeometry(1058, 285, 87, 38)
+        self.lblEveningAf.setAlignment(Qt.AlignCenter)
 
         lblEarlyMorning = QLabel(self)
-        lblEarlyMorning.setStyleSheet("background-color: red; text: bold")
+        lblEarlyMorning.setStyleSheet(self.TextStyle)
         lblEarlyMorning.setGeometry(157, 396, 87, 38)
         lblEarlyMorning.setText("7:30 pm")
         lblEarlyMorning.setAlignment(Qt.AlignCenter)
 
         lblMidNight = QLabel(self)
-        lblMidNight.setStyleSheet("background-color: red; text: bold")
+        lblMidNight.setStyleSheet(self.TextStyle)
         lblMidNight.setGeometry(560, 396, 87, 38)
         lblMidNight.setText("7:30 pm")
         lblMidNight.setAlignment(Qt.AlignCenter)
 
         lblLateNight = QLabel(self)
-        lblLateNight.setStyleSheet("background-color: red; text: bold")
+        lblLateNight.setStyleSheet(self.TextStyle)
         lblLateNight.setGeometry(939, 396, 87, 38)
         lblLateNight.setText("7:30 pm")
         lblLateNight.setAlignment(Qt.AlignCenter)
@@ -136,6 +132,46 @@ class MyMedicines(QMainWindow):
         btn_bck.setIconSize(QtCore.QSize(160, 90))
         btn_bck.clicked.connect(self.close)
 
+        self.SetCylinderData()
+
+    def SetCylinderData(self):
+
+        try:
+            cursor = myDb.getSlotTimings()
+
+            for row in cursor:
+                # print(row)
+
+                time = Util.convert24to12Time(str(row[3]))
+
+                if time == None:
+                    time = "N.A."
+
+                # Morning
+                if str(row[1]).lower() == "morning":
+                    if "before" in str(row[2]):
+                        self.lblMorningBf.setText(time)
+                    elif "after" in str(row[2]):
+                        self.lblMorningAf.setText(time)
+
+                # Afternoon
+                elif str(row[1]).lower() == "afternoon" or str(row[1]).lower() == "noon":
+                    if "before" in str(row[2]):
+                        self.lblAfternoonBf.setText(time)
+                    elif "after" in str(row[2]):
+                        self.lblAfternoonAf.setText(time)
+
+                # Evening
+                elif str(row[1]).lower() == "evening":
+                    if "before" in str(row[2]):
+                        self.lblEveningBf.setText(time)
+                    elif "after" in str(row[2]):
+                        self.lblEveningAf.setText(time)
+
+
+        except Exception as e:
+            print(e.__cause__)
+
 
     # def afterNoonClicked(self):
     #     self.k = changeTime.ChangeTime(2)
@@ -157,7 +193,6 @@ class MyMedicines(QMainWindow):
     def massEjection(self):
         self.n = massEject.MassEjectDateTime()
         self.n.show()
-
 
     def extraD(self):
         self.m = extraDosage.ExtraDosage()

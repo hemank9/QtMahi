@@ -216,9 +216,10 @@ def initTables():
                                (ID TEXT PRIMARY KEY   NOT NULL,
                            APPO_JSON   TEXT);''')
 
+    # conn.execute("DROP TABLE "+constants.slot_timings_table)
     conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.slot_timings_table + ''' 
                                (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                           SLOT_NAME TEXT NOT NULL, SLOT_TIME TEXT NOT NULL);''')
+            SLOT_NAME TEXT NOT NULL, SLOT_FOOD_TIME TEXT NOT NULL, SLOT_TIME TEXT NOT NULL);''')
 
     conn.execute('''CREATE TABLE IF NOT EXISTS ''' + constants.cylinder_table + ''' 
                                (ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -318,88 +319,90 @@ def setMedicationDB(response):
     conn.execute("DELETE FROM '" + constants.extra_dosage_med_table + "'")
     conn.execute("DELETE FROM '" + constants.extra_dosage_cylinder_table + "'")
 
-    # try:
-    cylinder_data = response["data"]["medication_cylinder"]
-    for cylinderId in constants.cylinders:
-        cylinderData = cylinder_data[cylinderId]
+    try:
 
-        dosage_colors = str(cylinderData["dosage_color"])
-        cylinder_lock = str(cylinderData["is_cylinder_lock"])
-        med_time_slot = str(cylinderData["medicine_timing_name"])
-        med_food_check = str(cylinderData["food_time_check"])
-        med_frequency = str(cylinderData["med_frequency"])
+        # Set Cylinder Data
+        cylinder_data = response["data"]["medication_cylinder"]
+        for cylinderId in constants.cylinders:
+            cylinderData = cylinder_data[cylinderId]
 
-        conn.execute("INSERT INTO '"+constants.cylinder_table+"' (C_ID,"
-                  "C_COLORS, C_LOCK, MED_FREQUENCY, MED_TIME_SLOT, MED_TIME_CHECK) "
-                  "VALUES (?,?,?,?,?,?)",(cylinderId,dosage_colors,cylinder_lock,med_frequency,
-                  med_time_slot,med_food_check))
+            dosage_colors = str(cylinderData["dosage_color"])
+            cylinder_lock = str(cylinderData["is_cylinder_lock"])
+            med_time_slot = str(cylinderData["medicine_timing_name"])
+            med_food_check = str(cylinderData["food_time_check"])
+            med_frequency = str(cylinderData["med_frequency"])
 
-
-        time_slot = med_time_slot+"_"+med_food_check
-
-        cursor = conn.execute("SELECT SLOT_TIME FROM '"+constants.slot_timings_table+"' "
-                    "WHERE SLOT_NAME = '"+time_slot+"'")
-        row = cursor.fetchone()
-        dosage_time = str(row[0])
-        for dose in cylinderData["dosages"]:
-            med_date = str(dose["med_take_date"])
-            dosage = str(dose["medicine_list"])
-
-            conn.execute("INSERT INTO '"+constants.med_time_table+"' (MED_DATE,"
-                      "MED_TIME,DOSAGE, CYLINDER_ID) VALUES(?,?,?,?)",
-                         (med_date,dosage_time,dosage,cylinderId))
-
-            temp = conn.execute("SELECT ID FROM '" + constants.med_time_table + "' ORDER BY ID DESC")
-            dosageId = temp.fetchone()
-            # print(dosageId[0])
-            conn.execute("INSERT INTO '"+constants.dosage_status_table+"' (DOSAGE_ID,"
-                      "MED_DATE,MED_TIME, STATUS) VALUES(?,?,?,?)",
-                         (str(dosageId[0]),med_date,dosage_time, constants.dosage_available))
-
-    print("Starting with extra dosage")
-    extra_dosage_cylinder = response["data"]["extra_dosages_cylinder"]
-    if len(extra_dosage_cylinder)>0:
-        i = 0
-
-        for extra_dose in extra_dosage_cylinder:
-            dosage_colors = str(extra_dose["dosage_color"])
-            cylinder_lock = str(extra_dose["is_cylinder_lock"])
-            med_time_slot = str(extra_dose["medicine_timing_name"])
-            med_food_check = str(extra_dose["food_time_check"])
-            med_frequency = str(extra_dose["med_frequency"])
-
-            conn.execute("INSERT INTO '"+constants.extra_dosage_cylinder_table+"' (C_ID,"
+            conn.execute("INSERT INTO '"+constants.cylinder_table+"' (C_ID,"
                       "C_COLORS, C_LOCK, MED_FREQUENCY, MED_TIME_SLOT, MED_TIME_CHECK) "
-                      "VALUES (?,?,?,?,?,?)",(str(i),dosage_colors,cylinder_lock,med_frequency,
+                      "VALUES (?,?,?,?,?,?)",(cylinderId,dosage_colors,cylinder_lock,med_frequency,
                       med_time_slot,med_food_check))
 
-            time_slot = med_time_slot+"_"+med_food_check
 
             cursor = conn.execute("SELECT SLOT_TIME FROM '"+constants.slot_timings_table+"' "
-                        "WHERE SLOT_NAME = '"+time_slot+"'")
-
+                        "WHERE SLOT_NAME = '"+med_time_slot+"' AND SLOT_FOOD_TIME = '"+med_food_check+"'")
             row = cursor.fetchone()
             dosage_time = str(row[0])
-            for dose in extra_dose["dosages"]:
+            for dose in cylinderData["dosages"]:
                 med_date = str(dose["med_take_date"])
                 dosage = str(dose["medicine_list"])
 
-                conn.execute("INSERT INTO '"+constants.extra_dosage_med_table+"' (MED_DATE,"
+                conn.execute("INSERT INTO '"+constants.med_time_table+"' (MED_DATE,"
                           "MED_TIME,DOSAGE, CYLINDER_ID) VALUES(?,?,?,?)",
-                             (med_date,dosage_time,dosage,str(i)))
+                             (med_date,dosage_time,dosage,cylinderId))
 
-                # temp = conn.execute("SELECT ID FROM '" + constants.extra_dosage_med_table + "' ORDER BY ID DESC")
-                # dosageId = temp.fetchone()
-                # # print(dosageId[0])
-                # conn.execute("INSERT INTO '"+constants.dosage_status_table+"' (DOSAGE_ID,"
-                #           "MED_DATE,MED_TIME, STATUS) VALUES(?,?,?,?)",
-                #              (str(dosageId[0]),med_date,dosage_time, constants.dosage_available))
+                temp = conn.execute("SELECT ID FROM '" + constants.med_time_table + "' ORDER BY ID DESC")
+                dosageId = temp.fetchone()
+                # print(dosageId[0])
+                conn.execute("INSERT INTO '"+constants.dosage_status_table+"' (DOSAGE_ID,"
+                          "MED_DATE,MED_TIME, STATUS) VALUES(?,?,?,?)",
+                             (str(dosageId[0]),med_date,dosage_time, constants.dosage_available))
 
-            i = i+1
+        print("Starting with extra dosage")
+        extra_dosage_cylinder = response["data"]["extra_dosages_cylinder"]
 
-    conn.commit()
-    # except:
-    #     print("Set Medication DB : Something went wrong !")
+
+        # Set Extra Dosages
+        if len(extra_dosage_cylinder)>0:
+            i = 0
+
+            for extra_dose in extra_dosage_cylinder:
+                dosage_colors = str(extra_dose["dosage_color"])
+                cylinder_lock = str(extra_dose["is_cylinder_lock"])
+                med_time_slot = str(extra_dose["medicine_timing_name"])
+                med_food_check = str(extra_dose["food_time_check"])
+                med_frequency = str(extra_dose["med_frequency"])
+
+                conn.execute("INSERT INTO '"+constants.extra_dosage_cylinder_table+"' (C_ID,"
+                          "C_COLORS, C_LOCK, MED_FREQUENCY, MED_TIME_SLOT, MED_TIME_CHECK) "
+                          "VALUES (?,?,?,?,?,?)",(str(i),dosage_colors,cylinder_lock,med_frequency,
+                          med_time_slot,med_food_check))
+
+
+                cursor = conn.execute("SELECT SLOT_TIME FROM '"+constants.slot_timings_table+"' "
+                        "WHERE SLOT_NAME = '"+med_time_slot+"' AND SLOT_FOOD_TIME = '"+med_food_check+"'")
+
+                row = cursor.fetchone()
+                dosage_time = str(row[0])
+                for dose in extra_dose["dosages"]:
+                    med_date = str(dose["med_take_date"])
+                    dosage = str(dose["medicine_list"])
+
+                    conn.execute("INSERT INTO '"+constants.extra_dosage_med_table+"' (MED_DATE,"
+                              "MED_TIME,DOSAGE, CYLINDER_ID) VALUES(?,?,?,?)",
+                                 (med_date,dosage_time,dosage,str(i)))
+
+                    # temp = conn.execute("SELECT ID FROM '" + constants.extra_dosage_med_table + "' ORDER BY ID DESC")
+                    # dosageId = temp.fetchone()
+                    # # print(dosageId[0])
+                    # conn.execute("INSERT INTO '"+constants.dosage_status_table+"' (DOSAGE_ID,"
+                    #           "MED_DATE,MED_TIME, STATUS) VALUES(?,?,?,?)",
+                    #              (str(dosageId[0]),med_date,dosage_time, constants.dosage_available))
+
+                i = i+1
+
+        conn.commit()
+    except:
+        print("Set Medication DB : Something went wrong !")
 
 def setSlotTimings(response):
     try:
@@ -416,18 +419,18 @@ def setSlotTimings(response):
                     for timing in common_timings:
                         med_timing_name = timing["med_timing_name"]
 
-                        before_food_key = med_timing_name+"_before_food"
-                        after_food_key = med_timing_name+"_after_food"
-
                         before_food_time = timing["before_food_time"]
                         after_food_time = timing["after_food_time"]
 
                         conn.execute("INSERT INTO '" + constants.slot_timings_table +
-                                     "' (SLOT_NAME, SLOT_TIME) " \
-                                    "VALUES (?,?)",(before_food_key,before_food_time))
+                                     "' (SLOT_NAME,SLOT_FOOD_TIME, SLOT_TIME) " \
+                                    "VALUES (?,?,?)",(med_timing_name,'before_food',before_food_time))
+
+                        print(med_timing_name+" | "+before_food_time)
                         conn.execute("INSERT INTO '" + constants.slot_timings_table +
-                                     "' (SLOT_NAME, SLOT_TIME) " \
-                                    "VALUES (?,?)",(after_food_key,after_food_time))
+                                     "' (SLOT_NAME,SLOT_FOOD_TIME, SLOT_TIME) " \
+                                    "VALUES (?,?,?)",(med_timing_name,'after_food',after_food_time))
+
 
                     conn.commit()
 
@@ -439,18 +442,15 @@ def setSlotTimings(response):
                     for timing in extra_dosage_timings:
                         med_timing_name = timing["med_timing_name"]
 
-                        before_food_key = med_timing_name + "_before_food"
-                        after_food_key = med_timing_name + "_after_food"
-
                         before_food_time = timing["before_food_time"]
                         after_food_time = timing["after_food_time"]
 
                         conn.execute("INSERT INTO '" + constants.slot_timings_table +
-                                     "' (SLOT_NAME, SLOT_TIME) " \
-                                     "VALUES (?,?)", (before_food_key, before_food_time))
+                                     "' (SLOT_NAME,SLOT_FOOD_TIME, SLOT_TIME) " \
+                                     "VALUES (?,?,?)", (med_timing_name,"before_food", before_food_time))
                         conn.execute("INSERT INTO '" + constants.slot_timings_table +
-                                     "' (SLOT_NAME, SLOT_TIME) " \
-                                     "VALUES (?,?)", (after_food_key, after_food_time))
+                                     "' (SLOT_NAME,SLOT_FOOD_TIME, SLOT_TIME) " \
+                                     "VALUES (?,?,?)", (med_timing_name,"after_food", after_food_time))
 
                     conn.commit()
 
@@ -493,12 +493,14 @@ def getSlotTimings():
     try:
 
         cursor = conn.execute("SELECT * from '" + constants.slot_timings_table + "'")
+        # for row in cursor:
+        #     print(str(row))
 
-        for row in cursor:
-            print(str(row))
+        return cursor
 
     except Exception as e:
         print("Something went wrong : Get Slot Timings "+str(e.__cause__))
+        return None
 
 def getCylinderData():
     try:
@@ -546,8 +548,8 @@ def getDosagesStatus(type):
                   constants.cylinder_table+"' z ON c.CYLINDER_ID = z.C_ID ORDER BY c.ID")
 
         if cursor!=None :
-            # for row in cursor:
-            #     print(str(row))
+            for row in cursor:
+                print(str(row))
             return cursor
         else:
             return None
@@ -603,7 +605,7 @@ if __name__ == "__main__":
     # getCalendarData()
     # resetDatabase()
     # setSlotTimings(None)
-    getSlotTimings()
+    # getSlotTimings()
     # getCylinderData()
     # getDosages()
     # getDosagesStatus(2)
