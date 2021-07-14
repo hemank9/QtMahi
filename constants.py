@@ -20,7 +20,8 @@ ACTION_device_register = "device_register"
 ACTION_device_logout = "device_logout"
 ACTION_book_cylinder_refill_request = "book_cylinder_refill_request"
 ACTION_default_medication_timing = "default_medication_timing"
-ACTION_GET_MY_PRESCRIPTION_LIST = "GET_MY_PRESCRIPTION_LIST"
+ACTION_GET_MY_PRESCRIPTION_LIST= "GET_MY_PRESCRIPTION_LIST"
+
 
 # Database Connection Settings
 my_database_name = "mahi.db"
@@ -47,7 +48,8 @@ path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
 HUMM_IMAGE_TEXT = 0
 HUMM_FULL_IMAGE = 2
 HUMM_IMAGE_QUIZ_SURVEY = 5
-
+HUMM_FULL_TEXT = 4
+HUMM_FULL_TEXT_SURVEY = 7
 # static cylinder IDs
 cylinders = ["blue","darkblue","darkgreen", "darkpink", "green", "lightblue", "lightpink", "pink"]
 

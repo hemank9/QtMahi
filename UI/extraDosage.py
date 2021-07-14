@@ -39,7 +39,7 @@ class ExtraDosage(QWidget):                           # <===
         self.Min = 10
 
         btn_back = QPushButton("", self)
-        btn_back.setGeometry(40, 53, 173, 41)
+        btn_back.setGeometry(16, 53, 112, 41)
         btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btn_back.setIcon(QtGui.QIcon('../Resources/backButton.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
@@ -250,7 +250,7 @@ class ExtraDosage(QWidget):                           # <===
 
         lblTiming = QLabel("3. Timing", self)
         lblTiming.setGeometry(740, 425, 90, 30)
-        lblTiming.setStyleSheet("color: #00A0B5")
+        lblTiming.setStyleSheet("color: #00A0B5; font:bold")
 
         btnHourAdd1 = QPushButton("", self)
         btnHourAdd1.setGeometry(740, 483, 45, 33)
@@ -378,14 +378,14 @@ class ExtraDosage(QWidget):                           # <===
         print("startdate : "+temp)
 
 
-
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-
-    # create the instance of our Window
-    window = ExtraDosage(QWidget)
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+#
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#
+#     # create the instance of our Window
+#     window = ExtraDosage(QWidget)
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())

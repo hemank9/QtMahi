@@ -8,6 +8,7 @@ import UI.datePickMassEjection as massEject
 import UI.changetime as changeTime
 import sys
 import Utility.MahiUtility as Util
+import UI.medPrescripHistory as presc
 
 
 class MedicineHistory(QWidget):
@@ -28,27 +29,30 @@ class MedicineHistory(QWidget):
     #
     def UiComponents(self):
         # four buttons on the my medicine page
+        self.btnStyle = "border-radius : 10; background-color : #F0F0F3; color: #00A0B5"
+        self.btnStyleSelected = "border-radius : 10; background-color: #BCE6EC; color : #00A0B5"
+
         # Medicine history
         btnMedHistory1 = QPushButton(self)
         btnMedHistory1.setGeometry(198, 57, 150, 70)
         btnMedHistory1.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         btnMedHistory1.setGraphicsEffect(Util.getNeuShadow(0))
-        btnMedHistory = QPushButton("Medicine \n History", self)
-        btnMedHistory.setGeometry(198, 57, 150, 70)
-        btnMedHistory.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
-        btnMedHistory.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnMedHistory1.clicked.connect(self.)
+        self.btnMedHistory = QPushButton("Medicine \n History", self)
+        self.btnMedHistory.setGeometry(198, 57, 150, 70)
+        self.btnMedHistory.setStyleSheet(self.btnStyle)
+        self.btnMedHistory.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnMedHistory.clicked.connect(self.medHistoryClicked)
 
         # RX Change
         btnRxChange1 = QPushButton("", self)
         btnRxChange1.setGeometry(363, 57, 150, 70)
         btnRxChange1.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         btnRxChange1.setGraphicsEffect(Util.getNeuShadow(0))
-        btnRxChange = QPushButton("Analytics", self)
-        btnRxChange.setGeometry(363, 57, 150, 70)
-        btnRxChange.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
-        btnRxChange.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnRxChange.clicked.connect(self.clickme)
+        self.btnRxChange = QPushButton("Analytics", self)
+        self.btnRxChange.setGeometry(363, 57, 150, 70)
+        self.btnRxChange.setStyleSheet("border-radius : 10; background-color : #F0F0F3; color: #00A0B5")
+        self.btnRxChange.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnRxChange.clicked.connect(self.rxChangedClicked)
 
         btn_return = QPushButton("", self)
         btn_return.setGeometry(16, 59, 112, 41)
@@ -87,7 +91,7 @@ class MedicineHistory(QWidget):
         lblRefilled11.setGraphicsEffect(Util.getNeuShadow(1))
         lblRefilled1 = QLabel(self)
         lblRefilled1.setGeometry(825, 188, 91, 67)
-        lblRefilled1.setStyleSheet("border-radius : 10; background-color : #F0F0F3; font-size: 25px")
+        lblRefilled1.setStyleSheet("border-radius : 10; background-color : #F0F0F3; font-size: 20px")
         lblRefilled1.setText("3")
         lblRefilled1.setAlignment(Qt.AlignCenter)
         lblRefilled1.setGraphicsEffect(Util.getNeuShadow(0))
@@ -127,6 +131,17 @@ class MedicineHistory(QWidget):
         lblPrescription21.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         lblPrescription21.setGraphicsEffect(Util.getNeuShadow(0))
 
+        lblRefilled21 = QLabel(self)
+        lblRefilled21.setGeometry(825, 270, 91, 67)
+        lblRefilled21.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
+        lblRefilled21.setGraphicsEffect(Util.getNeuShadow(1))
+        lblRefilled2 = QLabel(self)
+        lblRefilled2.setGeometry(825, 270, 91, 67)
+        lblRefilled2.setStyleSheet("border-radius : 10; background-color : #F0F0F3; font-size: 20px")
+        lblRefilled2.setText("3")
+        lblRefilled2.setAlignment(Qt.AlignCenter)
+        lblRefilled2.setGraphicsEffect(Util.getNeuShadow(0))
+
         lblDrName2 = QLabel(self)
         lblDrName2.setText("Dr.Mobihealth")
         lblDrName2.setGeometry(39, 291, 146, 25)
@@ -161,6 +176,17 @@ class MedicineHistory(QWidget):
         lblPrescription31.setGeometry(16, 352, 779, 67)
         lblPrescription31.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         lblPrescription31.setGraphicsEffect(Util.getNeuShadow(0))
+
+        lblRefilled31 = QLabel(self)
+        lblRefilled31.setGeometry(825, 352, 91, 67)
+        lblRefilled31.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
+        lblRefilled31.setGraphicsEffect(Util.getNeuShadow(1))
+        lblRefilled3 = QLabel(self)
+        lblRefilled3.setGeometry(825, 352, 91, 67)
+        lblRefilled3.setStyleSheet("border-radius : 10; background-color : #F0F0F3; font-size: 20px")
+        lblRefilled3.setText("3")
+        lblRefilled3.setAlignment(Qt.AlignCenter)
+        lblRefilled3.setGraphicsEffect(Util.getNeuShadow(0))
 
         lblDrName3 = QLabel(self)
         lblDrName3.setText("Dr.Mobihealth")
@@ -197,6 +223,17 @@ class MedicineHistory(QWidget):
         lblPrescription41.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         lblPrescription41.setGraphicsEffect(Util.getNeuShadow(0))
 
+        lblRefilled41 = QLabel(self)
+        lblRefilled41.setGeometry(825, 434, 91, 67)
+        lblRefilled41.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
+        lblRefilled41.setGraphicsEffect(Util.getNeuShadow(1))
+        lblRefilled4 = QLabel(self)
+        lblRefilled4.setGeometry(825, 434, 91, 67)
+        lblRefilled4.setStyleSheet("border-radius : 10; background-color : #F0F0F3; font-size: 20px")
+        lblRefilled4.setText("3")
+        lblRefilled4.setAlignment(Qt.AlignCenter)
+        lblRefilled4.setGraphicsEffect(Util.getNeuShadow(0))
+
         lblDrName4 = QLabel(self)
         lblDrName4.setText("Dr.Mobihealth")
         lblDrName4.setGeometry(39, 455, 146, 25)
@@ -231,6 +268,17 @@ class MedicineHistory(QWidget):
         lblPrescription51.setGeometry(16, 516, 779, 67)
         lblPrescription51.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
         lblPrescription51.setGraphicsEffect(Util.getNeuShadow(0))
+
+        lblRefilled51 = QLabel(self)
+        lblRefilled51.setGeometry(825, 516, 91, 67)
+        lblRefilled51.setStyleSheet("border-radius : 10; background-color : #F0F0F3;")
+        lblRefilled51.setGraphicsEffect(Util.getNeuShadow(1))
+        lblRefilled5 = QLabel(self)
+        lblRefilled5.setGeometry(825, 516, 91, 67)
+        lblRefilled5.setStyleSheet("border-radius : 10; background-color : #F0F0F3; font-size: 20px")
+        lblRefilled5.setText("3")
+        lblRefilled5.setAlignment(Qt.AlignCenter)
+        lblRefilled5.setGraphicsEffect(Util.getNeuShadow(0))
 
         lblDrName5 = QLabel(self)
         lblDrName5.setText("Dr.Mobihealth")
@@ -290,9 +338,47 @@ class MedicineHistory(QWidget):
     def clickme(self):
         print('pressed')
 
+    def medHistoryClicked(self):
+        self.buttonSelected(1)
+        self.m = presc.MedPrescriptionTable()
+        self.m.show()
+
+    def rxChangedClicked(self):
+        self.buttonSelected(2)
+
+    def buttonSelected(self, type):
+
+        if type == 1:
+            self.btnMedHistory.setStyleSheet(self.btnStyleSelected)
+            self.btnRxChange.setStyleSheet((self.btnStyle))
+
+        if type == 2:
+            self.btnMedHistory.setStyleSheet(self.btnStyle)
+            self.btnRxChange.setStyleSheet((self.btnStyleSelected))
+
+stylesheet = """
+    QTableWidget {
+        background-color: black; 
+        border-radius: 10px
+    }
+
+    QTableWidget::item {
+        color: #222222;           
+        border-radius: 5px; 
+        border: 1px solid #999;
+        padding: 15px;
+    }
+
+    # QTableWidget::item:selected {
+    #     background-color: yellow;cli
+    #     color: blue;
+    # }
+"""
+
+
 if __name__ == '__main__':
     App = QApplication(sys.argv)
-
+    App.setStyleSheet(stylesheet)
     # create the instance of our Window
     window = MedicineHistory()
 
