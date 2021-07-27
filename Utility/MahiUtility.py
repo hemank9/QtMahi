@@ -25,6 +25,19 @@ def getNeuShadow(type):
         shadow2.setYOffset(-5)
     return shadow2
 
+def getNeuShadow2(type, intensity,spread):
+    shadow2 = QGraphicsDropShadowEffect()
+    shadow2.setBlurRadius(int(intensity))
+    if type == 0:
+        shadow2.setColor(Qt.lightGray)
+        shadow2.setXOffset(int(spread))
+        shadow2.setYOffset(int(spread))
+    else :
+        shadow2.setColor(Qt.white)
+        shadow2.setXOffset(int(spread))
+        shadow2.setYOffset(int(spread))
+    return shadow2
+
 def convert24to12Time(oldTime):
     try:
         d = datetime.strptime(oldTime, "%H:%M")

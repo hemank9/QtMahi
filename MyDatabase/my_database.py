@@ -412,6 +412,7 @@ def setSlotTimings(response):
             try:
                 common_timings = response["data"]["common_dosage_timing"]
 
+                # Set Common Timings
                 if len(common_timings)>0:
 
                     conn.execute("DELETE FROM '" + constants.slot_timings_table + "'")
@@ -436,6 +437,7 @@ def setSlotTimings(response):
 
                 extra_dosage_timings = response["data"]["extra_dosage_timing"]
 
+                # Set Extra dosage timnigs
                 if len(extra_dosage_timings) > 0:
 
 

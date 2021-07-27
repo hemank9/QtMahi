@@ -978,5 +978,5 @@ if __name__ == "__main__":
     # fetchCylinderMedication()
     # logoutMachine()
     # bookRefillingRequest()
-    # fetchDefaultTimings()
+    fetchDefaultTimings()
     # fetchPrescriptionHistory(1)
