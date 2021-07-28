@@ -46,6 +46,40 @@ def convert24to12Time(oldTime):
         print(e.__cause__)
         return None
 
+def get12HourFormatTime(t, convert):
+    time = t.split(":")
+    hour = int(time[0])
+    min = int(time[1])
+    isPm = False
+    if convert:
+        if hour >= 12:
+            isPm = True
+            if hour > 12:
+                hour = hour - 12
+
+        return [hour, min, isPm]
+    else:
+        return [hour, min]
+
+def addSubMinutes(time, minsToAdd, isAdd):
+    totalMins = (time[0]*60) + time[1]
+
+    if minsToAdd<0:
+        isAdd = False
+        minsToAdd = minsToAdd*-1
+
+    if isAdd:
+        totalMins = totalMins+minsToAdd
+    else:
+        totalMins = totalMins - minsToAdd
+
+        if totalMins<0:
+            totalMins = totalMins + 1440
+
+    hours = int(totalMins/60)
+    mins = totalMins%60
+
+    return [hours, mins]
 
 class LoadingGif(QWidget):
     def __init__(self):
@@ -79,9 +113,6 @@ class HummOptions():
 #         self.value = value
 #         self.AveragePercentage = AveragePercentage
 #         self.SelectedOption = SelectedOption
-
-
-
 
 def isInternetOn():
   try:

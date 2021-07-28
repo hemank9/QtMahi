@@ -24,6 +24,8 @@ ACTION_GET_MY_PRESCRIPTION_LIST= "GET_MY_PRESCRIPTION_LIST"
 
 
 # Database Connection Settings
+
+# Tables
 my_database_name = "mahi.db"
 login_table = "LOGIN_TABLE"
 profile_table = "MY_PROFILE"
@@ -39,6 +41,16 @@ extra_dosage_cylinder_table = "EXTRA_DOSAGE_CYLINDER"
 
 device_id = "mahi_id"
 device_token = "mahi_token"
+
+MORNING_KEY = "morning"
+NOON_KEY = "noon"
+EVENING_KEY = "evening"
+EARLY_MORNING_KEY = "early_morning"
+LATE_NIGHT_KEY = "late_night"
+MID_NIGHT_KEY = "mid_night"
+BEFORE_FOOD_KEY = "before_food"
+AFTER_FOOD_KEY = "after_food"
+
 
 #One must always be commented
 # path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project

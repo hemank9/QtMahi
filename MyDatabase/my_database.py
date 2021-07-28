@@ -468,23 +468,41 @@ def setSlotTimings(response):
 
             conn.execute("DELETE FROM '"+constants.slot_timings_table+"'")
 
-            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
-                    "VALUES ( 'morning_before_food', '08:00' )")
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'morning', 'before_food', '08:00' )")
 
-            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
-                    "VALUES ( 'morning_after_food', '09:00' )")
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'morning', 'after_food', '09:00' )")
 
-            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
-                    "VALUES ( 'noon_before_food', '12:00' )")
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'noon', 'before_food', '12:00' )")
 
-            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
-                    "VALUES ( 'noon_after_food', '13:00' )")
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'noon', 'after_food', '13:00' )")
 
-            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
-                    "VALUES ( 'evening_before_food', '19:00' )")
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'evening', 'before_food', '17:00' )")
 
-            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_TIME) " \
-                    "VALUES ( 'evening_after_food', '21:00' )")
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'evening', 'after_food', '18:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'early_morning', 'before_food', '04:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'early_morning', 'after_food', '05:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'late_night', 'before_food', '20:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'late_night', 'after_food', '21:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'mid_night', 'before_food', '23:00' )")
+
+            conn.execute("INSERT INTO '" +constants.slot_timings_table + "' (SLOT_NAME, SLOT_FOOD_TIME, SLOT_TIME) " \
+                    "VALUES ( 'mid_night', 'after_food', '00:00' )")
 
             conn.commit()
 
@@ -495,8 +513,8 @@ def getSlotTimings():
     try:
 
         cursor = conn.execute("SELECT * from '" + constants.slot_timings_table + "'")
-        # for row in cursor:
-        #     print(str(row))
+        for row in cursor:
+            print(str(row))
 
         return cursor
 
@@ -589,6 +607,23 @@ def getExtraDosages():
     except Exception as e:
         print(e.__cause__)
 
+def getSpecificSlotTimings(slot_name ,food_check):
+    try:
+        if food_check == None:
+            cursor = conn.execute("SELECT * from '" + constants.slot_timings_table + "' where SLOT_NAME='" + slot_name + "'" )
+            return cursor
+        else:
+            cursor = conn.execute("SELECT * from '" + constants.slot_timings_table + "' where SLOT_NAME='"+slot_name+"' "+
+                     "AND SLOT_FOOD_TIME='"+food_check+"'")
+            # for row in cursor:
+            #     print(str(row))
+
+            return cursor.fetchone()
+
+    except Exception as e:
+        print("Something went wrong : Get Slot Timings "+str(e.__cause__))
+        return None
+
 
 if __name__ == "__main__":
 
@@ -616,3 +651,4 @@ if __name__ == "__main__":
 
     # getDosageCylinders()
     # getExtraDosages()
+    print(str(getSpecificSlotTimings("early_morning",None).fetchall()))
