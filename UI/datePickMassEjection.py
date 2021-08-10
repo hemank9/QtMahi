@@ -176,6 +176,65 @@ class MassEjectDateTime(QWidget):
         btnNoDaysDec1.setGraphicsEffect(Util.getNeuShadow(1))
         btnNoDaysDec1.clicked.connect(self.subDays)
 
+        #POP UP FRAMES FOR EJECT NEXT DOSE
+
+        self.popFrame1 = QLabel(self)
+        self.popFrame1.setGeometry(165, 265, 874, 154)
+        self.popFrame1.setStyleSheet("background-color: white; border-radius: 26; color: #00A0B5; font-size: 42px")
+        self.popFrame1.setText("  Your next dose is Afternoon dose")
+        self.popFrame1.setGraphicsEffect(Util.getNeuShadow(0))
+
+        self.okBtn1 = QPushButton("OK", self)
+        self.okBtn1.setGeometry(844, 311, 90, 60)
+        self.okBtn1.setStyleSheet("color:#00A0B5; border-radius: 7; background-color: #F0F0F3")
+        self.okBtn1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.okBtn = QPushButton("OK", self)
+        self.okBtn.setGeometry(844, 311, 90, 60)
+        self.okBtn.setStyleSheet("color:#00A0B5; border-radius: 7; background-color: #F0F0F3; font-size: 30px")
+        self.okBtn.setGraphicsEffect(Util.getNeuShadow(0))
+
+        self.cancelBtn1 = QPushButton( self)
+        self.cancelBtn1.setGeometry(949, 311, 50, 60)
+        self.cancelBtn1.setStyleSheet("background-color: #F0F0F3; font: bold; border-radius: 7")
+        self.cancelBtn1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.cancelBtn = QPushButton("X", self)
+        self.cancelBtn.setGeometry(949, 311, 50, 60)
+        self.cancelBtn.setStyleSheet("background-color: #F0F0F3; font: bold; border-radius: 7; color: red;font-size: 30px")
+        self.cancelBtn.setGraphicsEffect(Util.getNeuShadow(1))
+
+        self.confirmEject = QLabel(self)
+        self.confirmEject.setText("   Eject next Dosage")
+        self.confirmEject.setGeometry(165, 265, 874, 154)
+        self.confirmEject.setStyleSheet("color: #00A0B5; background-color: #FFFFFF; border-radius: 26; font-size: 42px")
+        self.confirmEject.setGraphicsEffect(Util.getNeuShadow(0))
+
+        self.confirmBtn1 = QPushButton("Confirm", self)
+        self.confirmBtn1.setGeometry(780, 311, 151, 60)
+        self.confirmBtn1.setStyleSheet("color:#00A0B5; border-radius: 7; background-color: #F0F0F3; font-size: 30px")
+        self.confirmBtn1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.confirmBtn = QPushButton("Confirm", self)
+        self.confirmBtn.setGeometry(780, 311, 151, 60)
+        self.confirmBtn.setStyleSheet("color:#00A0B5; border-radius: 7; background-color: #F0F0F3; font-size: 30px")
+        self.confirmBtn.setGraphicsEffect(Util.getNeuShadow(1))
+
+        self.notifFrame = QLabel(self)
+        self.notifFrame.setText("Notification for the early ejected medicine will be given on your phone")
+        self.notifFrame.setWordWrap(True)
+        self.notifFrame.setGeometry(165, 265, 874, 154)
+        self.notifFrame.setStyleSheet("color: #00A0B5; background-color: #FFFFFF; border-radius: 26; font-size: 35px")
+
+        self.confirmBtn2 = QPushButton("Confirm", self)
+        self.confirmBtn2.setGeometry(850, 311, 151, 60)
+        self.confirmBtn2.setStyleSheet("color:#00A0B5; border-radius: 7; background-color: #F0F0F3; font-size: 30px")
+        self.confirmBtn2.setGraphicsEffect(Util.getNeuShadow(0))
+        self.confirmBtn21 = QPushButton("Confirm", self)
+        self.confirmBtn21.setGeometry(850, 311, 151, 60)
+        self.confirmBtn21.setStyleSheet("color:#00A0B5; border-radius: 7; background-color: #F0F0F3; font-size: 30px")
+        self.confirmBtn21.setGraphicsEffect(Util.getNeuShadow(1))
+
+
+
+
 
     def SetSummary(self):
         if self.noDays == 1:
