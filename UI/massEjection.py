@@ -177,4 +177,3 @@ class MassEject(QWidget):                           # <===
         elif type == 3:
             self.btnMassEjct.setStyleSheet(self.btnStyle)
             self.btnejctNxtDose.setStyleSheet(self.btnStyleSelected)
-
