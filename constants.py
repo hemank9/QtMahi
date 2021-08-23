@@ -38,6 +38,7 @@ med_time_table = "MEDICINE_TIME"
 dosage_status_table = "DOSAGE_STATUS"
 extra_dosage_med_table = "EXTRA_DOSAGE_MEDS"
 extra_dosage_cylinder_table = "EXTRA_DOSAGE_CYLINDER"
+change_time_sync_table = "CHANGE_TIME_SYNC"
 
 device_id = "mahi_id"
 device_token = "mahi_token"

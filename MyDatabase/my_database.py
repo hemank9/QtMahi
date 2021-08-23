@@ -2,6 +2,8 @@ import sqlite3
 import constants
 import json
 import os.path
+import constants as MyConst
+import Utility.MahiUtility as Utils
 
 print(r"" + os.pardir + "\\MyDatabase\\" + constants.my_database_name)
 conn = sqlite3.connect(constants.path + r"\QtMahi\MyDatabase\\" + constants.my_database_name)
@@ -246,6 +248,10 @@ def initTables():
                                (ID INTEGER PRIMARY KEY AUTOINCREMENT,
                            C_ID TEXT NOT NULL UNIQUE, C_COLORS TEXT, C_LOCK TEXT,
                            MED_FREQUENCY TEXT, MED_TIME_SLOT TEXT, MED_TIME_CHECK TEXT);''')
+
+    conn.execute('''CREATE TABLE IF NOT EXISTS '''+ constants.change_time_sync_table + ''' 
+                               (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                                SLOT_NAME TEXT, IS_SYNCED TEXT, DATE_TIME TEXT);''')
 
     conn.commit()
 
@@ -624,6 +630,70 @@ def getSpecificSlotTimings(slot_name ,food_check):
         print("Something went wrong : Get Slot Timings "+str(e.__cause__))
         return None
 
+def updateMedTiming(slot_name,bfTime,afTime):
+    try:
+        conn.execute("UPDATE " + constants.slot_timings_table + " SET SLOT_TIME='" + bfTime + "' WHERE SLOT_NAME='" + slot_name +
+                     "' AND SLOT_FOOD_TIME='"+MyConst.BEFORE_FOOD_KEY+"'")
+
+        conn.execute("UPDATE " + constants.slot_timings_table + " SET SLOT_TIME='" + afTime + "' WHERE SLOT_NAME='" + slot_name +
+                     "' AND SLOT_FOOD_TIME='"+MyConst.AFTER_FOOD_KEY+"'")
+        conn.commit()
+
+        changeTimeSyncLog(slot_name)
+
+        print(slot_name+" time changed to : BF:"+bfTime+" | AF:"+afTime)
+
+    except Exception as e:
+        print(e.__cause__)
+
+def changeTimeSyncLog(slot_name):
+
+    cursor = conn.execute("SELECT COUNT(ID) from '" + constants.change_time_sync_table + "' WHERE SLOT_NAME='"+
+                          slot_name+"'")
+    row = cursor.fetchone()
+    todayDate = Utils.getTodayDate()
+    # Update
+    if (row[0] == 1):
+
+        conn.execute("UPDATE '" + constants.change_time_sync_table + "' SET IS_SYNCED='0', DATE_TIME=" +todayDate+ " WHERE SLOT_NAME='"+
+                      slot_name+"'")
+
+    # Insert
+    else:
+        conn.execute("INSERT INTO '" + constants.change_time_sync_table + "' (SLOT_NAME, IS_SYNCED, DATE_TIME) VALUES(?,?,?)", (slot_name,"0",todayDate))
+
+    conn.commit()
+
+
+def getValuesofTable(table):
+    cursor = conn.execute("SELECT * from '" + table + "'")
+
+    for row in cursor:
+        print(row)
+
+def deleteAllValues(table):
+    conn.execute("DELETE FROM '" + table + "'")
+    conn.commit()
+
+
+# Sync APIs
+
+def SyncMedTimeChanges():
+    cursor = conn.execute("SELECT SLOT_NAME from '" + constants.change_time_sync_table + "'")
+
+    for row in cursor:
+        print(row[0])
+        cursor2 = conn.execute("SELECT SLOT_TIME from '"+constants.slot_timings_table+"' WHERE SLOT_FOOD_TIME='"+constants.BEFORE_FOOD_KEY+
+                               "' AND SLOT_NAME='"+row[0]+"'")
+        bfTime = Utils.convert24to12Time(cursor2.fetchone()[0])
+        cursor2 = conn.execute("SELECT SLOT_TIME from '" + constants.slot_timings_table + "' WHERE SLOT_FOOD_TIME='" + constants.AFTER_FOOD_KEY +
+                               "' AND SLOT_NAME='"+row[0]+"'")
+
+        afTime = Utils.convert24to12Time(cursor2.fetchone()[0])
+
+
+
+        print(bfTime+" | "+afTime)
 
 if __name__ == "__main__":
 
@@ -651,4 +721,8 @@ if __name__ == "__main__":
 
     # getDosageCylinders()
     # getExtraDosages()
-    print(str(getSpecificSlotTimings("early_morning",None).fetchall()))
+    # print(str(getSpecificSlotTimings("early_morning",None).fetchall()))
+    # deleteAllValues(constants.change_time_sync_table)
+    # getValuesofTable(constants.change_time_sync_table)
+    # changeTimeSyncLog(constants.MORNING_KEY)
+    SyncMedTimeChanges()

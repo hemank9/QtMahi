@@ -152,14 +152,14 @@ class ChangeTime(QMainWindow):
         btnAfHourAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnAfHourAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnAfHourAdd.setIconSize(QtCore.QSize(160, 90))
-        btnAfHourAdd.clicked.connect(self.addAfHour)
+        btnAfHourAdd.clicked.connect(lambda : self.addSubAfHour(True))
 
         btnAfHourSub = QPushButton("", self)
         btnAfHourSub.setGeometry(540, 455, 45, 33)
         btnAfHourSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnAfHourSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnAfHourSub.setIconSize(QtCore.QSize(160, 90))
-        btnAfHourSub.clicked.connect(self.subAfHour)
+        btnAfHourSub.clicked.connect(lambda : self.addSubAfHour(False))
 
 
         display3_lbl = QLabel(self)
@@ -175,14 +175,14 @@ class ChangeTime(QMainWindow):
         btnAfMinAdd.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnAfMinAdd.setIcon(QtGui.QIcon('../Resources/mAddTime.png'))
         btnAfMinAdd.setIconSize(QtCore.QSize(160, 90))
-        btnAfMinAdd.clicked.connect(self.addAfMin)
+        btnAfMinAdd.clicked.connect(lambda : self.addSubAfMin(True))
 
         btnAfMinSub = QPushButton("", self)
         btnAfMinSub.setGeometry(616, 455, 45, 33)
         btnAfMinSub.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
         btnAfMinSub.setIcon(QtGui.QIcon('../Resources/mSubTime.png'))
         btnAfMinSub.setIconSize(QtCore.QSize(160, 90))
-        btnAfMinSub.clicked.connect(self.subAfMin)
+        btnAfMinSub.clicked.connect(lambda : self.addSubAfMin(False))
 
         display4_lbl = QLabel(self)
         display4_lbl.setPixmap(QPixmap('../Resources/mBkg.png'))
@@ -273,7 +273,7 @@ class ChangeTime(QMainWindow):
         btnOk.setStyleSheet("border-radius : 15; background-color: #F0F0F3; color : #00A0B5")
         btnOk.setIcon(QtGui.QIcon('../Resources/mOk.png'))
         btnOk.setIconSize(QtCore.QSize(180, 110))
-        btnOk.clicked.connect(self.close)
+        btnOk.clicked.connect(self.ChangeTime)
 
         self.dayTimeSelected(1)
 
@@ -347,16 +347,17 @@ class ChangeTime(QMainWindow):
                     self.bfHour-12
                 self.lblBfHour.setText(str(self.bfHour))
                 tempTime = tempTime+60
+                self.timeChanged = True
 
         else:
-
 
             if (tempTime-60) > self.lowerTimeLimit:
                 self.bfHour = self.bfHour - 1
                 self.lblBfHour.setText(str(self.bfHour))
                 tempTime = tempTime-60
+                self.timeChanged = True
 
-        self.setAmPm(True)
+        # self.setAmPm(True)
         print(tempTime)
 
     def addSubBfMin(self, isAdd):
@@ -376,6 +377,7 @@ class ChangeTime(QMainWindow):
 
                 self.lblBfMin.setText(str(self.bfMin))
                 tempTime = tempTime + 5
+                self.timeChanged = True
 
         else:
 
@@ -383,8 +385,9 @@ class ChangeTime(QMainWindow):
                 self.bfMin = self.bfMin - 5
                 self.lblBfMin.setText(str(self.bfMin))
                 tempTime = tempTime - 5
+                self.timeChanged = True
 
-        self.setAmPm(True)
+        # self.setAmPm(True)
         print(tempTime)
 
     def setAmPm(self, isBf):
@@ -411,25 +414,72 @@ class ChangeTime(QMainWindow):
 
     # INCREMENT AND DECREMENT OF AFTER FOOD
 
-    def addAfHour(self):
-        if self.afHour < 12:
-            self.afHour = self.afHour + 1
-            self.lblAfHour.setText(str(self.afHour))
+    def addSubAfHour(self, isAdd):
+        tempTime = (int(self.lblAfHour.text()) * 60) + int(self.lblAfMin.text())
 
-    def subAfHour(self):
-        if self.afHour > 0:
-            self.afHour = self.afHour - 1
-            self.lblAfHour.setText(str(self.afHour))
+        if(self.isAfPm and int(self.lblAfHour.text())!=12):
+            tempTime = tempTime + 60*12
 
-    def addAfMin(self):
-        if self.afMin < 60:
-            self.afMin = self.afMin + 5
-            self.lblAfMin.setText(str(self.afMin))
+        print("Curr Time : "+str(tempTime))
 
-    def subAfMin(self):
-        if self.afMin > 0:
-            self.afMin = self.afMin - 5
-            self.lblAfMin.setText(str(self.afMin))
+        if isAdd:
+
+            if (tempTime + 60) < self.upperTimeLimit:
+                self.afHour = self.afHour + 1
+                if self.afHour > 12:
+                    self.afHour - 12
+                self.lblAfHour.setText(str(self.afHour))
+                tempTime = tempTime + 60
+                self.timeChanged = True
+
+        else:
+
+            bfTime = (int(self.lblBfHour.text()) * 60) + int(self.lblBfMin.text())
+            if self.isBfPm and int(self.lblAfHour.text())!=12:
+                bfTime = bfTime + (60 * 12)
+            print("before time:" + str(bfTime))
+
+            if (tempTime - 60) > bfTime:
+                self.afHour = self.afHour - 1
+                self.lblAfHour.setText(str(self.afHour))
+                tempTime = tempTime - 60
+                self.timeChanged = True
+
+        # self.setAmPm(False)
+        print(tempTime)
+
+    def addSubAfMin(self,isAdd):
+        tempTime = (int(self.lblAfHour.text()) * 60) + int(self.lblAfMin.text())
+
+        if self.isAfPm and int(self.lblAfHour.text())!=12:
+            tempTime = tempTime + 60*12
+
+        if isAdd:
+
+            if (tempTime + 5) <= self.upperTimeLimit :
+                self.afMin = self.afMin + 5
+
+                self.lblAfMin.setText(str(self.afMin))
+                tempTime = tempTime + 5
+                self.timeChanged = True
+
+        else:
+            bfTime = (int(self.lblBfHour.text()) * 60) + int(self.lblBfMin.text()) + 30
+            if (self.isBfPm):
+                bfTime = bfTime + (60 * 12)
+
+            print("before time:" + str(bfTime))
+
+            if (tempTime - 5) >= bfTime and (self.afMin - 5) >= 0 :
+                self.afMin = self.afMin - 5
+                self.lblAfMin.setText(str(self.afMin))
+                tempTime = tempTime - 5
+                self.timeChanged = True
+            else:
+                print("end reached")
+
+        # self.setAmPm(True)
+        print(tempTime)
 
     def morningClicked(self):
         self.dayTimeSelected(1)
@@ -450,6 +500,8 @@ class ChangeTime(QMainWindow):
         self.dayTimeSelected(6)
 
     def dayTimeSelected(self,type):
+
+        self.timeChanged = False
 
         if type == 1:
             self.btnMorning1.setStyleSheet(self.btnStyleSelected)
@@ -513,26 +565,42 @@ class ChangeTime(QMainWindow):
             cursor = myDb.getSpecificSlotTimings(MyConst.MORNING_KEY,None)
             tempRow = myDb.getSpecificSlotTimings(MyConst.EARLY_MORNING_KEY,MyConst.AFTER_FOOD_KEY)
             tempRow2 = myDb.getSpecificSlotTimings(MyConst.NOON_KEY, MyConst.BEFORE_FOOD_KEY)
+            self.selecteTime = MyConst.MORNING_KEY
+
+        # Noon
         elif type == 1:
             cursor = myDb.getSpecificSlotTimings(MyConst.NOON_KEY, None)
             tempRow = myDb.getSpecificSlotTimings(MyConst.MORNING_KEY,MyConst.AFTER_FOOD_KEY)
             tempRow2 = myDb.getSpecificSlotTimings(MyConst.EVENING_KEY, MyConst.BEFORE_FOOD_KEY)
+            self.selecteTime = MyConst.NOON_KEY
+
+        # Evening
         elif type == 2:
             cursor = myDb.getSpecificSlotTimings(MyConst.EVENING_KEY, None)
             tempRow = myDb.getSpecificSlotTimings(MyConst.NOON_KEY,MyConst.AFTER_FOOD_KEY)
             tempRow2 = myDb.getSpecificSlotTimings(MyConst.LATE_NIGHT_KEY, MyConst.BEFORE_FOOD_KEY)
+            self.selecteTime = MyConst.EVENING_KEY
+
+        # Mid Night
         elif type == 3:
             cursor = myDb.getSpecificSlotTimings(MyConst.MID_NIGHT_KEY, None)
             tempRow = myDb.getSpecificSlotTimings(MyConst.LATE_NIGHT_KEY,MyConst.AFTER_FOOD_KEY)
             tempRow2 = myDb.getSpecificSlotTimings(MyConst.EARLY_MORNING_KEY, MyConst.BEFORE_FOOD_KEY)
+            self.selecteTime = MyConst.MID_NIGHT_KEY
+
+        # Late Night
         elif type == 4:
             cursor = myDb.getSpecificSlotTimings(MyConst.LATE_NIGHT_KEY, None)
             tempRow = myDb.getSpecificSlotTimings(MyConst.EVENING_KEY,MyConst.AFTER_FOOD_KEY)
             tempRow2 = myDb.getSpecificSlotTimings(MyConst.MID_NIGHT_KEY, MyConst.BEFORE_FOOD_KEY)
+            self.selecteTime = MyConst.LATE_NIGHT_KEY
+
+        # Early Morning
         elif type == 5:
             cursor = myDb.getSpecificSlotTimings(MyConst.EARLY_MORNING_KEY, None)
             tempRow = myDb.getSpecificSlotTimings(MyConst.MID_NIGHT_KEY,MyConst.AFTER_FOOD_KEY)
             tempRow2 = myDb.getSpecificSlotTimings(MyConst.MORNING_KEY, MyConst.BEFORE_FOOD_KEY)
+            self.selecteTime = MyConst.EARLY_MORNING_KEY
 
 
         lowerTimings = Util.addSubMinutes(Util.get12HourFormatTime(str(tempRow[3]),False),30,True)
@@ -577,6 +645,35 @@ class ChangeTime(QMainWindow):
                     self.lblAfAmPm.setText("pm")
                 else:
                     self.lblAfAmPm.setText("am")
+
+    def ChangeTime(self):
+        if self.timeChanged:
+
+            hourBf = int(self.lblBfHour.text())
+            minBf = int(self.lblBfMin.text())
+            if self.isBfPm and hourBf!=12:
+                hourBf = hourBf+12
+
+            bfTime = str(hourBf)+":"
+            if minBf<10:
+                bfTime = bfTime +"0"+str(minBf)
+            else:
+                bfTime = bfTime + str(minBf)
+
+            hourAf = int(self.lblAfHour.text())
+            minAf = int(self.lblAfMin.text())
+            if self.isAfPm and hourAf!=12:
+                hourAf = hourAf+12
+
+            afTime = str(hourAf)+":"
+
+            if minAf<10:
+                afTime = afTime +"0"+str(minAf)
+            else:
+                afTime = afTime + str(minAf)
+
+            myDb.updateMedTiming(self.selecteTime,bfTime,afTime)
+
 
 if __name__ == '__main__':
     App = QApplication(sys.argv)

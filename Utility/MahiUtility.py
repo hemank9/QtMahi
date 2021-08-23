@@ -45,6 +45,7 @@ def convert24to12Time(oldTime):
     except Exception as e:
         print(e.__cause__)
         return None
+print(convert24to12Time("24:00"))
 
 def get12HourFormatTime(t, convert):
     time = t.split(":")
@@ -127,3 +128,7 @@ def isInternetOn():
   except:
      pass
   return False
+
+def getTodayDate():
+    d = datetime.today()
+    return d.strftime("%d/%m/%Y %H:%M")
