@@ -952,6 +952,141 @@ def fetchPrescriptionHistory(page):
         print(e.__cause__)
         return None
 
+def fetchSpecificVitalData(vital_id):
+    try:
+        if myDB.isLogggedIn():
+
+            data = {
+                    'app_type': constants.AppType,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_getUserVitalData,
+                    'user_id': myDB.getUserID(),
+                    'vital_id': str(vital_id),
+            }
+            print("Fetch Specific Vitals Data URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Specific Vitals Data response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch Specific Vitals Data Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+def fetchLastVitalsData():
+    try:
+        if myDB.isLogggedIn():
+
+            data = {
+                    'app_type': constants.AppType,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_getVitalLastFiveData,
+                    'user_id': myDB.getUserID(),
+            }
+            print("Fetch Last Vitals Data URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Last Vitals Data response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Fetch Last Vitals Data Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+def addVitalsData(vitalId, subVitalKeys,unit, date, vitalData):
+
+    ''' Sample Call
+    addVitalsData("53",None,"mmol/L","2021-08-24","8.1")
+    addVitalsData("56",["Systolic", "Diastolic"],"mm/Hg","2021-08-24",{"Systolic":"8.2", "Diastolic":"9.0"})
+    '''
+
+    try:
+
+        if myDB.isLogggedIn():
+
+            data = {
+                    'app_type': constants.AppType,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_update_vitals_data,
+                    'user_id': myDB.getUserID(),
+                    'patient_user_id': myDB.getUserID(),
+            }
+
+            if subVitalKeys!=None:
+                print("subvitals present")
+                vitalKey1 = "vital[" + str(vitalId) + "]["+subVitalKeys[0]+"]"
+                data[vitalKey1] = str(vitalData[subVitalKeys[0]])
+                unitKey1 = "measured[" + str(vitalId) + "]["+subVitalKeys[0]+"]"
+                data[unitKey1] = str(unit)
+
+                vitalKey2 = "vital[" + str(vitalId) + "]["+subVitalKeys[1]+"]"
+                data[vitalKey2] = str(vitalData[subVitalKeys[1]])
+                unitKey2 = "measured[" + str(vitalId) + "]["+subVitalKeys[1]+"]"
+                data[unitKey2] = str(unit)
+
+            else :
+                print("single vital")
+                vitalKey = "vital[" + str(vitalId) + "]"
+                data[vitalKey] = str(vitalData)
+                unitKey = "measured[" + str(vitalId) + "]"
+                data[unitKey] = str(unit)
+
+            dateKey = "date["+str(vitalId)+"]"
+            data[dateKey] = date
+
+            print("Add Vitals Data URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            '''
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Add Vitals Data response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['status']:
+
+                print("Add Vitals Data Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+            '''
+
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
 
 if __name__ == "__main__":
     print("API Calls Main Function")
@@ -978,5 +1113,10 @@ if __name__ == "__main__":
     # fetchCylinderMedication()
     # logoutMachine()
     # bookRefillingRequest()
-    fetchDefaultTimings()
+    # fetchDefaultTimings()
     # fetchPrescriptionHistory(1)
+
+    # fetchSpecificVitalData(56)
+    # fetchLastVitalsData()
+    # addVitalsData("53",None,"mmol/L","2021-08-24","8.1")
+    # addVitalsData("56",["Systolic", "Diastolic"],"mm/Hg","2021-08-24",{"Systolic":"8.2", "Diastolic":"9.0"})

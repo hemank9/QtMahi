@@ -9,6 +9,7 @@ import UI.MyStatsDetailed as statsDetailed
 # importing packages
 # import matplotlib.pyplot as plt
 from pyqtgraph import PlotWidget, plot
+import API.api_calls as myApis
 import pyqtgraph as pg
 
 class MyStats(QMainWindow):
@@ -165,15 +166,221 @@ class MyStats(QMainWindow):
         else:
             self.vitalsCombo.setCurrentIndex(self.pageInit)
 
+        self.fetchAllVitals()
+
+
+    def fetchAllVitals(self):
+        try:
+
+            if Util.isInternetOn():
+                temp = myApis.fetchLastVitalsData()
+
+                if temp!= None:
+                    self.allVitalsResponse = temp["response"]
+                    self.bmiDataList1 = None
+                    for vitals in self.allVitalsResponse:
+                        self.setVitalsData(vitals["vital_name"], vitals["vital_data"], vitals["unit"])
+
+
+        except Exception as e:
+            print(e.__cause__)
+
+    def setVitalsData(self, vitalName, vitalData, unit):
+
+        try:
+            print(vitalName)
+            if str(vitalName).upper() == "HAEMOGLOBIN":
+                i = 0
+                for data in vitalData:
+                    self.HaemoLblValueList[i].setText(str(data["point"]))
+                    self.HaemoLblDateList[i].setText(str(data["date"]))
+                    self.HaemoLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.HaemoBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.HaemoBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.HaemoBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.HaemoBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                    i = i+1
+
+            elif str(vitalName).upper() == "CHOLESTEROL":
+                i = 0
+                for data in vitalData:
+                    self.CholesLblValueList[i].setText(str(data["point"]))
+                    self.CholesLblDateList[i].setText(str(data["date"]))
+                    self.CholesLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.CholesBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.CholesBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.CholesBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.CholesBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                    i = i + 1
+
+            elif str(vitalName).upper() == "HBA1C":
+                i = 0
+                for data in vitalData:
+                    self.Hba1cLblValueList[i].setText(str(data["point"]))
+                    self.Hba1cLblDateList[i].setText(str(data["date"]))
+                    self.Hba1cLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.Hba1cBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.Hba1cBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.Hba1cBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.Hba1cBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                    i = i + 1
+
+            elif str(vitalName).upper() == "PT/INR":
+                i = 0
+                for data in vitalData:
+                    self.PtnrLblValueList[i].setText(str(data["point"]["PT"])+"/"+str(data["point"]["INR"]))
+                    self.PtnrLblDateList[i].setText(str(data["date"]))
+                    self.PtnrLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.PtnrBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.PtnrBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.PtnrBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.PtnrBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                    i = i + 1
+
+            elif str(vitalName).upper() == "HEART RATE":
+                i = 0
+                for data in vitalData:
+                    self.heartLblValueList[i].setText(str(data["point"]))
+                    self.heartLblDateList[i].setText(str(data["date"]))
+                    self.heartLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.heartBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.heartBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.heartBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.heartBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                    i = i + 1
+
+            elif str(vitalName).upper() == "HEIGHT" or str(vitalName).upper() == "WEIGHT":
+                if self.bmiDataList1 == None:
+                    self.bmiDataList1 = vitalData
+                else:
+                    i = 0
+                    for data in vitalData:
+                        if(str(vitalName).upper() == "WEIGHT"):
+                            tempHeight = float(self.bmiDataList1[i]["point"])/100
+                            bmi = round(float(data["point"]) / (tempHeight*tempHeight) , 1)
+
+                        self.bmiLblValueList[i].setText(str(bmi))
+                        self.bmiLblDateList[i].setText(str(data["date"]))
+                        self.bmiLblUnitList[i].setText("kg/m2")
+
+                        if len(data["mahi_vital_color_code"])>0:
+                            if data["mahi_vital_color_code"] == "blue":
+                                self.bmiBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                            elif data["mahi_vital_color_code"] == "red":
+                                self.bmiBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                            else:
+                                self.bmiBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                        else:
+                            self.bmiBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                        i = i + 1
+
+            elif str(vitalName).upper() == "SUGAR":
+                i = 0
+                for data in vitalData:
+                    self.SugarLblValueList[i].setText(str(data["point"]))
+                    self.SugarLblDateList[i].setText(str(data["date"]))
+                    self.SugarLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.SugarBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.SugarBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.SugarBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.SugarBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                    i = i + 1
+
+            elif str(vitalName).upper() == "TEMPERATURE":
+                i = 0
+                for data in vitalData:
+                    self.TemperatureLblValueList[i].setText(str(data["point"]))
+                    self.TemperatureLblDateList[i].setText(str(data["date"]))
+                    self.TemperatureLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.TemperatureBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.TemperatureBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.TemperatureBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.TemperatureBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                    i = i + 1
+
+            elif str(vitalName).upper() == "BLOOD PRESSURE":
+                i = 0
+                for data in vitalData:
+                    self.bpLblValueList[i].setText('<font color="#FFF">'+str(data["point"]["Systolic"])+' </font><font color="#006CB5">SYS</font>'
+                                       '<font color="#FFF">   '+str(data["point"]["Diastolic"])+' </font><font color="#006CB5">DIA</font>')
+                    # self.bpLblValueList[i].setText(str(data["point"]))
+                    self.bpLblDateList[i].setText(str(data["date"]))
+                    self.bpLblUnitList[i].setText(str(unit))
+
+                    if len(data["mahi_vital_color_code"])>0:
+                        if data["mahi_vital_color_code"] == "blue":
+                            self.bpBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+                        elif data["mahi_vital_color_code"] == "red":
+                            self.bpBkgBtnList[i].setStyleSheet(self.redBtnStyle)
+                        else:
+                            self.bpBkgBtnList[i].setStyleSheet(self.orangeBtnStyle)
+                    else:
+                        self.bpBkgBtnList[i].setStyleSheet(self.normalBtnStyle)
+
+                    i = i + 1
+
+        except Exception as e:
+            print(e.__cause__)
 
     def initVitals(self):
 
 
 
         self.normalBtnStyle = "border-radius: 10; background-color: #7ACEDA;"
+        self.redBtnStyle = "border-radius: 10; background-color: #FE4343;"
+        self.orangeBtnStyle = "border-radius: 10; background-color: #FEC32E;"
         self.labelSmallStyle = "background-color:#00AAAAAA; color:white; font-size:15px; font:bold"
         self.labelHeaderStyle = "background-color:#00AAAAAA; color:#727376; font-size:15px"
-        self.labelBigStyle = "background-color:#00AAAAAA; color:white; font-size:23px; font:bold"
+        self.labelBigStyle = "background-color:#00AAAAAA; color:white; font-size:22px; font:bold"
 
         lblBpHeader = QLabel(self)
         lblBpHeader.setGeometry(68,125,132,20)
@@ -241,42 +448,61 @@ class MyStats(QMainWindow):
 
 
 
+        self.bpBkgBtnList = []
         self.bpBtnList = []
         self.bpLblValueList = []
         self.bpLblDateList = []
         self.bpLblUnitList = []
+
+        self.heartBkgBtnList = []
         self.heartBtnList = []
         self.heartLblValueList = []
         self.heartLblDateList = []
         self.heartLblUnitList = []
+
+        self.bmiBkgBtnList = []
         self.bmiBtnList = []
         self.bmiLblValueList = []
         self.bmiLblDateList = []
         self.bmiLblUnitList = []
+
+        self.HaemoBkgBtnList = []
         self.HaemoBtnList = []
         self.HaemoLblValueList = []
         self.HaemoLblDateList = []
         self.HaemoLblUnitList = []
+
+        self.Hba1cBkgBtnList = []
         self.Hba1cBtnList = []
         self.Hba1cLblValueList = []
         self.Hba1cLblDateList = []
         self.Hba1cLblUnitList = []
+
+        self.SugarBkgBtnList = []
         self.SugarBtnList = []
         self.SugarLblValueList = []
         self.SugarLblDateList = []
         self.SugarLblUnitList = []
+
+        self.CholesBkgBtnList = []
         self.CholesBtnList = []
         self.CholesLblValueList = []
         self.CholesLblDateList = []
         self.CholesLblUnitList = []
+
+        self.PtnrBkgBtnList = []
         self.PtnrBtnList = []
         self.PtnrLblValueList = []
         self.PtnrLblDateList = []
         self.PtnrLblUnitList = []
+
+        self.TemperatureBkgBtnList = []
         self.TemperatureBtnList = []
         self.TemperatureLblValueList = []
         self.TemperatureLblDateList = []
         self.TemperatureLblUnitList = []
+
+        self.blueBkg = "background-color:#00AAAAAA"
 
         startBpx = 21
         startBpy = 150
@@ -308,13 +534,11 @@ class MyStats(QMainWindow):
             lblBpDate1.setGeometry(startLblx,startLbly,startLblw,startLblh)
             lblBpDate1.setAlignment(Qt.AlignRight)
             lblBpDate1.setStyleSheet(self.labelSmallStyle)
-            lblBpDate1.setText("10-05-21")
 
             lblBpUnit1 = QLabel(self)
             lblBpUnit1.setGeometry(startLblx,startLbly+60,startLblw,startLblh+10)
             lblBpUnit1.setAlignment(Qt.AlignRight)
             lblBpUnit1.setStyleSheet(self.labelSmallStyle)
-            lblBpUnit1.setText("mm/hg")
 
             lblBpValue = QLabel(self)
             lblBpValue.setGeometry(startBpx+10,startBpy+30,startBpw-20,startBph-65)
@@ -325,10 +549,11 @@ class MyStats(QMainWindow):
 
             btnBp = QPushButton(self)
             btnBp.setGeometry(startBpx,startBpy,startBpw,startBph)
-            btnBp.setStyleSheet("background-color:#00AAAAAA")
+            btnBp.setStyleSheet(self.blueBkg)
             btnBp.clicked.connect(lambda: self.VitalClicked("Blood Pressure"))
 
 
+            self.bpBkgBtnList.append(btnBp1)
             self.bpBtnList.append(btnBp)
             self.bpLblValueList.append(lblBpValue)
             self.bpLblDateList.append(lblBpDate1)
@@ -345,35 +570,33 @@ class MyStats(QMainWindow):
             lblHeartDate.setGeometry(startHeartx+2,startHearty+5,startHeartw-6,startHearth-74)
             lblHeartDate.setAlignment(Qt.AlignRight)
             lblHeartDate.setStyleSheet(self.labelSmallStyle)
-            lblHeartDate.setText("10-05-21")
 
             lblHeartUnit = QLabel(self)
             lblHeartUnit.setGeometry(startHeartx-1,startHearty + 64,startHeartw-6,startHearth-70)
             lblHeartUnit.setAlignment(Qt.AlignRight)
             lblHeartUnit.setStyleSheet(self.labelSmallStyle)
-            lblHeartUnit.setText("bpm")
 
             lblHeartValue = QLabel(self)
             lblHeartValue.setGeometry(startHeartx+15,startHearty +30,startHeartw-15, startHearth-57)
             lblHeartValue.setAlignment(Qt.AlignLeft)
             lblHeartValue.setStyleSheet(self.labelBigStyle)
-            lblHeartValue.setText('90')
 
 
             btnHeartT = QPushButton(self)
             btnHeartT.setGeometry(startHeartx, startHearty, startHeartw, startHearth)
-            btnHeartT.setStyleSheet("background-color:#00AAAAAA")
+            btnHeartT.setStyleSheet(self.blueBkg)
             btnHeartT.clicked.connect(lambda: self.VitalClicked("Heart Rate"))
 
 
 
+            self.heartBkgBtnList.append(btnHeart)
             self.heartBtnList.append(btnHeartT)
             self.heartLblValueList.append(lblHeartValue)
             self.heartLblDateList.append(lblHeartDate)
             self.heartLblUnitList.append(lblHeartUnit)
 
 
-            #BMI 258 150 106 90
+            #BMI
 
             btnBmi = QPushButton(self)
             btnBmi.setGeometry(startHeartx+118, startHearty, startHeartw, startHearth)
@@ -383,33 +606,31 @@ class MyStats(QMainWindow):
             lblBmiDate.setGeometry(startHeartx+120,startHearty+5,startHeartw-6,startHearth-74)
             lblBmiDate.setAlignment(Qt.AlignRight)
             lblBmiDate.setStyleSheet(self.labelSmallStyle)
-            lblBmiDate.setText("08-05-21")
 
             lblBmiUnit = QLabel(self)
             lblBmiUnit.setGeometry(startHeartx+117,startHearty + 64,startHeartw-6,startHearth-70)
             lblBmiUnit.setAlignment(Qt.AlignRight)
             lblBmiUnit.setStyleSheet(self.labelSmallStyle)
-            lblBmiUnit.setText("kg/m2")
 
             lblBmiValue = QLabel(self)
             lblBmiValue.setGeometry(startHeartx+133,startHearty +30,startHeartw-15, startHearth-57)
             lblBmiValue.setAlignment(Qt.AlignLeft)
             lblBmiValue.setStyleSheet(self.labelBigStyle)
-            lblBmiValue.setText('18.5')
 
 
             btnBmiT = QPushButton(self)
             btnBmiT.setGeometry(startHeartx+118, startHearty, startHeartw, startHearth)
-            btnBmiT.setStyleSheet("background-color:#00AAAAAA")
+            btnBmiT.setStyleSheet(self.blueBkg)
             btnBmiT.clicked.connect(lambda: self.VitalClicked("BMI"))
 
+            self.bmiBkgBtnList.append(btnBmi)
             self.bmiBtnList.append(btnBmiT)
             self.bmiLblDateList.append(lblBmiDate)
             self.bmiLblUnitList.append(lblBmiUnit)
             self.bmiLblValueList.append(lblBmiValue)
 
 
-            #Haemoglobin 258 150 106 90
+            #Haemoglobin
 
             btnHaemo = QPushButton(self)
             btnHaemo.setGeometry(startHeartx+(118*2), startHearty, startHeartw, startHearth)
@@ -419,33 +640,31 @@ class MyStats(QMainWindow):
             lblHaemoDate.setGeometry(startHeartx+(118*2 + 2),startHearty+5,startHeartw-6,startHearth-74)
             lblHaemoDate.setAlignment(Qt.AlignRight)
             lblHaemoDate.setStyleSheet(self.labelSmallStyle)
-            lblHaemoDate.setText("08-05-21")
 
             lblHaemoUnit = QLabel(self)
             lblHaemoUnit.setGeometry(startHeartx+(118*2 - 1),startHearty + 64,startHeartw-6,startHearth-70)
             lblHaemoUnit.setAlignment(Qt.AlignRight)
             lblHaemoUnit.setStyleSheet(self.labelSmallStyle)
-            lblHaemoUnit.setText("g/dl")
 
             lblHaemoValue = QLabel(self)
             lblHaemoValue.setGeometry(startHeartx+(118*2+15),startHearty +30,startHeartw-15, startHearth-57)
             lblHaemoValue.setAlignment(Qt.AlignLeft)
             lblHaemoValue.setStyleSheet(self.labelBigStyle)
-            lblHaemoValue.setText('13.93')
 
 
             btnHaemoT = QPushButton(self)
             btnHaemoT.setGeometry(startHeartx+(118*2), startHearty, startHeartw, startHearth)
-            btnHaemoT.setStyleSheet("background-color:#00AAAAAA")
+            btnHaemoT.setStyleSheet(self.blueBkg)
             btnHaemoT.clicked.connect(lambda: self.VitalClicked("Haemoglobin"))
 
+            self.HaemoBkgBtnList.append(btnHaemo)
             self.HaemoBtnList.append(btnHaemoT)
             self.HaemoLblDateList.append(lblHaemoDate)
             self.HaemoLblUnitList.append(lblHaemoUnit)
             self.HaemoLblValueList.append(lblHaemoValue)
 
 
-            #HBA1C 258 150 106 90
+            #HBA1C
 
             btnHba1c = QPushButton(self)
             btnHba1c.setGeometry(startHeartx+(118*3), startHearty, startHeartw, startHearth)
@@ -455,26 +674,24 @@ class MyStats(QMainWindow):
             lblHba1cDate.setGeometry(startHeartx+(118*3 + 2),startHearty+5,startHeartw-6,startHearth-74)
             lblHba1cDate.setAlignment(Qt.AlignRight)
             lblHba1cDate.setStyleSheet(self.labelSmallStyle)
-            lblHba1cDate.setText("21-01-21")
 
             lblHba1cUnit = QLabel(self)
             lblHba1cUnit.setGeometry(startHeartx+(118*3 - 1),startHearty + 64,startHeartw-6,startHearth-70)
             lblHba1cUnit.setAlignment(Qt.AlignRight)
             lblHba1cUnit.setStyleSheet(self.labelSmallStyle)
-            lblHba1cUnit.setText("mmol/mol")
 
             lblHba1cValue = QLabel(self)
             lblHba1cValue.setGeometry(startHeartx+(118*3+15),startHearty +30,startHeartw-15, startHearth-57)
             lblHba1cValue.setAlignment(Qt.AlignLeft)
             lblHba1cValue.setStyleSheet(self.labelBigStyle)
-            lblHba1cValue.setText('16.8')
 
 
             btnHba1cT = QPushButton(self)
             btnHba1cT.setGeometry(startHeartx+(118*3), startHearty, startHeartw, startHearth)
-            btnHba1cT.setStyleSheet("background-color:#00AAAAAA")
+            btnHba1cT.setStyleSheet(self.blueBkg)
             btnHba1cT.clicked.connect(lambda: self.VitalClicked("HBA1C"))
 
+            self.Hba1cBkgBtnList.append(btnHba1c)
             self.Hba1cBtnList.append(btnHba1cT)
             self.Hba1cLblDateList.append(lblHba1cDate)
             self.Hba1cLblUnitList.append(lblHba1cUnit)
@@ -491,26 +708,24 @@ class MyStats(QMainWindow):
             lblSugarDate.setGeometry(startHeartx+(118*4 + 2),startHearty+5,startHeartw-6,startHearth-74)
             lblSugarDate.setAlignment(Qt.AlignRight)
             lblSugarDate.setStyleSheet(self.labelSmallStyle)
-            lblSugarDate.setText("15-03-21")
 
             lblSugarUnit = QLabel(self)
             lblSugarUnit.setGeometry(startHeartx+(118*4 - 1),startHearty + 64,startHeartw-6,startHearth-70)
             lblSugarUnit.setAlignment(Qt.AlignRight)
             lblSugarUnit.setStyleSheet(self.labelSmallStyle)
-            lblSugarUnit.setText("mmol/mol")
 
             lblSugarValue = QLabel(self)
             lblSugarValue.setGeometry(startHeartx+(118*4+15),startHearty +30,startHeartw-15, startHearth-57)
             lblSugarValue.setAlignment(Qt.AlignLeft)
             lblSugarValue.setStyleSheet(self.labelBigStyle)
-            lblSugarValue.setText('110')
 
 
             btnSugarT = QPushButton(self)
             btnSugarT.setGeometry(startHeartx+(118*4), startHearty, startHeartw, startHearth)
-            btnSugarT.setStyleSheet("background-color:#00AAAAAA")
+            btnSugarT.setStyleSheet(self.blueBkg)
             btnSugarT.clicked.connect(lambda: self.VitalClicked("Sugar"))
 
+            self.SugarBkgBtnList.append(btnSugar)
             self.SugarBtnList.append(btnSugarT)
             self.SugarLblDateList.append(lblSugarDate)
             self.SugarLblUnitList.append(lblSugarUnit)
@@ -527,26 +742,23 @@ class MyStats(QMainWindow):
             lblCholesDate.setGeometry(startHeartx+(118*5 + 2),startHearty+5,startHeartw-6,startHearth-74)
             lblCholesDate.setAlignment(Qt.AlignRight)
             lblCholesDate.setStyleSheet(self.labelSmallStyle)
-            lblCholesDate.setText("12-02-21")
 
             lblCholesUnit = QLabel(self)
             lblCholesUnit.setGeometry(startHeartx+(118*5 - 1),startHearty + 64,startHeartw-6,startHearth-70)
             lblCholesUnit.setAlignment(Qt.AlignRight)
             lblCholesUnit.setStyleSheet(self.labelSmallStyle)
-            lblCholesUnit.setText("mg/dl")
 
             lblCholesValue = QLabel(self)
             lblCholesValue.setGeometry(startHeartx+(118*5+15),startHearty +30,startHeartw-15, startHearth-57)
             lblCholesValue.setAlignment(Qt.AlignLeft)
             lblCholesValue.setStyleSheet(self.labelBigStyle)
-            lblCholesValue.setText('3.32')
-
 
             btnCholesT = QPushButton(self)
             btnCholesT.setGeometry(startHeartx+(118*5), startHearty, startHeartw, startHearth)
-            btnCholesT.setStyleSheet("background-color:#00AAAAAA")
+            btnCholesT.setStyleSheet(self.blueBkg)
             btnCholesT.clicked.connect(lambda: self.VitalClicked("Cholestrol"))
 
+            self.CholesBkgBtnList.append(btnCholes)
             self.CholesBtnList.append(btnCholesT)
             self.CholesLblDateList.append(lblCholesDate)
             self.CholesLblUnitList.append(lblCholesUnit)
@@ -562,26 +774,23 @@ class MyStats(QMainWindow):
             lblPtnrDate.setGeometry(startHeartx+(118*6 + 2),startHearty+5,startHeartw-6,startHearth-74)
             lblPtnrDate.setAlignment(Qt.AlignRight)
             lblPtnrDate.setStyleSheet(self.labelSmallStyle)
-            lblPtnrDate.setText("06-08-20")
 
             lblPtnrUnit = QLabel(self)
             lblPtnrUnit.setGeometry(startHeartx+(118*6 - 1),startHearty + 64,startHeartw-6,startHearth-70)
             lblPtnrUnit.setAlignment(Qt.AlignRight)
             lblPtnrUnit.setStyleSheet(self.labelSmallStyle)
-            lblPtnrUnit.setText("bpm")
 
             lblPtnrValue = QLabel(self)
             lblPtnrValue.setGeometry(startHeartx+(118*6+15),startHearty +30,startHeartw-15, startHearth-57)
             lblPtnrValue.setAlignment(Qt.AlignLeft)
             lblPtnrValue.setStyleSheet(self.labelBigStyle)
-            lblPtnrValue.setText('98')
-
 
             btnPtnrT = QPushButton(self)
             btnPtnrT.setGeometry(startHeartx+(118*6), startHearty, startHeartw, startHearth)
-            btnPtnrT.setStyleSheet("background-color:#00AAAAAA")
+            btnPtnrT.setStyleSheet(self.blueBkg)
             btnPtnrT.clicked.connect(lambda: self.VitalClicked("Pt/Nr"))
 
+            self.PtnrBkgBtnList.append(btnPtnr)
             self.PtnrBtnList.append(btnPtnrT)
             self.PtnrLblDateList.append(lblPtnrDate)
             self.PtnrLblUnitList.append(lblPtnrUnit)
@@ -597,26 +806,24 @@ class MyStats(QMainWindow):
             lblTemperatureDate.setGeometry(startHeartx+(118*7 + 2),startHearty+5,startHeartw-6,startHearth-74)
             lblTemperatureDate.setAlignment(Qt.AlignRight)
             lblTemperatureDate.setStyleSheet(self.labelSmallStyle)
-            lblTemperatureDate.setText("14-06-21")
 
             lblTemperatureUnit = QLabel(self)
             lblTemperatureUnit.setGeometry(startHeartx+(118*7 - 1),startHearty + 64,startHeartw-6,startHearth-70)
             lblTemperatureUnit.setAlignment(Qt.AlignRight)
             lblTemperatureUnit.setStyleSheet(self.labelSmallStyle)
-            lblTemperatureUnit.setText("f")
 
             lblTemperatureValue = QLabel(self)
             lblTemperatureValue.setGeometry(startHeartx+(118*7+15),startHearty +30,startHeartw-15, startHearth-57)
             lblTemperatureValue.setAlignment(Qt.AlignLeft)
             lblTemperatureValue.setStyleSheet(self.labelBigStyle)
-            lblTemperatureValue.setText('99.13')
 
 
             btnTemperatureT = QPushButton(self)
             btnTemperatureT.setGeometry(startHeartx+(118*7), startHearty, startHeartw, startHearth)
-            btnTemperatureT.setStyleSheet("background-color:#00AAAAAA")
+            btnTemperatureT.setStyleSheet(self.blueBkg)
             btnTemperatureT.clicked.connect(lambda: self.VitalClicked("Temperature"))
 
+            self.TemperatureBkgBtnList.append(btnTemperature)
             self.TemperatureBtnList.append(btnTemperatureT)
             self.TemperatureLblDateList.append(lblTemperatureDate)
             self.TemperatureLblUnitList.append(lblTemperatureUnit)
@@ -711,6 +918,7 @@ class MyStats(QMainWindow):
         self.lblVitalDateList = []
         self.lblVitalValueList = []
         self.lblVitalUnitList = []
+
         for i in range(28):
 
             if (i > 0):
@@ -726,7 +934,7 @@ class MyStats(QMainWindow):
             scaledImage = pixmap.scaled(startw, starth)
             lblBkg.setPixmap(QPixmap(scaledImage))
             lblBkg.setGeometry(startx, starty, startw, starth)
-            lblBkg.setStyleSheet("background-color:#00AAAAAA")
+            lblBkg.setStyleSheet(self.blueBkg)
 
             lblDate = QLabel(self)
             lblDate.setGeometry(startx + 16, starty + 9, 89, 29)
@@ -846,7 +1054,7 @@ if __name__ == '__main__':
     App = QApplication(sys.argv)
 
     # create the instance of our Window
-    window = MyStats()
+    window = MyStats(0)
 
     window.show()
 

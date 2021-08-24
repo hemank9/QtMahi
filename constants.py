@@ -21,6 +21,8 @@ ACTION_device_logout = "device_logout"
 ACTION_book_cylinder_refill_request = "book_cylinder_refill_request"
 ACTION_default_medication_timing = "default_medication_timing"
 ACTION_GET_MY_PRESCRIPTION_LIST= "GET_MY_PRESCRIPTION_LIST"
+ACTION_getVitalLastFiveData= "getVitalLastFiveData"
+ACTION_update_vitals_data= "update_vitals_data"
 
 
 # Database Connection Settings
@@ -54,8 +56,8 @@ AFTER_FOOD_KEY = "after_food"
 
 
 #One must always be commented
-path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
-# path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
+# path = r"C:\Users\Dell\PycharmProjects\\" #Hemank Path to project
+path = r"D:\Projects\Fluvina\MAHI\\" #Swapnil Path to project
 #
 #Humm Pagetypes
 HUMM_IMAGE_TEXT = 0
