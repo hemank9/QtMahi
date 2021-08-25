@@ -880,7 +880,6 @@ class MyStats(QMainWindow):
         self.cbSubVitals.setGeometry(890, 145, 130, 40)
         self.cbSubVitals.setGraphicsEffect(Util.getNeuShadow(1))
         self.cbSubVitals.currentIndexChanged.connect(self.subVitalChanged)
-
         # self.filterBtn1.addItem("Haemoglobin")
         # filterBtn1.clicked.connect(self.)
 
