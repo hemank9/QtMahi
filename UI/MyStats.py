@@ -4,7 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 import Utility.MahiUtility as Util
-
+import math
 import UI.MyStatsDetailed as statsDetailed
 # importing packages
 # import matplotlib.pyplot as plt
@@ -71,15 +71,6 @@ class MyStats(QMainWindow):
                                        "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
         self.vitalsCombo.setGraphicsEffect(Util.getNeuShadow(0))
         self.vitalsCombo.addItem("All Vitals")
-        self.vitalsCombo.addItem("HBA1C")
-        self.vitalsCombo.addItem("Blood Pressure")
-        self.vitalsCombo.addItem("Heart Rate")
-        self.vitalsCombo.addItem("Haemoglobin")
-        self.vitalsCombo.addItem("BMI")
-        self.vitalsCombo.addItem("Sugar")
-        self.vitalsCombo.addItem("Cholesterol")
-        self.vitalsCombo.addItem("Pt/INR")
-        self.vitalsCombo.addItem("Temperature")
         self.vitalsCombo.currentIndexChanged.connect(self.vitalChanged)
 
         syncBtn = QPushButton(self)
@@ -166,10 +157,23 @@ class MyStats(QMainWindow):
         else:
             self.vitalsCombo.setCurrentIndex(self.pageInit)
 
-        self.fetchAllVitals()
 
+        self.fetchVitalsList()
+        self.fetchLastVitalsData()
 
-    def fetchAllVitals(self):
+    def fetchVitalsList(self):
+        try:
+            if Util.isInternetOn():
+                temp = myApis.fetchVitalList()
+                if temp!= None:
+                    self.vitalList = temp["details"]
+                    for x in self.vitalList:
+                        self.vitalsCombo.addItem(x["vital_name"])
+
+        except Exception as e:
+            print(e.__cause__)
+
+    def fetchLastVitalsData(self):
         try:
 
             if Util.isInternetOn():
@@ -188,7 +192,7 @@ class MyStats(QMainWindow):
     def setVitalsData(self, vitalName, vitalData, unit):
 
         try:
-            print(vitalName)
+
             if str(vitalName).upper() == "HAEMOGLOBIN":
                 i = 0
                 for data in vitalData:
@@ -372,8 +376,6 @@ class MyStats(QMainWindow):
             print(e.__cause__)
 
     def initVitals(self):
-
-
 
         self.normalBtnStyle = "border-radius: 10; background-color: #7ACEDA;"
         self.redBtnStyle = "border-radius: 10; background-color: #FE4343;"
@@ -866,20 +868,18 @@ class MyStats(QMainWindow):
         starth = 86
         rowcount = 1
 
-        self.vitalsDetailed = QComboBox(self)
-        self.vitalsDetailed.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; }"
+        self.cbSubVitalsB = QComboBox(self)
+        self.cbSubVitalsB.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5; }"
                                 "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}")
-        self.vitalsDetailed.setGeometry(890, 145, 130, 40)
-        self.vitalsDetailed.setGraphicsEffect(Util.getNeuShadow(0))
-        self.vitalsDetailed1 = QComboBox(self)
-        self.vitalsDetailed1.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5;padding-left:15px;font-size:18px }"
+        self.cbSubVitalsB.setGeometry(890, 145, 130, 40)
+        self.cbSubVitalsB.setGraphicsEffect(Util.getNeuShadow(0))
+        self.cbSubVitals = QComboBox(self)
+        self.cbSubVitals.setStyleSheet("QComboBox {border-radius: 10; color: #00A0B5;padding-left:15px;font-size:18px }"
                                       "QComboBox::drop-down { background:rgb(255,255,255,0);padding-right:20px}"
                                       "QComboBox::down-arrow{image: url(../Resources/dropDown.png)}")
-        self.vitalsDetailed1.setGeometry(890, 145, 130, 40)
-        self.vitalsDetailed1.setGraphicsEffect(Util.getNeuShadow(1))
-        self.vitalsDetailed1.addItem("FPG")
-        self.vitalsDetailed1.addItem("OTGG")
-        self.vitalsDetailed1.addItem("RGT")
+        self.cbSubVitals.setGeometry(890, 145, 130, 40)
+        self.cbSubVitals.setGraphicsEffect(Util.getNeuShadow(1))
+        self.cbSubVitals.currentIndexChanged.connect(self.subVitalChanged)
         # self.filterBtn1.addItem("Haemoglobin")
         # filterBtn1.clicked.connect(self.)
 
@@ -894,7 +894,7 @@ class MyStats(QMainWindow):
         self.btnPageBack1.setText("<")
         self.btnPageBack1.setIconSize(QtCore.QSize(115, 41))
         self.btnPageBack1.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnPageBack1.clicked.connect(self.PageBack)
+        self.btnPageBack1.clicked.connect(lambda : self.ChangeTablePage(False))
 
         self.btnPageNext = QPushButton(self)
         self.btnPageNext.setGeometry(639, 595, 50, 50)
@@ -907,7 +907,7 @@ class MyStats(QMainWindow):
         self.btnPageNext1.setText(">")
         self.btnPageNext1.setIconSize(QtCore.QSize(115, 41))
         self.btnPageNext1.setGraphicsEffect(Util.getNeuShadow(1))
-        # btnPageNext1.clicked.connect(self.PageNext)
+        self.btnPageNext1.clicked.connect(lambda : self.ChangeTablePage(True))
 
         self.lblPageNo = QLabel("", self)
         self.lblPageNo.setGeometry(551, 608, 50, 31)
@@ -937,20 +937,17 @@ class MyStats(QMainWindow):
             lblBkg.setStyleSheet(self.blueBkg)
 
             lblDate = QLabel(self)
-            lblDate.setGeometry(startx + 16, starty + 9, 89, 29)
-            lblDate.setText("20/03/21")
+            lblDate.setGeometry(startx + 11, starty + 9, 99, 29)
             lblDate.setAlignment(Qt.AlignCenter)
-            lblDate.setStyleSheet("color:#727376; font-size:18px; background-color:#00FFFFFF")
+            lblDate.setStyleSheet("color:#727376; font-size:17px; background-color:#00FF0000")
 
             lblValue = QLabel(self)
             lblValue.setGeometry(startx + 16, starty + 39, 89, 29)
-            lblValue.setText("16.8")
             lblValue.setAlignment(Qt.AlignCenter)
             lblValue.setStyleSheet("color:white; font-size:22px; background-color:#00FFFFFF")
 
             lblUnit = QLabel(self)
             lblUnit.setGeometry(startx + 16, starty + 59, 89, 29)
-            lblUnit.setText("mmol/mol")
             lblUnit.setAlignment(Qt.AlignCenter)
             lblUnit.setStyleSheet("color:white; font-size:15px; background-color:#00FFFFFF")
 
@@ -961,6 +958,17 @@ class MyStats(QMainWindow):
 
         self.lblTable.hide()
 
+    def ChangeTablePage(self, increase):
+
+        if increase:
+            if self.tablePage < self.tableTotalPage:
+                self.tablePage = self.tablePage+1
+        else:
+            if self.tablePage > 1:
+                self.tablePage = self.tablePage - 1
+
+        self.SetTableData()
+
     def VitalClicked(self,vital):
         print(vital)
         self.x = statsDetailed.MyStatsDetailed(vital)
@@ -968,10 +976,100 @@ class MyStats(QMainWindow):
 
     def vitalChanged(self,i):
         print(i)
+        self.pageInit = int(i)
         if i == 0:
             self.showAllVitals()
         else:
+            self.tablePage = 1
             self.tableClick()
+            self.fetchVitalDetails()
+
+    def subVitalChanged(self):
+        self.tablePage = 1
+        self.SetTableData()
+
+    def fetchVitalDetails(self):
+        try:
+            if Util.isInternetOn():
+                vitalId = self.vitalList[self.pageInit-1]["main_vital_id"]
+                temp = myApis.fetchVitalDetails(vitalId)
+                if temp!= None:
+                    self.vitalDomData = temp["details"]["dom_data"]
+
+                    self.hasSubVitals = False
+                    if isinstance(self.vitalDomData["sub_vitals"], (bool)):
+                        self.cbSubVitals.hide()
+                        self.cbSubVitalsB.hide()
+                        self.hasSubVitals = False
+                    else:
+                        self.cbSubVitals.show()
+                        self.cbSubVitalsB.show()
+                        self.cbSubVitals.clear()
+                        self.hasSubVitals = True
+
+                        for sub in self.vitalDomData["sub_vitals"]:
+                            self.cbSubVitals.addItem(sub)
+
+                    print(self.vitalDomData["sub_vitals"])
+
+                    self.fetchSpecificVitalData()
+
+        except Exception as e:
+            print(e.__cause__)
+
+    def fetchSpecificVitalData(self):
+        try:
+            if Util.isInternetOn():
+                vitalId = self.vitalList[self.pageInit-1]["main_vital_id"]
+                print(vitalId)
+                temp = myApis.fetchSpecificVitalData(vitalId)
+                if temp!= None:
+                    print(temp)
+                    self.tableVitalData = temp["response"]
+                    self.tableTotalPage = math.ceil(len(self.tableVitalData)/28)
+                    self.SetTableData()
+
+        except Exception as e:
+            print(e.__cause__)
+
+    def SetTableData(self):
+        try:
+            self.lblPageNo.setText(str(self.tablePage) + "/" + str(self.tableTotalPage))
+            if self.tablePage == 1:
+                start = 0
+            else:
+                start = (self.tablePage - 1 )*28
+
+            if len(self.tableVitalData) > 28*self.tablePage:
+                end = 28
+            else:
+                end = len(self.tableVitalData) - start
+
+            print(str(start)+"|"+str(end))
+
+            for i in range(28):
+
+                if end>0:
+                    date = str(self.tableVitalData[start]["date"]).split(" ")[0]
+                    self.lblVitalDateList[i].setText(date)
+                    self.lblVitalUnitList[i].setText(self.tableVitalData[start]["unit"])
+                    end = end - 1
+
+                    if self.hasSubVitals:
+                        self.lblVitalValueList[i].setText(str(self.tableVitalData[start]["point"]
+                                                              [str(self.cbSubVitals.currentText())]))
+                    else:
+                        self.lblVitalValueList[i].setText(str(self.tableVitalData[start]["point"]))
+
+                else:
+                    self.lblVitalDateList[i].setText("")
+                    self.lblVitalUnitList[i].setText("")
+                    self.lblVitalValueList[i].setText("")
+
+                start = start+1
+
+        except Exception as e:
+            print(e.__cause__)
 
     def tableClick(self):
         self.toggleTable(True)
@@ -1020,8 +1118,8 @@ class MyStats(QMainWindow):
 
         if show:
             self.lblTable.show()
-            self.vitalsDetailed.show()
-            self.vitalsDetailed1.show()
+            self.cbSubVitalsB.show()
+            self.cbSubVitals.show()
             self.btnPageBack.show()
             self.btnPageBack1.show()
             self.btnPageNext.show()
@@ -1035,8 +1133,8 @@ class MyStats(QMainWindow):
                 self.lblVitalValueList[i].show()
         else:
             self.lblTable.hide()
-            self.vitalsDetailed.hide()
-            self.vitalsDetailed1.hide()
+            self.cbSubVitalsB.hide()
+            self.cbSubVitals.hide()
             self.btnPageBack.hide()
             self.btnPageBack1.hide()
             self.btnPageNext.hide()

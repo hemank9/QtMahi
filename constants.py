@@ -23,6 +23,9 @@ ACTION_default_medication_timing = "default_medication_timing"
 ACTION_GET_MY_PRESCRIPTION_LIST= "GET_MY_PRESCRIPTION_LIST"
 ACTION_getVitalLastFiveData= "getVitalLastFiveData"
 ACTION_update_vitals_data= "update_vitals_data"
+ACTION_listing_of_all_my_vitals_at_rx= "listing_of_all_my_vitals_at_rx"
+ACTION_getUserVitalData= "getUserVitalData"
+ACTION_click_on_this_vital_id= "click_on_this_vital_id"
 
 
 # Database Connection Settings

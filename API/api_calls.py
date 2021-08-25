@@ -963,6 +963,7 @@ def fetchSpecificVitalData(vital_id):
                     'user_id': myDB.getUserID(),
                     'vital_id': str(vital_id),
             }
+            print("success")
             print("Fetch Specific Vitals Data URL: " + myUrls.MAHI_CONTROLLER_URL)
             utility.printParams(data)
             r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
@@ -1087,6 +1088,78 @@ def addVitalsData(vitalId, subVitalKeys,unit, date, vitalData):
         print(e.__cause__)
         return None
 
+def fetchVitalList():
+    try:
+        if myDB.isLogggedIn():
+
+            data = {
+                    'app_type': constants.AppType,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_listing_of_all_my_vitals_at_rx,
+                    'user_id': myDB.getUserID(),
+                    'for_this_vital_user': myDB.getUserID(),
+                    'search_for': "false",
+                    'listing_of_all_my_vitals_at_rx': "yeah",
+            }
+            print("Fetch Vitals List URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Vitals List response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['stat']:
+
+                print("Vitals List Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
+
+def fetchVitalDetails(vital_id):
+    try:
+        if myDB.isLogggedIn():
+
+            data = {
+                    'app_type': constants.AppType,
+                    'stuff': constants.Stuff,
+                    'myaction': constants.ACTION_click_on_this_vital_id,
+                    'user_id': myDB.getUserID(),
+                    'for_this_vital_user': myDB.getUserID(),
+                    'click_on_this_vital_id': str(vital_id),
+            }
+            print("Fetch Vitals Details URL: " + myUrls.MAHI_CONTROLLER_URL)
+            utility.printParams(data)
+            r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
+
+            print("Fetch Vitals Details response : " + r.text.strip())
+            response = json.loads(r.text, strict=False)
+            if response['stat']:
+
+                print("Vitals Details Successful")
+                return response
+
+            else:
+                print(response['status'])
+                return None
+
+
+        else:
+            print("user not logged in")
+            return None
+
+    except Exception as e:
+        print(e.__cause__)
+        return None
 
 if __name__ == "__main__":
     print("API Calls Main Function")
@@ -1120,3 +1193,6 @@ if __name__ == "__main__":
     # fetchLastVitalsData()
     # addVitalsData("53",None,"mmol/L","2021-08-24","8.1")
     # addVitalsData("56",["Systolic", "Diastolic"],"mm/Hg","2021-08-24",{"Systolic":"8.2", "Diastolic":"9.0"})
+
+    # fetchVitalList()
+    # fetchVitalDetails(56)
