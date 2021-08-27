@@ -11,6 +11,7 @@ import UI.MyStatsDetailed as statsDetailed
 from pyqtgraph import PlotWidget, plot
 import API.api_calls as myApis
 import pyqtgraph as pg
+import UI.AddMyStats as addStats
 
 class MyStats(QMainWindow):
 
@@ -56,7 +57,7 @@ class MyStats(QMainWindow):
         addReadingsBtn1.setIcon(QtGui.QIcon('..\Resources\\addReadings.png'))
         addReadingsBtn1.setIconSize(QtCore.QSize(260, 50))
         addReadingsBtn1.setGraphicsEffect(Util.getNeuShadow(1))
-        # addReadingsBtn1.clicked.connect(self.)
+        addReadingsBtn1.clicked.connect(self.AddReadingsClicked)
 
         self.vitalsCombo1 = QComboBox(self)
         self.vitalsCombo1.setGeometry(187, 57, 214, 50)
@@ -1147,6 +1148,17 @@ class MyStats(QMainWindow):
                 self.lblVitalUnitList[i].hide()
                 self.lblVitalValueList[i].hide()
 
+    def AddReadingsClicked(self):
+
+        if self.pageInit>0:
+            vitalId = self.vitalList[self.pageInit-1]["main_vital_id"]
+
+            self.x = addStats.AddMyStats(self,vitalId,self.vitalsCombo.currentText(), self.vitalDomData)
+            self.x.show()
+
+    def refreshData(self):
+        self.tablePage = 1
+        self.fetchSpecificVitalData()
 
 if __name__ == '__main__':
     App = QApplication(sys.argv)

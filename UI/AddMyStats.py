@@ -5,15 +5,34 @@ from PyQt5.QtCore import *
 import sys
 import Utility.MahiUtility as Util
 from datetime import datetime, timedelta as TimeDelta
+import API.api_calls as myApis
 
 class AddMyStats(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, myStatsPtr, vitalId, vitalName, domData):
         super().__init__()
         self.setWindowTitle("Add Stats")
         # setting geometry
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
+
+        self.vitalId = vitalId
+        self.vitalDetails = domData
+        self.vitalName = vitalName
+        print(self.vitalId)
+        print(self.vitalDetails)
+
+        if isinstance(self.vitalDetails["sub_vitals"], (bool)):
+            self.hasSubVitals = False
+        else:
+            self.hasSubVitals = True
+
+        self.unit = ""
+        if isinstance(self.vitalDetails["units"], (list)):
+            if len(self.vitalDetails["units"]) > 0:
+                self.unit = self.vitalDetails["units"][0]
+
+        self.myStatsPtr = myStatsPtr
 
         self.vitalDiff = 1
         self.InitUi()
@@ -32,7 +51,7 @@ class AddMyStats(QMainWindow):
         lblTitleT = QPushButton(self)
         lblTitleT.setStyleSheet("border-radius: 10; text-align:left; padding-left:20px; font-size:20px; color:#00A0B5")
         lblTitleT.setGeometry(112, 100, 500, 50)
-        lblTitleT.setText("Cholestrol")
+        lblTitleT.setText(self.vitalName)
         lblTitleT.setGraphicsEffect(Util.getNeuShadow(1))
 
 
@@ -81,11 +100,7 @@ class AddMyStats(QMainWindow):
 
 
         # Vital Values
-        self.lblVitalTitle = QLabel(self)
-        self.lblVitalTitle.setStyleSheet("font-size:18px")
-        self.lblVitalTitle.setGeometry(460, 220, 118, 50)
-        self.lblVitalTitle.setText("Weight")
-        self.lblVitalTitle.setAlignment(QtCore.Qt.AlignCenter)
+
 
         btnVitalInc = QPushButton(self)
         btnVitalInc.setGeometry(460, 274, 118, 40)
@@ -123,48 +138,57 @@ class AddMyStats(QMainWindow):
         self.lblVital.setStyleSheet("color:#00A0B5; background-color:#00F0F0F3; font-size:16px; font:bold")
         self.lblVital.setText("5")
 
-        # Sub Vitals
-        self.lblSubVitalTitle = QLabel(self)
-        self.lblSubVitalTitle.setStyleSheet("font-size:18px")
-        self.lblSubVitalTitle.setGeometry(612, 220, 118, 50)
-        self.lblSubVitalTitle.setText("Height")
-        self.lblSubVitalTitle.setAlignment(QtCore.Qt.AlignCenter)
 
-        btnSubVitalInc = QPushButton(self)
-        btnSubVitalInc.setGeometry(612, 274, 118, 40)
-        btnSubVitalInc.setStyleSheet(self.datebtnStyle)
-        btnSubVitalInc.setGraphicsEffect(Util.getNeuShadow(0))
+        if self.hasSubVitals:
+            self.lblVitalTitle = QLabel(self)
+            self.lblVitalTitle.setStyleSheet("font-size:18px")
+            self.lblVitalTitle.setGeometry(460, 220, 118, 50)
+            self.lblVitalTitle.setText(self.vitalDetails["sub_vitals"][0])
+            self.lblVitalTitle.setAlignment(QtCore.Qt.AlignCenter)
 
-        btnSubVitalIncT = QPushButton(self)
-        btnSubVitalIncT.setGeometry(612, 274, 118, 40)
-        btnSubVitalIncT.setStyleSheet(self.datebtnStyle)
-        btnSubVitalIncT.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
-        btnSubVitalIncT.setIconSize(QtCore.QSize(60, 40))
-        btnSubVitalIncT.setGraphicsEffect(Util.getNeuShadow(1))
-        btnSubVitalIncT.clicked.connect(lambda: self.changeSubVitalValue(False))
+            if len(self.vitalDetails["sub_vitals"])>1:
+                # Sub Vitals
+                self.lblSubVitalTitle = QLabel(self)
+                self.lblSubVitalTitle.setStyleSheet("font-size:18px")
+                self.lblSubVitalTitle.setGeometry(612, 220, 118, 50)
+                self.lblSubVitalTitle.setText(self.vitalDetails["sub_vitals"][1])
+                self.lblSubVitalTitle.setAlignment(QtCore.Qt.AlignCenter)
 
-        btnSubVitalDec = QPushButton(self)
-        btnSubVitalDec.setGeometry(612, 395, 118, 40)
-        btnSubVitalDec.setStyleSheet(self.datebtnStyle)
-        btnSubVitalDec.setGraphicsEffect(Util.getNeuShadow(0))
+                btnSubVitalInc = QPushButton(self)
+                btnSubVitalInc.setGeometry(612, 274, 118, 40)
+                btnSubVitalInc.setStyleSheet(self.datebtnStyle)
+                btnSubVitalInc.setGraphicsEffect(Util.getNeuShadow(0))
 
-        btnSubVitalDecT = QPushButton(self)
-        btnSubVitalDecT.setGeometry(612, 395, 118, 40)
-        btnSubVitalDecT.setStyleSheet(self.datebtnStyle)
-        btnSubVitalDecT.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
-        btnSubVitalDecT.setIconSize(QtCore.QSize(60, 40))
-        btnSubVitalDecT.setGraphicsEffect(Util.getNeuShadow(1))
-        btnSubVitalDecT.clicked.connect(lambda: self.changeSubVitalValue(True))
+                btnSubVitalIncT = QPushButton(self)
+                btnSubVitalIncT.setGeometry(612, 274, 118, 40)
+                btnSubVitalIncT.setStyleSheet(self.datebtnStyle)
+                btnSubVitalIncT.setIcon(QtGui.QIcon('../Resources/incArrow.png'))
+                btnSubVitalIncT.setIconSize(QtCore.QSize(60, 40))
+                btnSubVitalIncT.setGraphicsEffect(Util.getNeuShadow(1))
+                btnSubVitalIncT.clicked.connect(lambda: self.changeSubVitalValue(False))
 
-        self.lblSubVitalBkg = QLabel(self)
-        self.lblSubVitalBkg.setPixmap(QPixmap('../Resources/basin_bkg_small.png'))
-        self.lblSubVitalBkg.setGeometry(612, 335, 118, 40)
+                btnSubVitalDec = QPushButton(self)
+                btnSubVitalDec.setGeometry(612, 395, 118, 40)
+                btnSubVitalDec.setStyleSheet(self.datebtnStyle)
+                btnSubVitalDec.setGraphicsEffect(Util.getNeuShadow(0))
 
-        self.lblSubVital = QLabel(self)
-        self.lblSubVital.setGeometry(615, 335, 118, 40)
-        self.lblSubVital.setAlignment(Qt.AlignCenter)
-        self.lblSubVital.setStyleSheet("color:#00A0B5; background-color:#00F0F0F3; font-size:16px; font:bold")
-        self.lblSubVital.setText("5")
+                btnSubVitalDecT = QPushButton(self)
+                btnSubVitalDecT.setGeometry(612, 395, 118, 40)
+                btnSubVitalDecT.setStyleSheet(self.datebtnStyle)
+                btnSubVitalDecT.setIcon(QtGui.QIcon('../Resources/decArrow.png'))
+                btnSubVitalDecT.setIconSize(QtCore.QSize(60, 40))
+                btnSubVitalDecT.setGraphicsEffect(Util.getNeuShadow(1))
+                btnSubVitalDecT.clicked.connect(lambda: self.changeSubVitalValue(True))
+
+                self.lblSubVitalBkg = QLabel(self)
+                self.lblSubVitalBkg.setPixmap(QPixmap('../Resources/basin_bkg_small.png'))
+                self.lblSubVitalBkg.setGeometry(612, 335, 118, 40)
+
+                self.lblSubVital = QLabel(self)
+                self.lblSubVital.setGeometry(615, 335, 118, 40)
+                self.lblSubVital.setAlignment(Qt.AlignCenter)
+                self.lblSubVital.setStyleSheet("color:#00A0B5; background-color:#00F0F0F3; font-size:16px; font:bold")
+                self.lblSubVital.setText("5")
 
         # Submit Button
         btnSubmitVital = QPushButton(self)
@@ -177,7 +201,7 @@ class AddMyStats(QMainWindow):
         btnSubmitVitalT.setStyleSheet("border-radius : 7; background-color: #F0F0F3; font-size:14px")
         btnSubmitVitalT.setGraphicsEffect(Util.getNeuShadow(1))
         btnSubmitVitalT.setText("Okay")
-        btnSubmitVitalT.clicked.connect(lambda: self.changeSubVitalValue(True))
+        btnSubmitVitalT.clicked.connect(lambda: self.SubmitVitalData())
 
     def changeDate(self, decrease):
         currentDate = datetime.now().date()
@@ -205,8 +229,29 @@ class AddMyStats(QMainWindow):
             self.lblSubVital.setText(str(value + self.vitalDiff))
 
     def SubmitVitalData(self):
-        print("Save Vitals Data")
 
+        try:
+            if Util.isInternetOn():
+
+                date = self.startDate.strftime('%Y-%m-%d')
+                if self.hasSubVitals:
+
+                    vitalData = {
+                        self.vitalDetails["sub_vitals"][0]: str(self.lblVital.text())
+                    }
+
+                    if len(self.vitalDetails["sub_vitals"]) > 1:
+                        vitalData[self.vitalDetails["sub_vitals"][1]] = str(self.lblSubVital.text())
+                    temp = myApis.addVitalsData(self.vitalId, self.vitalDetails["sub_vitals"], self.unit, date, vitalData)
+                else:
+                    temp = myApis.addVitalsData(self.vitalId, None, self.unit, date, str(self.lblVital.text()))
+
+                if temp != None:
+                    self.myStatsPtr.refreshData()
+                    self.close()
+
+        except Exception as e:
+            print(e.__cause__)
 
 
 if __name__ == '__main__':

@@ -1065,7 +1065,7 @@ def addVitalsData(vitalId, subVitalKeys,unit, date, vitalData):
 
             print("Add Vitals Data URL: " + myUrls.MAHI_CONTROLLER_URL)
             utility.printParams(data)
-            '''
+
             r = requests.post(url=myUrls.MAHI_CONTROLLER_URL, data=data)
 
             print("Add Vitals Data response : " + r.text.strip())
@@ -1078,7 +1078,7 @@ def addVitalsData(vitalId, subVitalKeys,unit, date, vitalData):
             else:
                 print(response['status'])
                 return None
-            '''
+
 
         else:
             print("user not logged in")
