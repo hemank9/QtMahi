@@ -26,7 +26,8 @@ class MyStats(QMainWindow):
         self.label.setGeometry(0, 0, 1220, 39)
 
         self.pageInit = type
-
+        self.tableVitalData = None
+        self.hasSubVitals = False
         self.UiComponents()
 
         # showing all the widgets
@@ -835,15 +836,48 @@ class MyStats(QMainWindow):
     def initGraph(self):
         self.graph = PlotWidget()
         # self.setCentralWidget(self.graph)
-        hour1 = ["20/03/21", "08/09/20", "05/11/20", "28/10/20", "01/07/20", "08/03/21", "18/01/21", "16/03/21",
-                 "11/03/21", "19/04/21"]
-        temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 45]
+        # hour1 = ["20/03/21", "08/09/20", "05/11/20", "28/10/20", "01/07/20", "08/03/21", "18/01/21", "16/03/21",
+        #          "11/03/21", "19/04/21"]
+        # temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 45]
+        # temperature2 = [35, 62, 24, 52, 37, 21, 59, 22, 15, 28]
 
-        self.graph.setBackground('w')
-        self.graph.plot(range(len(hour1)), temperature, symbol='o')
-        xax = self.graph.getAxis('bottom')
-        ticks = [list(zip(range(len(hour1)), hour1))]
-        xax.setTicks(ticks)
+        if self.tableVitalData!= None:
+            vitalList = []
+            subVitalList = []
+            dateList = []
+
+            if self.hasSubVitals:
+                # for data in self.tableVitalData:
+                #     vitalList.append(data["point"])
+                #
+                print("")
+
+
+                for data in self.tableVitalData:
+                    date = str(data["date"]).split(" ")[0]
+                    vitalList.append(float(data["point"][self.vitalDomData["sub_vitals"][0]]))
+                    dateList.append(date)
+
+                    if len(self.vitalDomData["sub_vitals"])>1:
+                        subVitalList.append(float(data["point"][self.vitalDomData["sub_vitals"][1]]))
+
+                self.graph.addLegend()
+                self.graph.plot(range(len(dateList)), vitalList, symbol='o', name=self.vitalDomData["sub_vitals"][0])
+                if len(subVitalList)>0:
+                    self.graph.plot(range(len(dateList)), subVitalList, symbol='x', name=self.vitalDomData["sub_vitals"][1])
+            else:
+                for data in self.tableVitalData:
+                    date = str(data["date"]).split(" ")[0]
+                    vitalList.append(float(data["point"]))
+                    dateList.append(date)
+
+                self.graph.addLegend()
+                self.graph.plot(range(len(dateList)), vitalList, symbol='o')
+
+            self.graph.setBackground('w')
+            xax = self.graph.getAxis('bottom')
+            ticks = [list(zip(range(len(dateList)), dateList))]
+            xax.setTicks(ticks)
 
         self.gridLayoutWidget = QWidget(self)
         rect = QtCore.QRect(21, 133, 1043, 530)
@@ -1029,9 +1063,11 @@ class MyStats(QMainWindow):
                     self.tableVitalData = temp["response"]
                     self.tableTotalPage = math.ceil(len(self.tableVitalData)/28)
                     self.SetTableData()
+                    self.initGraph()
 
         except Exception as e:
             print(e.__cause__)
+
 
     def SetTableData(self):
         try:
@@ -1119,8 +1155,9 @@ class MyStats(QMainWindow):
 
         if show:
             self.lblTable.show()
-            self.cbSubVitalsB.show()
-            self.cbSubVitals.show()
+            if self.hasSubVitals:
+                self.cbSubVitalsB.show()
+                self.cbSubVitals.show()
             self.btnPageBack.show()
             self.btnPageBack1.show()
             self.btnPageNext.show()
