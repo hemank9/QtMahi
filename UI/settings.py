@@ -13,6 +13,7 @@ class Window2(QWidget):
         super().__init__()
         self.setWindowTitle("Medical Files")
         self.setGeometry(260, 160, 550, 500)
+        self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet("background-color: #F0F0F3")
         self.label = QLabel(self)
         self.label.setStyleSheet("background-color:#FEC32E")
@@ -180,11 +181,11 @@ class Settings(QWidget):  # <===
         self.l = Window2(self, self.home)
         self.l.show()
 
-#
+# #
 # App = QApplication(sys.argv)
 #
 # # create the instance of our Window
-# window = Settings()
+# window = Settings(home=0)
 #
 # window.show()
 #
