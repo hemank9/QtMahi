@@ -6,6 +6,8 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import UI.prescriptionTable as preTable
+import Utility.MahiUtility as Util
+
 
 # class Window3(QWidget):
 #     def __init__(self):
@@ -45,8 +47,8 @@ class Window2(QWidget):
         self.setWindowTitle("Medical Files")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
-        self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('../Resources/Group 47.png'))
+        # self.label = QLabel(self)
+        # self.label.setPixmap(QPixmap('../Resources/Group 47.png'))
         self.label.setGeometry(0, 0, 1220, 685)
 
         self.UiComponents()
@@ -133,20 +135,20 @@ class Refill(QMainWindow):
 
 
 
-#
-# if __name__ == '__main__':
-#     #     app = QApplication(sys.argv)
-#     #
-#     #     demo = AppDemo()
-#     #     demo.show()
-#     #
-#     #     app.exit(app.exec_())
-#     App = QApplication(sys.argv)
-#
-#     # create the instance of our Window
-#     window = Refill()
-#
-#     window.show()
-#
-#     # start the app
-#     sys.exit(App.exec())
+
+if __name__ == '__main__':
+    #     app = QApplication(sys.argv)
+    #
+    #     demo = AppDemo()
+    #     demo.show()
+    #
+    #     app.exit(app.exec_())
+    App = QApplication(sys.argv)
+
+    # create the instance of our Window
+    window = Refill()
+
+    window.show()
+
+    # start the app
+    sys.exit(App.exec())
