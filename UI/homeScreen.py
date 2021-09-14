@@ -21,13 +21,41 @@ import UI.prescriptionTable as myPrescription
 import UI.MyStats as myStats
 import UI.power as pwr
 import Utility.MahiUtility as Util
+import time
+import datetime
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+import sys
+import time
+import datetime
 
 
+class WorkerThread(QThread):
+    update_progress = pyqtSignal(int)
+    def run(self):
+        while True:
+            # slowing down the loop
+            current_time = QTime.currentTime()
+
+            # converting QTime object to string
+            label_time = current_time.toString('ss')
+            print(label_time)
+            if int(label_time)%20 == 0:
+                temp = current_time.toString("hh:mm:ss ap")
+                print(temp)
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Information)
+
+                msg.setText("This is a message box")
+
+
+            time.sleep(1)
 
 class HomeScreen(QMainWindow):
     def __init__(self, parent = None):
         super().__init__()
-
+        self.doAction()
         # setting title
         self.setWindowTitle("Python ")
 
@@ -329,6 +357,18 @@ class HomeScreen(QMainWindow):
         self.x = pwr.Power()
         self.x.show()
 
+    def doAction(self):
+        # setting for loop to set value of progress bar
+        self.worker = WorkerThread()
+        self.worker.start()
+        # self.worker.finished.connect(self.evt_worker_finished)
+        # self.worker.update_progress.connect(self.evt_update_progress)
+
+    def StopAction(self):
+        # setting for loop to set value of progress bar
+        print("clicked")
+        # self.worker = WorkerThread()
+        self.worker.terminate()
     # # create pyqt5 app
     # def mypro(self):
     #     self.pro = MyProfile()

@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 import time
+import datetime
 
 
 class Example(QWidget):
@@ -17,10 +18,10 @@ class Example(QWidget):
     # method for creating widgets
     def initUI(self):
         # creating progress bar
-        self.pbar = QProgressBar(self)
-
-        # setting its geometry
-        self.pbar.setGeometry(30, 40, 200, 25)
+        # self.pbar = QProgressBar(self)
+        #
+        # # setting its geometry
+        # self.pbar.setGeometry(30, 40, 200, 25)
 
         # creating push button
         self.btn = QPushButton('Start', self)
@@ -37,6 +38,11 @@ class Example(QWidget):
         # setting window action
         self.setWindowTitle("Python")
 
+        self.StopBtn = QPushButton("Stop", self)
+        self.StopBtn.move(40, 130)
+        self.StopBtn.clicked.connect(self.StopAction)
+
+
         # showing all the widgets
         self.show()
 
@@ -48,21 +54,32 @@ class Example(QWidget):
         self.worker.finished.connect(self.evt_worker_finished)
         self.worker.update_progress.connect(self.evt_update_progress)
 
+    def StopAction(self):
+        # setting for loop to set value of progress bar
+        print("clicked")
+        # self.worker = WorkerThread()
+        self.worker.terminate()
+        # self.worker.finished.connect(self.evt_worker_finished)
+        # self.worker.update_progress.connect(self.evt_update_progress)
+
+
+
     def evt_worker_finished(self):
         QMessageBox.information(self, "Done!", "Thread is complete")
 
     def evt_update_progress(self, val):
         self.pbar.setValue(val)
+        print("hellllo")
 
 
 class WorkerThread(QThread):
     update_progress = pyqtSignal(int)
     def run(self):
-        for i in range(101):
+        while True:
             # slowing down the loop
-            print(i)
-            time.sleep(0.05)
-            self.update_progress.emit(i)
+            print(datetime.datetime.now())
+            time.sleep(1)
+            # self.update_progress.emit(i)
 
             # setting value to progress bar
             # self.pbar.setValue(i)
