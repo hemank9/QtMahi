@@ -13,9 +13,9 @@ class MedPrescriptionTable(QWidget):
         self.setWindowTitle("Prescription")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
-        self.label = QLabel(self)
-        self.label.setStyleSheet("background-color:#FEC32E")
-        self.label.setGeometry(0, 0, 1220, 39)
+        # self.label = QLabel(self)
+        # self.label.setStyleSheet("background-color:#FEC32E")
+        # self.label.setGeometry(0, 0, 1220, 39)
 
         self.UiComponents()
     #

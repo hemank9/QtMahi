@@ -38,57 +38,83 @@ class PrescriptionTable(QWidget):
         self.setWindowTitle("Prescription")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F0F0F3")
-        self.label = QLabel(self)
-        self.label.setStyleSheet("background-color:#FEC32E")
-        self.label.setGeometry(0, 0, 1220, 39)
+        # self.label = QLabel(self)
+        # self.label.setStyleSheet("background-color:#FEC32E")
+        # self.label.setGeometry(0, 0, 1220, 39)
 
         self.UiComponents()
         self.show()
 
     def UiComponents(self):
+        self.btnStyle = "border-radius : 5; background-color: #F0F03; color : #00A0B5;font:bold;font-size:16px"
+        self.btnStyleSelected = "border-radius : 5; background-color: #BCE6EC; color : #00A0B5;font:bold;font-size:16px"
 
-        btn_back = QPushButton("", self)
-        btn_back.setGeometry(40, 53, 173, 41)
-        btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
-        btn_back.setIcon(QtGui.QIcon('../Resources/backButton.png'))
-        btn_back.setIconSize(QtCore.QSize(155, 71))
-        btn_back.clicked.connect(self.close)
+        self.description = QLabel(self)
+        self.description.setGeometry(415, 133, 287, 23)
+        self.description.setText("*AF = After Food BF = Before Food")
+        self.description.setStyleSheet("background-color: #F0F0F3; font-size: 18px")
 
-        btnRefill = QPushButton("Refill Now", self)
-        btnRefill.setGeometry(889, 56, 301, 59)
-        btnRefill.setStyleSheet("background-color : #EE498D; border-radius : 6; font:semi-bold; font-size: 24px; color:white")
-        btnRefill.setGraphicsEffect(Util.getNeuShadow(0))
-        # btnRefill.clicked.connect()
+        self.descripBtn1 = QPushButton(self)
+        self.descripBtn1.setGeometry(720, 124, 91, 41)
+        self.descripBtn1.setStyleSheet("background-color: #F0F0F3; border-radius: 3;")
+        self.descripBtn1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.descripBtn = QPushButton(self)
+        self.descripBtn.setGeometry(720, 124, 91, 41)
+        self.descripBtn.setStyleSheet("background-color: #F0F0F3; border-radius: 3;")
+        self.descripBtn.setGraphicsEffect(Util.getNeuShadow(1))
 
-        lblPres = QLabel(self)
-        lblPres.setGeometry(247, 54, 612, 64)
-        lblPres.setStyleSheet("border-radius : 10;")
-        lblPres.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btn_back = QPushButton("", self)
+        self.btn_back.setGeometry(23, 21, 112, 41)
+        self.btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3")
+        self.btn_back.setIcon(QtGui.QIcon('../Resources/back.png'))
+        self.btn_back.setIconSize(QtCore.QSize(155, 71))
+        self.btn_back.clicked.connect(self.close)
 
-        lblPres1 = QLabel(self)
-        lblPres1.setGeometry(247, 54, 612, 64)
-        lblPres1.setStyleSheet("border-radius : 10;")
-        lblPres1.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnOnGoingPresc1 = QPushButton("", self)
+        self.btnOnGoingPresc1.setGeometry(207, 20, 289, 41)
+        self.btnOnGoingPresc1.setStyleSheet(self.btnStyleSelected)
+        self.btnOnGoingPresc1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnOnGoingPresc = QPushButton("On Going Prescription", self)
+        self.btnOnGoingPresc.setGeometry(207, 20, 289, 41)
+        self.btnOnGoingPresc.setStyleSheet(self.btnStyleSelected)
+        self.btnOnGoingPresc.setGraphicsEffect(Util.getNeuShadow(1))
 
-        lblDate = QLabel(self)
-        lblDate.setGeometry(486, 69, 138, 35)
-        lblDate.setStyleSheet("font : bold; font-size : 21px")
-        lblDate.setText("07.04.2021")
+        self.btnNewPresc1 = QPushButton("", self)
+        self.btnNewPresc1.setGeometry(509, 20, 289, 41)
+        self.btnNewPresc1.setStyleSheet(self.btnStyle)
+        self.btnNewPresc1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnNewPresc = QPushButton("New Prescription", self)
+        self.btnNewPresc.setGeometry(509, 20, 289, 41)
+        self.btnNewPresc.setStyleSheet(self.btnStyle)
+        self.btnNewPresc.setGraphicsEffect(Util.getNeuShadow(1))
 
-        lblDayTime = QLabel(self)
-        lblDayTime.setGeometry(666, 69, 170, 35)
-        lblDayTime.setStyleSheet("font : bold; font-size : 21px")
-        lblDayTime.setText("07.04.2021")
+        self.btnRefill1 = QPushButton("", self)
+        self.btnRefill1.setGeometry(811, 20, 154, 41)
+        self.btnRefill1.setStyleSheet(self.btnStyle)
+        self.btnRefill1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btnRefill = QPushButton("Refill", self)
+        self.btnRefill.setGeometry(811, 20, 154, 41)
+        self.btnRefill.setStyleSheet(self.btnStyle)
+        self.btnRefill.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnRefill.clicked.connect(self.Refill)
 
-        btnUpdatedPresc = QPushButton(self)
-        btnUpdatedPresc.setGeometry(260, 59, 191, 52)
-        btnUpdatedPresc.setStyleSheet("background-color : #F0F0F3; border-radius: 10")
-        btnUpdatedPresc.setIcon(QtGui.QIcon('../Resources/Group 95.png'))
-        btnUpdatedPresc.setIconSize(QtCore.QSize(180, 110))
+        self.quesRefillLbl = QLabel("Do you want to refill now?", self)
+        self.quesRefillLbl.setGeometry(176, 142, 797, 400)
+        self.quesRefillLbl.setPixmap(QPixmap('../Resources/refillnow.png'))
+        self.quesRefillLbl.hide()
 
-        btnUpdatedPreTrans = QPushButton(self)
-        btnUpdatedPreTrans.setGeometry(247, 54, 612, 64)
-        btnUpdatedPreTrans.setStyleSheet("background-color:#00F0F0F3;")
+        self.yesBtn1 = QPushButton("Yes", self)
+        self.yesBtn1.setGeometry(434, 374, 116, 56)
+        self.yesBtn1.setStyleSheet("background-color: #F0F0F3; color: #00A0B5; border-radius: 5")
+        self.yesBtn1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.yesBtn = QPushButton("Yes", self)
+        self.yesBtn.setGeometry(434, 374, 116, 56)
+        self.yesBtn.setStyleSheet("background-color: #F0F0F3; color: #00A0B5; border-radius: 5; font-size: 20px")
+        self.yesBtn.setGraphicsEffect(Util.getNeuShadow(1))
+        # self.yesBtn.clicked.connect(self.yes)
+        self.yesBtn.hide()
+        self.yesBtn1.hide()
+
 
 
         self.frame = QFrame(self)
@@ -154,50 +180,98 @@ class PrescriptionTable(QWidget):
 
 
         #table headers
-        lblTableMedicine = QLabel("Medicine",self)
-        lblTableMedicine.setAlignment(Qt.AlignCenter)
-        lblTableMedicine.setGeometry(33,178,232,63)
-        lblTableMedicine.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
+        self.lblTableMedicine = QLabel("Medicine",self)
+        self.lblTableMedicine.setAlignment(Qt.AlignCenter)
+        self.lblTableMedicine.setGeometry(33,178,232,63)
+        self.lblTableMedicine.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
 
-        lblTableDosage = QLabel("Dosage",self)
-        lblTableDosage.setAlignment(Qt.AlignCenter)
-        lblTableDosage.setGeometry(266,178,690,31)
-        lblTableDosage.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
+        self.lblTableDosage = QLabel("Dosage",self)
+        self.lblTableDosage.setAlignment(Qt.AlignCenter)
+        self.lblTableDosage.setGeometry(266,178,690,31)
+        self.lblTableDosage.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
-        lblTableMorning = QLabel("Morning",self)
-        lblTableMorning.setAlignment(Qt.AlignCenter)
-        lblTableMorning.setGeometry(266,210,229,31)
-        lblTableMorning.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
+        self.lblTableMorning = QLabel("Morning",self)
+        self.lblTableMorning.setAlignment(Qt.AlignCenter)
+        self.lblTableMorning.setGeometry(266,210,229,31)
+        self.lblTableMorning.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
-        lblTableAfternoon = QLabel("Afternoon",self)
-        lblTableAfternoon.setAlignment(Qt.AlignCenter)
-        lblTableAfternoon.setGeometry(496,210,229,31)
-        lblTableAfternoon.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
+        self.lblTableAfternoon = QLabel("Afternoon",self)
+        self.lblTableAfternoon.setAlignment(Qt.AlignCenter)
+        self.lblTableAfternoon.setGeometry(496,210,229,31)
+        self.lblTableAfternoon.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
-        lblTableEvening = QLabel("Evening",self)
-        lblTableEvening.setAlignment(Qt.AlignCenter)
-        lblTableEvening.setGeometry(726,210,230,31)
-        lblTableEvening.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
+        self.lblTableEvening = QLabel("Evening",self)
+        self.lblTableEvening.setAlignment(Qt.AlignCenter)
+        self.lblTableEvening.setGeometry(726,210,230,31)
+        self.lblTableEvening.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
-        lblTableDuration = QLabel("Duration",self)
-        lblTableDuration.setAlignment(Qt.AlignCenter)
-        lblTableDuration.setGeometry(957,178,228,63)
-        lblTableDuration.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
+        self.lblTableDuration = QLabel("Duration",self)
+        self.lblTableDuration.setAlignment(Qt.AlignCenter)
+        self.lblTableDuration.setGeometry(957,178,228,63)
+        self.lblTableDuration.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
+
+        self.screenLbl = QLabel(self)
+        self.screenLbl.setGeometry(0, 0, 1220, 685)
+        self.screenLbl.setStyleSheet("background-color: #F0F0FF3")
+        self.screenLbl.hide()
+
+        self.btn_back1 = QPushButton("X", self)
+        self.btn_back1.setGeometry(1131, 24, 65, 65)
+        self.btn_back1.setStyleSheet("border-radius : 10; background-color: #F0F0F3; color: #C0C0C0; font-size:30px; font: bold")
+        self.btn_back1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.btn_back = QPushButton("X", self)
+        self.btn_back.setGeometry(1131, 24, 65, 65)
+        self.btn_back.setStyleSheet("border-radius : 10; background-color: #F0F0F3; color: #C0C0C0; font-size:30px; font: bold")
+        self.btn_back.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btn_back.clicked.connect(self.XBtn)
+        self.btn_back.hide()
+        self.btn_back1.hide()
 
 
 
-# if __name__ == '__main__':
-#
-#     App = QApplication(sys.argv)
-#     App.setStyleSheet(stylesheet)
-#
-#     # create the instance of our Window
-#     window = PrescriptionTable()
-#
-#     window.show()
-#
-#     # start the app
-#     sys.exit(App.exec())
+
+    def Refill(self):
+        # self.tableWidget.hide()
+        # self.frame.hide()
+        # self.btnRefill.hide()
+        # self.btnRefill1.hide()
+        # self.descripBtn.hide()
+        # self.descripBtn1.hide()
+        # self.description.hide()
+        # self.btn_back.hide()
+        # self.btnOnGoingPresc.hide()
+        # self.btnOnGoingPresc1.hide()
+        # self.btnNewPresc.hide()
+        # self.btnNewPresc1.hide()
+        self.quesRefillLbl.show()
+        self.yesBtn.show()
+        self.yesBtn1.show()
+        self.screenLbl.show()
+        self.btn_back.show()
+        self.btn_back1.show()
+
+    def XBtn(self):
+        self.quesRefillLbl.hide()
+        self.yesBtn.hide()
+        self.yesBtn1.hide()
+        self.screenLbl.hide()
+        self.btn_back.hide()
+        self.btn_back1.hide()
+
+
+
+if __name__ == '__main__':
+
+    App = QApplication(sys.argv)
+    # App.setStyleSheet(stylesheet)
+
+    # create the instance of our Window
+    window = PrescriptionTable()
+
+    window.show()
+
+    # start the app
+    sys.exit(App.exec())
 
 
 

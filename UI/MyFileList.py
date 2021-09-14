@@ -15,9 +15,9 @@ class FileList(QMainWindow):
         self.setWindowTitle("Medical Files")
         self.setGeometry(0, 0, 1220, 685)
         self.setStyleSheet("background-color: #F5F5F5")
-        self.label = QLabel(self)
-        self.label.setStyleSheet("background-color:#FEC32E")
-        self.label.setGeometry(0, 0, 1220, 39)
+        # self.label = QLabel(self)
+        # self.label.setStyleSheet("background-color:#FEC32E")
+        # self.label.setGeometry(0, 0, 1220, 39)
 
         if Util.isInternetOn():
             temp = myApis.fetchMedicalFileTypes()
