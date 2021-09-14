@@ -1,52 +1,68 @@
 import sys
-import io
-import folium  # pip install folium
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
-from PyQt5.QtWebEngineWidgets import QWebEngineView  # pip install PyQtWebEngine
-
-"""
-Folium in PyQt5
-"""
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QVBoxLayout, QLabel
+from PyQt5.QtGui import QFont
+from PyQt5.QtCore import QTimer, QTime, Qt
 
 
-class MyApp(QWidget):
+class Window(QWidget):
+
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Folium in PyQt Example')
-        self.window_width, self.window_height = 1600, 1200
-        self.setMinimumSize(self.window_width, self.window_height)
 
+        # setting geometry of main window
+        self.setGeometry(100, 100, 800, 400)
+
+        # creating a vertical layout
         layout = QVBoxLayout()
+
+        # creating font object
+        font = QFont('Arial', 120, QFont.Bold)
+
+        # creating a label object
+        self.label = QLabel()
+
+        # setting centre alignment to the label
+        self.label.setAlignment(Qt.AlignCenter)
+
+        # setting font to the label
+        self.label.setFont(font)
+
+        # adding label to the layout
+        layout.addWidget(self.label)
+
+        # setting the layout to main window
         self.setLayout(layout)
 
-        coordinate = (23.0384, 72.5288)
-        m = folium.Map(
-            tiles='Stamen Terrain',
-            zoom_start=25,
-            location=coordinate
-        )
+        # creating a timer object
+        timer = QTimer(self)
 
-        # save map data to data object
-        data = io.BytesIO()
-        m.save(data, close_file=False)
+        # adding action to timer
+        timer.timeout.connect(self.showTime)
 
-        webView = QWebEngineView()
-        webView.setHtml(data.getvalue().decode())
-        layout.addWidget(webView)
+        # update the timer every second
+        timer.start(1000)
+
+    # method called by timer
+    def showTime(self):
+        # getting current time
+        current_time = QTime.currentTime()
+
+        # converting QTime object to string
+        label_time = current_time.toString('hh:mm:ss')
+
+        # showing it to the label
+        self.label.setText(label_time)
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    app.setStyleSheet('''
-        QWidget {
-            font-size: 35px;
-        }
-    ''')
+# create pyqt5 app
+App = QApplication(sys.argv)
 
-    myApp = MyApp()
-    myApp.show()
+# create the instance of our Window
+window = Window()
 
-    try:
-        sys.exit(app.exec_())
-    except SystemExit:
-        print('Closing Window...')
+# showing all the widgets
+window.show()
+
+# start the app
+App.exit(App.exec_())

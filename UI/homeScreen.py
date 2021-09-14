@@ -5,6 +5,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import QtGui
 from PyQt5 import QtCore
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QVBoxLayout, QLabel
+from PyQt5.QtGui import QFont
+from PyQt5.QtCore import QTimer, QTime, Qt
 # from PyQt5 import QLa
 # from myprofile import MyProfile
 
@@ -18,6 +22,7 @@ import UI.Humm as humm
 import UI.MyCylinders as myCylinder
 import UI.refill as myRefill
 import UI.MyStats as myStats
+import UI.power as pwr
 import Utility.MahiUtility as Util
 
 
@@ -35,14 +40,32 @@ class HomeScreen(QMainWindow):
         # calling method
         self.UiComponents()
         self.setStyleSheet("background-color: #F0F0F3")
-        # self.label = QLabel(self)
-        # self.label.setStyleSheet("background-color:#FEC32E")
-        # self.label.setGeometry(0, 0, 1220, 39)
+        font = QFont('Arial', 40, QFont.Bold)
+        layout = QVBoxLayout()
+        self.lblTime = QLabel(self)
+        self.lblTime.setGeometry(476, 312, 340, 81)
+        layout.addWidget(self.lblTime)
+        self.lblTime.setFont(font)
+        self.lblTime.setStyleSheet("color: #00A0B5")
+        timer = QTimer(self)
+        timer.timeout.connect(self.showTime)
+        timer.start(1000)
+
+        # lblTime.setPixmap(QPixmap('../Resources/Time.png'))
 
         # showing all the widgets
         self.show()
 
         # method for widgets
+    def showTime(self):
+        # getting current time
+        current_time = QTime.currentTime()
+
+        # converting QTime object to string
+        label_time = current_time.toString('hh:mm ap')
+
+        # showing it to the label
+        self.lblTime.setText(label_time)
 
     def UiComponents(self):
 
@@ -121,7 +144,7 @@ class HomeScreen(QMainWindow):
         btn_power.setIcon(QtGui.QIcon('../Resources/PowerM.png/'))
         btn_power.setIconSize(QtCore.QSize(54, 54))
         btn_power.setGraphicsEffect(Util.getNeuShadow(1))
-        btn_power.clicked.connect(self.settingsClicked)
+        btn_power.clicked.connect(self.powerClicked)
 
         btn_Notif1 = QPushButton("", self)
         btn_Notif1.setGeometry(98, 86, 54, 54)
@@ -256,9 +279,7 @@ class HomeScreen(QMainWindow):
 
         #btn_doc.setFrameShadow(QFrame.Sunken)
 
-        lblTime = QLabel(self)
-        lblTime.setGeometry(476, 312, 267, 81)
-        lblTime.setPixmap(QPixmap('../Resources/Time.png'))
+
 
 
 
@@ -305,6 +326,10 @@ class HomeScreen(QMainWindow):
 
     def myStatsClicked(self):
         self.x = myStats.MyStats(0)
+        self.x.show()
+
+    def powerClicked(self):
+        self.x = pwr.Power()
         self.x.show()
 
     # # create pyqt5 app

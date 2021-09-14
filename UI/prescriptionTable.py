@@ -63,7 +63,19 @@ class PrescriptionTable(QWidget):
         btn_back.setIcon(QtGui.QIcon('../Resources/back.png'))
         btn_back.setIconSize(QtCore.QSize(155, 71))
         btn_back.clicked.connect(self.close)
+        self.description = QLabel(self)
+        self.description.setGeometry(415, 133, 287, 23)
+        self.description.setText("*AF = After Food BF = Before Food")
+        self.description.setStyleSheet("background-color: #F0F0F3; font-size: 18px")
 
+        self.descripBtn1 = QPushButton(self)
+        self.descripBtn1.setGeometry(720, 124, 91, 41)
+        self.descripBtn1.setStyleSheet("background-color: #F0F0F3; border-radius: 3;")
+        self.descripBtn1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.descripBtn = QPushButton(self)
+        self.descripBtn.setGeometry(720, 124, 91, 41)
+        self.descripBtn.setStyleSheet("background-color: #F0F0F3; border-radius: 3;")
+        self.descripBtn.setGraphicsEffect(Util.getNeuShadow(1))
         btnOnGoingPresc1 = QPushButton("", self)
         btnOnGoingPresc1.setGeometry(207, 20, 289, 41)
         btnOnGoingPresc1.setStyleSheet(self.btnStyleSelected)
@@ -214,15 +226,7 @@ class PrescriptionTable(QWidget):
         lblTableAfternoon.setGeometry(496,210,229,31)
         lblTableAfternoon.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
-        lblTableEvening = QLabel("Evening",self)
-        lblTableEvening.setAlignment(Qt.AlignCenter)
-        lblTableEvening.setGeometry(726,210,230,31)
-        lblTableEvening.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:18px")
 
-        lblTableDuration = QLabel("Duration",self)
-        lblTableDuration.setAlignment(Qt.AlignCenter)
-        lblTableDuration.setGeometry(957,178,228,63)
-        lblTableDuration.setStyleSheet("border-radius:5;border:0.8px solid #AAA; font-size:20px")
 
         self.newPrescBkg = QLabel(self)
         self.newPrescBkg.setGeometry(0, 120, 1220, 685)
@@ -262,6 +266,34 @@ class PrescriptionTable(QWidget):
         self.newPrescBkg.hide()
         self.lblNewPrescTitle.hide()
         self.lblQrImage.hide()
+
+    def Refill(self):
+        # self.tableWidget.hide()
+        # self.frame.hide()
+        # self.btnRefill.hide()
+        # self.btnRefill1.hide()
+        # self.descripBtn.hide()
+        # self.descripBtn1.hide()
+        # self.description.hide()
+        # self.btn_back.hide()
+        # self.btnOnGoingPresc.hide()
+        # self.btnOnGoingPresc1.hide()
+        # self.btnNewPresc.hide()
+        # self.btnNewPresc1.hide()
+        self.quesRefillLbl.show()
+        self.yesBtn.show()
+        self.yesBtn1.show()
+        self.screenLbl.show()
+        self.btn_back.show()
+        self.btn_back1.show()
+
+    def XBtn(self):
+        self.quesRefillLbl.hide()
+        self.yesBtn.hide()
+        self.yesBtn1.hide()
+        self.screenLbl.hide()
+        self.btn_back.hide()
+        self.btn_back1.hide()
 
 if __name__ == '__main__':
 

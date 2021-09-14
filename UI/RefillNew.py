@@ -25,8 +25,8 @@ class RefillNew(QMainWindow):
 
     def UiComponents(self):
 
-        self.btnStyle = "border-radius : 15; background-color: #F0F03; color : #00A0B5;font:bold;font-size:16px"
-        self.btnStyleSelected = "border-radius : 15; background-color: #BCE6EC; color : #00A0B5;font:bold;font-size:16px"
+        self.btnStyle = "border-radius : 5; background-color: #F0F03; color : #00A0B5;font:bold;font-size:16px"
+        self.btnStyleSelected = "border-radius : 5; background-color: #BCE6EC; color : #00A0B5;font:bold;font-size:16px"
 
         btn_back = QPushButton("", self)
         btn_back.setGeometry(23, 21, 112, 41)
@@ -62,8 +62,29 @@ class RefillNew(QMainWindow):
         self.btnRefill.setStyleSheet(self.btnStyle)
         self.btnRefill.setGraphicsEffect(Util.getNeuShadow(1))
 
-        self.t = preTable.PrescriptionTable()
-        self.t.show()
+        self.quesRefillLbl = QLabel("Do you want to refill now?",self)
+        self.quesRefillLbl.setGeometry(176, 142, 797, 400)
+        self.quesRefillLbl.setPixmap(QPixmap('../Resources/refillnow.png'))
+
+        self.yesBtn1 = QPushButton("Yes",self)
+        self.yesBtn1.setGeometry(434, 374, 116, 56)
+        self.yesBtn1.setStyleSheet("background-color: #F0F0F3; color: #00A0B5; border-radius: 5")
+        self.yesBtn1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.yesBtn = QPushButton("Yes", self)
+        self.yesBtn.setGeometry(434, 374, 116, 56)
+        self.yesBtn.setStyleSheet("background-color: #F0F0F3; color: #00A0B5; border-radius: 5; font-size: 20px")
+        self.yesBtn.setGraphicsEffect(Util.getNeuShadow(1))
+        self.yesBtn.clicked.connect(self.yes)
+
+        self.orderPlaced = QLabel("Do you want to refill now?", self)
+        self.orderPlaced.setGeometry(176, 142, 856, 400)
+        self.orderPlaced.setPixmap(QPixmap('../Resources/orderplaced.png'))
+
+        self.qrScan = QLabel("Do you want to refill now?", self)
+        self.qrScan.setGeometry(252, 405, 715, 231)
+        self.qrScan.setPixmap(QPixmap('../Resources/qrscan.png'))
+
+    # def yes(self):
 
 
 
