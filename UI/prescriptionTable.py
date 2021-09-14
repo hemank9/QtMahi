@@ -258,6 +258,7 @@ class PrescriptionTable(QWidget):
         self.yesBtn.setGeometry(434, 374, 116, 56)
         self.yesBtn.setStyleSheet("background-color: #F0F0F3; color: #00A0B5; border-radius: 5; font-size: 20px")
         self.yesBtn.setGraphicsEffect(Util.getNeuShadow(1))
+        self.yesBtn.clicked.connect(self.RefillConfirmed)
         # self.yesBtn.clicked.connect(self.yes)
         self.yesBtn.hide()
         self.yesBtn1.hide()
@@ -275,6 +276,11 @@ class PrescriptionTable(QWidget):
         self.closeRefill.clicked.connect(self.XBtn)
         self.closeRefill.hide()
         self.closeRefill1.hide()
+
+        self.lblOrderPlaced = QLabel(self)
+        self.lblOrderPlaced.setGeometry(176,142,856,400)
+        self.lblOrderPlaced.setPixmap(QPixmap('../Resources/orderplaced.png'))
+        self.lblOrderPlaced.hide()
 
     def headersClicked(self,type):
 
@@ -335,8 +341,15 @@ class PrescriptionTable(QWidget):
         self.yesBtn.hide()
         self.yesBtn1.hide()
         self.newPrescBkg.hide()
+        self.lblOrderPlaced.hide()
         # self.closeRefill.hide()
         # self.closeRefill1.hide()
+
+    def RefillConfirmed(self):
+        self.quesRefillLbl.hide()
+        self.yesBtn.hide()
+        self.yesBtn1.hide()
+        self.lblOrderPlaced.show()
 
 if __name__ == '__main__':
 
