@@ -34,6 +34,7 @@ import datetime
 class WorkerThread(QThread):
     update_progress = pyqtSignal(int)
     def run(self):
+        i = 0
         while True:
             # slowing down the loop
             current_time = QTime.currentTime()
@@ -41,13 +42,13 @@ class WorkerThread(QThread):
             # converting QTime object to string
             label_time = current_time.toString('ss')
             print(label_time)
-            if int(label_time)%20 == 0:
+            i = i+1
+            if int(label_time)%10 == 0:
                 temp = current_time.toString("hh:mm:ss ap")
                 print(temp)
-                msg = QMessageBox()
-                msg.setIcon(QMessageBox.Information)
 
-                msg.setText("This is a message box")
+                self.update_progress.emit(i)
+                # self.ShowBox()
 
 
             time.sleep(1)
@@ -306,8 +307,6 @@ class HomeScreen(QMainWindow):
 
 
 
-
-
     def clickme(self):
         # printing pressed
         print("pressed")
@@ -357,12 +356,18 @@ class HomeScreen(QMainWindow):
         self.x = pwr.Power()
         self.x.show()
 
+    def evt_update_progress(self):
+        # current_time = QTime.currentTime()
+        # temp = current_time.toString("hh:mm:ss ap")
+        # QMessageBox.information(self,"Done",temp)
+        self.hummClicked()
+
     def doAction(self):
         # setting for loop to set value of progress bar
         self.worker = WorkerThread()
         self.worker.start()
         # self.worker.finished.connect(self.evt_worker_finished)
-        # self.worker.update_progress.connect(self.evt_update_progress)
+        self.worker.update_progress.connect(self.evt_update_progress)
 
     def StopAction(self):
         # setting for loop to set value of progress bar

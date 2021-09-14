@@ -18,10 +18,10 @@ class Example(QWidget):
     # method for creating widgets
     def initUI(self):
         # creating progress bar
-        # self.pbar = QProgressBar(self)
-        #
-        # # setting its geometry
-        # self.pbar.setGeometry(30, 40, 200, 25)
+        self.pbar = QProgressBar(self)
+
+        # setting its geometry
+        self.pbar.setGeometry(30, 40, 200, 25)
 
         # creating push button
         self.btn = QPushButton('Start', self)
@@ -59,8 +59,8 @@ class Example(QWidget):
         print("clicked")
         # self.worker = WorkerThread()
         self.worker.terminate()
-        # self.worker.finished.connect(self.evt_worker_finished)
-        # self.worker.update_progress.connect(self.evt_update_progress)
+        self.worker.finished.connect(self.evt_worker_finished)
+        self.worker.update_progress.connect(self.evt_update_progress)
 
 
 
@@ -75,14 +75,16 @@ class Example(QWidget):
 class WorkerThread(QThread):
     update_progress = pyqtSignal(int)
     def run(self):
+        i = 0
         while True:
             # slowing down the loop
             print(datetime.datetime.now())
-            time.sleep(1)
-            # self.update_progress.emit(i)
+            time.sleep(0.05)
+            self.update_progress.emit(i)
 
             # setting value to progress bar
-            # self.pbar.setValue(i)
+            self.pbar.setValue(i)
+            i = i+1
 
 
 
