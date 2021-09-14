@@ -6,6 +6,7 @@ import sys
 import Utility.MahiUtility as Util
 from datetime import datetime, timedelta as TimeDelta
 import UI.massEjection as massEject
+import MyDatabase.my_database as myDb
 
 
 # if user chooses current date and his some doses are already ejected then eject the remaining doses for that day
@@ -25,7 +26,7 @@ class MassEjectDateTime(QWidget):
         self.startDate = datetime.now().date()
 
         # max available days we have in our cylinder
-        self.maxDays = 10
+        self.maxDays = int(myDb.getDosagesMaxDays())
         self.noDays = 1
         self.lastDate = datetime.now().date()+TimeDelta(days=(self.maxDays-1))
 
@@ -232,10 +233,6 @@ class MassEjectDateTime(QWidget):
         # self.confirmBtn21.setStyleSheet("color:#00A0B5; border-radius: 7; background-color: #F0F0F3; font-size: 30px")
         # self.confirmBtn21.setGraphicsEffect(Util.getNeuShadow(1))
 
-
-
-
-
     def SetSummary(self):
         if self.noDays == 1:
             summary = '<font color="#333">Your medicines will be ejected for the day </font><font color="#D00">'\
@@ -311,8 +308,6 @@ class MassEjectDateTime(QWidget):
         self.n = massEject.MassEject(self.startDate.strftime('%Y-%m-%d'),self.noDays,endDate.strftime('%Y-%m-%d'))
         self.n.show()
 
-
-
 if __name__ == '__main__':
     App = QApplication(sys.argv)
 
@@ -321,5 +316,5 @@ if __name__ == '__main__':
 
     window.show()
 
-# start the app
+    # start the app
     sys.exit(App.exec())

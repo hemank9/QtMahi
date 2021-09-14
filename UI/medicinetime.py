@@ -195,7 +195,7 @@ class MyMedicines(QMainWindow):
 
                 if time == None:
                     time = "N.A."
-
+                print(time)
                 # Morning
                 if str(row[1]).lower() == "morning":
                     if "before" in str(row[2]):
@@ -271,7 +271,7 @@ class MyMedicines(QMainWindow):
     def cTime(self):
         self.k = changeTime.ChangeTime(1)
         self.k.show()
-#
+
 if __name__ == '__main__':
     App = QApplication(sys.argv)
 

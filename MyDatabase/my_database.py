@@ -4,6 +4,8 @@ import json
 import os.path
 import constants as MyConst
 import Utility.MahiUtility as Utils
+import time
+import datetime
 
 print(r"" + os.pardir + "\\MyDatabase\\" + constants.my_database_name)
 conn = sqlite3.connect(constants.path + r"\QtMahi\MyDatabase\\" + constants.my_database_name)
@@ -519,8 +521,8 @@ def getSlotTimings():
     try:
 
         cursor = conn.execute("SELECT * from '" + constants.slot_timings_table + "'")
-        for row in cursor:
-            print(str(row))
+        # for row in cursor:
+        #     print(str(row))
 
         return cursor
 
@@ -574,8 +576,8 @@ def getDosagesStatus(type):
                   constants.cylinder_table+"' z ON c.CYLINDER_ID = z.C_ID ORDER BY c.ID")
 
         if cursor!=None :
-            # for row in cursor:
-            #     print(str(row))
+            for row in cursor:
+                print(str(row))
             print("Fetch Cylinder Data Successful")
             return cursor
         else:
@@ -675,6 +677,36 @@ def deleteAllValues(table):
     conn.execute("DELETE FROM '" + table + "'")
     conn.commit()
 
+def getDosagesMaxDays():
+    try:
+        cursor = conn.execute("SELECT MAX(ID),CYLINDER_ID,MED_DATE  from '" + constants.med_time_table + "' GROUP BY CYLINDER_ID")
+        if cursor != None:
+
+            date_format = "%Y-%m-%d"
+            # today = str(datetime.datetime.today()).split(" ")[0]
+            today = "2021-06-11"
+            i = 0
+            for row in cursor:
+
+                if i==0:
+                    shortestDate = row[2]
+                else:
+                    short = time.strptime(shortestDate, date_format)
+                    newdate = time.strptime(row[2], date_format)
+                    if(newdate<short):
+                        shortestDate = row[2]
+                # print(str(row) +" | "+str(newdate))
+            print(today+" | "+shortestDate)
+
+            a = datetime.datetime.strptime(today, date_format)
+            b = datetime.datetime.strptime(shortestDate, date_format)
+            delta = b - a
+            print("Delta :"+str(delta.days))
+            return int(delta.days)
+
+    except Exception as e:
+        print("Something went wrong : Get Dosage Max Days "+str(e.__cause__))
+        return 0
 
 # Sync APIs
 
@@ -725,4 +757,6 @@ if __name__ == "__main__":
     # deleteAllValues(constants.change_time_sync_table)
     # getValuesofTable(constants.change_time_sync_table)
     # changeTimeSyncLog(constants.MORNING_KEY)
-    SyncMedTimeChanges()
+    # SyncMedTimeChanges()
+
+    getDosagesMaxDays()
