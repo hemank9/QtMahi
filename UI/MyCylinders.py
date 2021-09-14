@@ -586,17 +586,17 @@ stylesheet = """
     # }
 """
 
-if __name__ == '__main__':
-    App = QApplication(sys.argv)
-    App.setStyleSheet(stylesheet)
-
-    # create the instance of our Window
-    window = PrescriptionTable()
-
-    window.show()
-
-# start the app
-    sys.exit(App.exec())
+# if __name__ == '__main__':
+#     App = QApplication(sys.argv)
+#     App.setStyleSheet(stylesheet)
+#
+#     # create the instance of our Window
+#     window = PrescriptionTable()
+#
+#     window.show()
+#
+# # start the app
+#     sys.exit(App.exec())
 
 
 

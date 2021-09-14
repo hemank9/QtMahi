@@ -360,7 +360,8 @@ class HomeScreen(QMainWindow):
         # current_time = QTime.currentTime()
         # temp = current_time.toString("hh:mm:ss ap")
         # QMessageBox.information(self,"Done",temp)
-        self.hummClicked()
+        # self.hummClicked()
+        print(" ")
 
     def doAction(self):
         # setting for loop to set value of progress bar

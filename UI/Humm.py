@@ -320,8 +320,8 @@ class Humm(QWidget):
 
                 if self.page == 1:
                     self.loadingDialog.startAnimation()
-                # temp1 = MyApis.fetchHummFeeds(self.page,"","1")
-                temp1 = MyApis.fetchHummFeedsDummy()
+                temp1 = MyApis.fetchHummFeeds(self.page,"","1")
+                # temp1 = MyApis.fetchHummFeedsDummy()
                 self.loadingDialog.stopAnimation()
 
                 if temp1 != None:
