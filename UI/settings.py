@@ -257,12 +257,12 @@ class Settings(QWidget):  # <===
         self.l.show()
 
 # #
-App = QApplication(sys.argv)
-
-# create the instance of our Window
-window = Settings(home=0)
-
-window.show()
-
-# start the app
-sys.exit(App.exec())
+# App = QApplication(sys.argv)
+#
+# # create the instance of our Window
+# window = Settings(home=0)
+#
+# window.show()
+#
+# # start the app
+# sys.exit(App.exec())
