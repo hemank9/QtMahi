@@ -100,10 +100,11 @@ class PrescriptionTable(QWidget):
         btnRefill1.setGeometry(811, 20, 154, 41)
         btnRefill1.setStyleSheet(self.btnStyle)
         btnRefill1.setGraphicsEffect(Util.getNeuShadow(0))
-        self.btnRefill = QPushButton("New Prescription", self)
+        self.btnRefill = QPushButton("Refill", self)
         self.btnRefill.setGeometry(811, 20, 154, 41)
         self.btnRefill.setStyleSheet(self.btnStyle)
         self.btnRefill.setGraphicsEffect(Util.getNeuShadow(1))
+        self.btnRefill.clicked.connect(lambda : self.headersClicked(3))
 
 
         # btnRefill = QPushButton("Refill Now", self)
@@ -229,7 +230,7 @@ class PrescriptionTable(QWidget):
 
 
         self.newPrescBkg = QLabel(self)
-        self.newPrescBkg.setGeometry(0, 120, 1220, 685)
+        self.newPrescBkg.setGeometry(0, 80, 1220, 685)
         self.newPrescBkg.setStyleSheet("background-color: #F0F0F3")
         self.newPrescBkg.hide()
 
@@ -244,25 +245,66 @@ class PrescriptionTable(QWidget):
         self.lblQrImage.setPixmap(QPixmap('../Resources/mahi_qr.png'))
         self.lblQrImage.hide()
 
+        self.quesRefillLbl = QLabel("Do you want to refill now?", self)
+        self.quesRefillLbl.setGeometry(176, 142, 797, 400)
+        self.quesRefillLbl.setPixmap(QPixmap('../Resources/refillnow.png'))
+        self.quesRefillLbl.hide()
+
+        self.yesBtn1 = QPushButton("Yes", self)
+        self.yesBtn1.setGeometry(434, 374, 116, 56)
+        self.yesBtn1.setStyleSheet("background-color: #F0F0F3; color: #00A0B5; border-radius: 5")
+        self.yesBtn1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.yesBtn = QPushButton("Yes", self)
+        self.yesBtn.setGeometry(434, 374, 116, 56)
+        self.yesBtn.setStyleSheet("background-color: #F0F0F3; color: #00A0B5; border-radius: 5; font-size: 20px")
+        self.yesBtn.setGraphicsEffect(Util.getNeuShadow(1))
+        # self.yesBtn.clicked.connect(self.yes)
+        self.yesBtn.hide()
+        self.yesBtn1.hide()
+
+        self.closeRefill1 = QPushButton("X", self)
+        self.closeRefill1.setGeometry(1131, 24, 65, 65)
+        self.closeRefill1.setStyleSheet(
+            "border-radius : 10; background-color: #F0F0F3; color: #C0C0C0; font-size:30px; font: bold")
+        self.closeRefill1.setGraphicsEffect(Util.getNeuShadow(0))
+        self.closeRefill = QPushButton("X", self)
+        self.closeRefill.setGeometry(1131, 24, 65, 65)
+        self.closeRefill.setStyleSheet(
+            "border-radius : 10; background-color: #F0F0F3; color: #C0C0C0; font-size:30px; font: bold")
+        self.closeRefill.setGraphicsEffect(Util.getNeuShadow(1))
+        self.closeRefill.clicked.connect(self.XBtn)
+        self.closeRefill.hide()
+        self.closeRefill1.hide()
+
     def headersClicked(self,type):
 
         if type == 1:
             self.btnNewPresc.setStyleSheet(self.btnStyleSelected)
             self.btnOnGoingPresc.setStyleSheet(self.btnStyle)
+            self.btnRefill.setStyleSheet(self.btnStyle)
             self.NewPrescriptionClicked()
-        else :
+
+        elif type == 2 :
             self.btnNewPresc.setStyleSheet(self.btnStyle)
+            self.btnRefill.setStyleSheet(self.btnStyle)
             self.btnOnGoingPresc.setStyleSheet(self.btnStyleSelected)
             self.OnGoingPrescClicked()
 
+        elif type == 3:
+            self.btnNewPresc.setStyleSheet(self.btnStyle)
+            self.btnOnGoingPresc.setStyleSheet(self.btnStyle)
+            self.btnRefill.setStyleSheet(self.btnStyleSelected)
+            self.Refill()
+
     def NewPrescriptionClicked(self):
-        print('')
+        self.XBtn()
         self.newPrescBkg.show()
         self.lblNewPrescTitle.show()
         self.lblQrImage.show()
 
+
     def OnGoingPrescClicked(self):
-        print('')
+        self.XBtn()
         self.newPrescBkg.hide()
         self.lblNewPrescTitle.hide()
         self.lblQrImage.hide()
@@ -280,20 +322,21 @@ class PrescriptionTable(QWidget):
         # self.btnOnGoingPresc1.hide()
         # self.btnNewPresc.hide()
         # self.btnNewPresc1.hide()
+
+        self.newPrescBkg.show()
         self.quesRefillLbl.show()
         self.yesBtn.show()
         self.yesBtn1.show()
-        self.screenLbl.show()
-        self.btn_back.show()
-        self.btn_back1.show()
+        # self.closeRefill.show()
+        # self.closeRefill1.show()
 
     def XBtn(self):
         self.quesRefillLbl.hide()
         self.yesBtn.hide()
         self.yesBtn1.hide()
-        self.screenLbl.hide()
-        self.btn_back.hide()
-        self.btn_back1.hide()
+        self.newPrescBkg.hide()
+        # self.closeRefill.hide()
+        # self.closeRefill1.hide()
 
 if __name__ == '__main__':
 
