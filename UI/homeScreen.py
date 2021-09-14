@@ -1,14 +1,11 @@
 # importing libraries
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 from PyQt5 import QtGui
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QVBoxLayout, QLabel
 from PyQt5.QtGui import QFont
-from PyQt5.QtCore import QTimer, QTime, Qt
+from PyQt5.QtCore import QTimer, QTime
 # from PyQt5 import QLa
 # from myprofile import MyProfile
 
@@ -20,7 +17,7 @@ import UI.docAppScreen as myAppo
 import UI.settings as settings
 import UI.Humm as humm
 import UI.MyCylinders as myCylinder
-import UI.refill as myRefill
+import UI.prescriptionTable as myPrescription
 import UI.MyStats as myStats
 import UI.power as pwr
 import Utility.MahiUtility as Util
@@ -321,7 +318,7 @@ class HomeScreen(QMainWindow):
         self.setLayout(vbox)
 
     def refillClicked(self):
-        self.x = myRefill.Refill()
+        self.x = myPrescription.PrescriptionTable()
         self.x.show()
 
     def myStatsClicked(self):
